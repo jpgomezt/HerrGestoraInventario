@@ -232,3 +232,16 @@ tbody {
   border-spacing: 0;
   text-indent: 0;
 }
+
+
+.button1 {
+  float: right;
+  cursor: pointer;
+  background-color:#2B335C ;
+}
+
+.button2 {
+  float: right;
+  cursor: pointer;
+  background-color:#E88A60 ;
+}

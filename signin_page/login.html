@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Sojas - Compra Online</title>
+    <link rel="stylesheet" type="text/css" href="css/home_style.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/nav.css">
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <script src="https://kit.fontawesome.com/e3cefcbc8d.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+      <div class="topnav" id="myTopnav">
+          <a id="principal" href="#" class="active"><img style="width: 180px; height: auto; padding-top: -10px;" src="img/nav_logo.png"></a>
+          <a id="nav1" href="#" class="button"><i style="color:#fff; font-size: 22px; padding-right: 5px;"class="fas fa-user-tie"></i>Ingreso a la plataforma</a>
+          <a href="#">Sample</a>
+          <a href="#">Sample</a>
+          <a href="#">Sample</a>
+          <a href="#">Sample</a>
+          <a  href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars" style="font-size: 40px; margin-top: -5px;"></i>
+          </a>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+          <script src="https://kit.fontawesome.com/e3cefcbc8d.js" crossorigin="anonymous"></script>
+      </div>
+      <script>
+          function myFunction() {
+              var x = document.getElementById("myTopnav");
+                  if (x.className === "topnav") {
+                      x.className += " responsive";
+                  } else {
+                      x.className = "topnav";
+                  }
+          }
+      </script>
+  <!--
+  This was created based on the Dribble shot by Deepak Yadav that you can find at https://goo.gl/XRALsw
+  I'm @hk95 on GitHub. Feel free to message me anytime.
+-->
+
+<section class="user">
+  <div class="user_options-container">
+    <div class="user_options-text">
+      <div class="user_options-unregistered">
+        <h2 class="user_unregistered-title">Don't have an account?</h2>
+        <p class="user_unregistered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.</p>
+        <button class="user_unregistered-signup" id="signup-button">Sign up</button>
+      </div>
+
+      <div class="user_options-registered">
+        <h2 class="user_registered-title">Have an account?</h2>
+        <p class="user_registered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.</p>
+        <button class="user_registered-login" id="login-button">Login</button>
+      </div>
+    </div>
+    
+    <div class="user_options-forms" id="user_options-forms">
+      <div class="user_forms-login">
+        <h2 class="forms_title">Login</h2>
+        <form class="forms_form">
+          <fieldset class="forms_fieldset">
+            <div class="forms_field">
+              <input type="email" placeholder="Email" class="forms_field-input" required autofocus />
+            </div>
+            <div class="forms_field">
+              <input type="password" placeholder="Password" class="forms_field-input" required />
+            </div>
+          </fieldset>
+          <div class="forms_buttons">
+            <button type="button" class="forms_buttons-forgot">Forgot password?</button>
+            <input type="submit" value="Log In" class="forms_buttons-action">
+          </div>
+        </form>
+      </div>
+      <div class="user_forms-signup">
+        <h2 class="forms_title">Sign Up</h2>
+        <form class="forms_form">
+          <fieldset class="forms_fieldset">
+            <div class="forms_field">
+              <input type="text" placeholder="Full Name" class="forms_field-input" required />
+            </div>
+            <div class="forms_field">
+              <input type="email" placeholder="Email" class="forms_field-input" required />
+            </div>
+            <div class="forms_field">
+              <input type="password" placeholder="Password" class="forms_field-input" required />
+            </div>
+            <div class="forms_field">
+              <input type="password" placeholder="Confirm Password" class="forms_field-input" required />
+            </div>
+          </fieldset>
+          <div class="forms_buttons">
+            <input type="submit" value="Sign up" class="forms_buttons-action">
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+  
+  
+  
+<script id="rendered-js" >
+/**
+ * Variables
+ */
+const signupButton = document.getElementById('signup-button'),
+    loginButton = document.getElementById('login-button'),
+    userForms = document.getElementById('user_options-forms')
+
+/**
+ * Add event listener to the "Sign Up" button
+ */
+signupButton.addEventListener('click', () => {
+  userForms.classList.remove('bounceRight')
+  userForms.classList.add('bounceLeft')
+}, false)
+
+/**
+ * Add event listener to the "Login" button
+ */
+loginButton.addEventListener('click', () => {
+  userForms.classList.remove('bounceLeft')
+  userForms.classList.add('bounceRight')
+}, false)
+    </script>
+<div class="footer">
+    <div class="inner_footer">
+        <div class="logo_container">
+            <a href="#principal"><img src="img/Logo_footer.png"></a>
+        </div>
+
+        <div class="footer_third">
+            <h1>Legal</h1>
+            <a href="#">Sample</a>
+        </div>
+
+        <div class="footer_third">
+            <h1>Productos</h1>
+            <a href="#">Sample</a>
+            <a href="#">Sample</a>
+            <a href="#">Sample</a>
+        </div>
+
+        <div class="footer_third">
+            <h1>Contáctenos</h1>
+
+            <a href="#">Sample<br> sample</a>
+            <a href="#">Sample</a>
+            <a style="margin-bottom:-15px;" href="#">Sample</a><br>
+            <li style="display: inline-block;"><a href="#"><i class="fab fa-linkedin"></i></a></li>
+            <li style="display: inline-block;"><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li style="display: inline-block;"><a href="#"><i class="fab fa-instagram"></i></a></li>
+        </div>
+    </div>
+</div>
+<footer>
+    Sojas - Compra Online | © Derechos de autor 2020.Todos los derechos reservados.
+</footer>
+
+</body>
+</html>

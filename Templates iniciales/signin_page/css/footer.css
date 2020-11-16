@@ -1,0 +1,110 @@
+/*
+Paleta de colores:
+-#db8462 -> Para el hover de los links 
+-#2c345c -> El color principal del footer
+-#f2f2f2 or white -> Color designado para el texto
+*/
+
+*{
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+footer{
+    width: 100%;
+    font: 16PX;
+    color: #fff;
+    float: left;
+    clear: both;
+    padding: 6px 0px;
+    text-align: center;
+    line-height: 23px;
+    background-color: #2c345c;
+}
+
+
+.footer{
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    padding: 20px 0;
+    box-sizing: border-box;
+    background-color: #2c345c;
+}
+
+.inner_footer{
+    display: block;
+    margin: 0 auto;
+    width: 1100px;
+    height: 100%;
+}
+
+.inner_footer .logo_container{
+    width: 35%;
+    padding-top: -10px;
+    margin-top: -35px;
+    float: left;
+    height: 100%;
+    display: block;
+}
+
+.inner_footer .logo_container img{
+    margin-left: 50px;
+    width: 70%;
+    height: auto;
+}
+
+.inner_footer .footer_third{
+    width: calc(21.666666667% -20px);
+    margin-right: 50px;
+    float: left;
+    height: 100%;
+}
+
+.inner_footer .footer_third:last-child{
+    margin-right: 0;
+}
+
+.inner_footer .footer_third h1{
+    font-family: 'arial';
+    font-size: 22px;
+    color: #f3f3f3;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.inner_footer .footer_third a{
+    text-decoration: none;
+    font-family: 'arial';
+    font-size: 16px;
+    color: #f3f3f3;
+    display: block;
+    font-weight: 200;
+    width: 100%;
+    padding-bottom: 5px;
+    transition: 0.6s all ease;
+}
+.inner_footer .footer_third a:hover{
+  color: #db8462;
+}
+
+.inner_footer .footer_third li{
+    display: inline-block;
+    padding: 0.5px;
+    font-size: 20px;
+}
+
+
+@media(max-width: 768px){
+    .footer .inner_footer{
+        width: 90%;
+    }
+    .inner_footer .logo_container,
+    .inner_footer .footer_third{
+        width: 100%;
+        margin-bottom: 30px;
+    }
+}

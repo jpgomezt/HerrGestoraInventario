@@ -109,6 +109,11 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/products')
+def product():
+    return render_template('product.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -20,7 +20,10 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(50), unique=True)
+    is_admin = db.Column(db.Boolean(), default = False, nullable = False )
     password = db.Column(db.String(80))
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -39,8 +42,10 @@ class RegisterForm(FlaskForm):
 
 @app.route('/home')
 def home():
-    print(current_user.username)
-    return render_template('home.html', name=current_user.username)
+    if current_user.is_authenticated:
+        return render_template('home.html', autenticado = current_user.is_authenticated)
+    else:
+        return render_template('home.html', autenticado = current_user.is_authenticated)   
 
 @app.route('/error')
 def error():
@@ -48,24 +53,29 @@ def error():
 
 @app.route('/')
 def index():
-    print(current_user.username)
-    return render_template('home.html' , name=current_user.username)
+    if current_user.is_authenticated:
+        return render_template('home.html', autenticado =current_user.is_authenticated)
+    else:
+        return render_template('home.html', autenticado = current_user.is_authenticated)
 
 #Listo
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    if current_user.is_authenticated == False:
+        form = LoginForm()
 
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user, remember=form.remember.data)
-                return redirect(url_for('home'))
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user:
+                if check_password_hash(user.password, form.password.data):
+                    login_user(user, remember=form.remember.data)
+                    return redirect(url_for('home'))
 
-        return '<h1>Invalid username or password</h1>'
+            return render_template('login.html', form=form, error = "No esta registrado! \n Registrate!")    
 
-    return render_template('login.html', form=form)
+        return render_template('login.html', form=form, error = "")
+    else:
+        return redirect(url_for('home'))  
 
 #Listo
 @app.route('/signup', methods=['GET', 'POST'])
@@ -83,7 +93,7 @@ def signup():
             else:
                 db.session.add(new_user)
                 db.session.commit()
-                return redirect(url_for('home'))
+                return redirect(url_for('index'))
         except:
             return redirect(url_for('error'))    
     return render_template('signup.html', form=form , error="")
@@ -97,7 +107,7 @@ def dashboard():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

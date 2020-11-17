@@ -123,33 +123,42 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+#Todo lo que tengo extension de consola admin debe de tener una
+#verificacion si el usuario esta registrado ademas de si es administrador
 @app.route('/consola_admin', methods=['GET', 'POST'])
 @login_required
 def consola_admin():
-    if request.method == 'POST':
-        
-        name = request.form['nombre']
-        url_img = request.form['url_img']
-        precio = request.form['precio']
-        descrip = request.form['descrip']
-        stock = request.form['stock']
-        descuento = request.form['descuento']
-        inventario = request.form['inventario']
-        prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario)
-        #try:
-        db.session.add(prod)
-        db.session.commit()
-        return redirect(url_for('consola_admin'))
-        #except:
-            #return 'No se pudo poner el producto'
+    if current_user.is_admin:
+        if request.method == 'POST':
+            
+            name = request.form['nombre']
+            url_img = request.form['url_img']
+            precio = request.form['precio']
+            descrip = request.form['descrip']
+            stock = request.form['stock']
+            descuento = request.form['descuento']
+            inventario = request.form['inventario']
+            prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario)
+            try:
+                db.session.add(prod)
+                db.session.commit()
+                return redirect(url_for('consola_admin'))
+            except:
+                return 'No se pudo poner el producto'
+        else:
+            return render_template("consola_admin.html")
     else:
-        return render_template("consola_admin.html")
+        return redirect(url_for('home'))
 
     
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
 def cantidades():
-    return render_template("/utilidades_admin/cantidades.html")
+    if current_user.is_admin:
+        return render_template("/utilidades_admin/cantidades.html")
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/products', methods=['GET', 'POST'])
 def product():
@@ -157,4 +166,14 @@ def product():
     return render_template('products.html', productos=productos)
 
 if __name__ == '__main__':
+    #Creacion de la cuenta del Admin
+    hashed_password = generate_password_hash("12345678", method='sha256')
+    new_user = User(username="admin", email="admin@admin.com",is_admin=True ,password=hashed_password)
+    comp_user = User.query.filter_by(username="admin").first()
+    comp_email = User.query.filter_by(email="admin@admin.com").first()
+    if comp_user is not None or comp_email is not None:
+        pass
+    else:
+        db.session.add(new_user)
+        db.session.commit()
     app.run(debug=True)

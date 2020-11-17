@@ -136,23 +136,22 @@ def consola_admin():
         descuento = request.form['descuento']
         inventario = request.form['inventario']
         prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario)
-
         #try:
         db.session.add(prod)
         db.session.commit()
         return redirect(url_for('consola_admin'))
         #except:
             #return 'No se pudo poner el producto'
-
     else:
         return render_template("consola_admin.html")
 
     
 
 
-@app.route('/products')
+@app.route('/products', methods=['GET', 'POST'])
 def product():
-    return render_template('product.html')
+    productos = Producto.query.order_by(Producto.id).all()
+    return render_template('products.html', productos=productos)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm 
 from wtforms import StringField, PasswordField, BooleanField
@@ -27,11 +27,12 @@ class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(60))
     url_img = db.Column(db.String(255))
-    precio = db.Column(db.Float)
-    descrip = db.Column(db.String(max))
-    stock = db.Column(db.Integer)
-    descuento = db.Column(db.Float)
-    inventario = db.Column(db.Integer)
+    precio = db.Column(db.String(30))
+    descrip = db.Column(db.String(255))
+    stock = db.Column(db.String(30))
+    descuento = db.Column(db.String(30))
+    inventario = db.Column(db.String(30))
+
 
 
 
@@ -122,10 +123,31 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/consola_admin')
+@app.route('/consola_admin', methods=['GET', 'POST'])
 @login_required
 def consola_admin():
-    return render_template("consola_admin.html")
+    if request.method == 'POST':
+        
+        name = request.form['nombre']
+        url_img = request.form['url_img']
+        precio = request.form['precio']
+        descrip = request.form['descrip']
+        stock = request.form['stock']
+        descuento = request.form['descuento']
+        inventario = request.form['inventario']
+        prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario)
+
+        #try:
+        db.session.add(prod)
+        db.session.commit()
+        return redirect(url_for('consola_admin'))
+        #except:
+            #return 'No se pudo poner el producto'
+
+    else:
+        return render_template("consola_admin.html")
+
+    
 
 
 @app.route('/products')

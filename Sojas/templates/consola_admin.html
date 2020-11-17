@@ -1,12 +1,5 @@
 {% extends "index.html" %}
 {% block info %}
-<!DOCTYPE html>
-<html lang="en" >
-
-<head>
-
-  <meta charset="UTF-8">
-  
 <style>
 * {
   padding: 0;
@@ -317,15 +310,6 @@ body {background-color: #2a2b3d}
   .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {background-color: transparent !important}
 }
 </style>
-
-  
-  
-  
-  
-
-</head>
-
-<body translate="no" >
 <section id="contents" style="-webkit-transform: translateX(-170px);
 transform: translateX(-170px);">
   <div class="welcome">
@@ -720,9 +704,25 @@ $(function () {
 });
     </script>
 
-  
+<h1 style="color: white;">Agrega producto: </h1>
 
-</body>
-</html>
+<div class="form">
+    <form action="" method="POST">
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="nombre" id="nombre" placeholder="Nombre del producto" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="precio" id="precio" placeholder="Precio del producto" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="url_img" id="url_img" placeholder="url_img" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="descrip" id="descrip" placeholder="descrip" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="stock" id="stock" placeholder="stock" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="descuento" id="descuento" placeholder="descuento" required>
+        <br>
+        <input style="padding: 5px; margin-top: 4px;" type="text" name="inventario" id="inventario" placeholder="inventario" required>
+        <input type="submit" value="Agrega un producto" style="padding: 5px; margin-top: 4px;">
+    </form>
+</div>
 
 {% endblock %}

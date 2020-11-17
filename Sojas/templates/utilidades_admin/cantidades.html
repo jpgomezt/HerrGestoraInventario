@@ -154,8 +154,10 @@ header #search-movie {
             </div>
 		</header>
 		<ul id="movie-list">
-            {% if productos|length < 1 %}
-                <span class="title">No tienes productos! Crea ulgunos abajo!</span>
+			{% if productos|length < 1 %}
+				<li>
+					<span class="title">No tienes productos! Crea algunos abajo!</span>
+				</li>
             {% else %}
                 {% for producto in productos %}
 			    <li>

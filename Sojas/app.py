@@ -146,7 +146,10 @@ def consola_admin():
         return render_template("consola_admin.html")
 
     
-
+@app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
+@login_required
+def cantidades():
+    return render_template("/utilidades_admin/cantidades.html")
 
 @app.route('/products', methods=['GET', 'POST'])
 def product():

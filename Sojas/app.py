@@ -131,6 +131,15 @@ def logout():
 @login_required
 def consola_admin():
     if current_user.is_admin:
+        return render_template("consola_admin.html")
+    else:
+        return redirect(url_for('home'))
+
+    
+@app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
+@login_required
+def cantidades():
+    if current_user.is_admin:
         if request.method == 'POST':
             
             name = request.form['nombre']
@@ -144,20 +153,11 @@ def consola_admin():
             try:
                 db.session.add(prod)
                 db.session.commit()
-                return redirect(url_for('consola_admin'))
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="Añadido correctamente")
             except:
-                return 'No se pudo poner el producto'
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto")
         else:
-            return render_template("consola_admin.html")
-    else:
-        return redirect(url_for('home'))
-
-    
-@app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
-@login_required
-def cantidades():
-    if current_user.is_admin:
-        return render_template("/utilidades_admin/cantidades.html")
+            return render_template("/utilidades_admin/cantidades.html", mensaje ="")
     else:
         return redirect(url_for('home'))
 

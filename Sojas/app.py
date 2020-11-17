@@ -135,7 +135,9 @@ def consola_admin():
     else:
         return redirect(url_for('home'))
 
-    
+
+
+
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
 def cantidades():
@@ -154,13 +156,53 @@ def cantidades():
             try:
                 db.session.add(prod)
                 db.session.commit()
-                return render_template("/utilidades_admin/cantidades.html", mensaje ="Añadido correctamente", productos = productos)
+                return redirect(url_for('cantidades'))
             except:
                 return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto", productos = productos)
         else:
             return render_template("/utilidades_admin/cantidades.html", mensaje ="", productos = productos)
     else:
         return redirect(url_for('home'))
+
+@app.route('/consola_admin/cantidades/delete/<int:id>')
+def delete_producto(id):
+    if current_user.is_admin:
+        product_to_delete = Producto.query.get_or_404(id)
+        try:
+            db.session.delete(product_to_delete)
+            db.session.commit()
+            return redirect(url_for('cantidades'))
+        except:
+            return 'Tuvimos problemas eliminando el producto, intentelo de nuevo'
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/consola_admin/cantidades/update/<int:id>', methods=['GET', 'POST'])
+def update_producto(id):
+    if current_user.is_admin:
+        productos = Producto.query.get_or_404(id)
+
+        if request.method == 'POST':
+                productos.nombre = request.form['nombre']
+                productos.url_img = request.form['url_img']
+                productos.precio = request.form['precio']
+                productos.descrip = request.form['descrip']
+                productos.stock = request.form['stock']
+                productos.descuento = request.form['descuento']
+                productos.inventario = request.form['inventario']
+                try:
+                    db.session.commit()
+                    return redirect(url_for('cantidades'))
+                except:
+                    return 'Hubo problemas actualizando el producto'
+
+        else:
+            return render_template('/utilidades_admin/actualizar_producto.html', productos=productos)
+    else:
+        return redirect(url_for('home'))
+
+
 
 @app.route('/products', methods=['GET', 'POST'])
 def product():

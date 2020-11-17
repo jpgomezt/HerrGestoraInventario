@@ -1,5 +1,223 @@
 {% extends "//index.html" %}
 {% block info %}
 
-    
+<style>
+* {
+	padding:0;
+	margin:0;
+	box-sizing:border-box;
+}
+
+body {
+	background:#2a2b3d;
+	font-family:"Fresca";
+}
+
+#wrapper {
+	margin:20px auto;
+	background:#d5e1df;
+	max-width:1260px;
+	border-radius:6px;
+	box-shadow: 0px 1px 6px #2c345c;
+	padding: 20px 0;
+}
+
+header {
+	padding-top:20px;
+	text-align:center;
+}
+
+header p {
+	font-size:19px;
+	margin-top:5px;
+}
+
+header #search-movie {
+	margin:20px auto;
+	margin-top:30px;
+	width:300px;
+	display:block;
+	padding:8px;
+}
+
+#movie-list {
+	margin-top:60px;
+	padding:25px 0;
+	background:#e6e2d3;
+}
+
+#movie-list li {
+	margin:0 auto;
+	display:flex;
+	flex-direction:row;
+	justify-content:space-around;
+	align-items:center;
+	width:90%;
+	padding:10px;
+	padding-left:20px;
+	border-left:solid 5px #db8462;
+	margin-top:15px;
+	transition: 0.3s all ease;
+}
+
+#movie-list li:hover {
+	border-color:#272727;
+}
+
+.title {
+	display:block;
+	width:90%;
+	font-size:18px;
+}
+
+.delete {
+	display:block;
+	width:10%;
+	padding:6px;
+	text-align:center;
+	cursor:pointer;
+	background:#db8462;
+	border-radius:6px;
+	color:white;
+    transition: 0.3s all ease;
+}
+
+.delete:hover {
+	background-color: #272727;
+    color: #db8462;
+}
+
+#add-movie {
+	margin:0 auto;
+	max-width:500px;
+	text-align:center;
+}
+
+#add-movie .checkbox-div {
+	margin:30px;
+}
+
+#add-movie #add-movie-input {
+	margin:20px auto;
+	width:300px;
+	padding:8px;
+}
+
+#add-movie button {
+	width:100px;
+	font-size:16px;
+	padding:6px;
+	text-align:center;
+	cursor:pointer;
+	background:#db8462;
+	border-radius:6px;
+	color:white;
+    transition: 0.3s all ease;
+}
+#add-movie button:hover {
+    background-color: #272727;
+    color: #db8462;
+}
+</style>
+	<div id="wrapper">
+		<header>
+			<h1>Productos que se encuentran en la página</h1>
+			<p>Utilice la barra de navegación para buscar los elementos que necesita</p>
+			<form>
+				<input type="text" id="search-movie" placeholder="Busque algun producto...">
+			</form>
+		</header>
+		<ul id="movie-list">
+			<li>
+                <span class="title">asdasdasdasdadasd</span>
+				<span class="delete">delete</span>
+			</li>
+		</ul>
+		<form id="add-movie">
+			<div class="checkbox-div">
+				<input type="checkbox" id ="hide">
+				<label for="hide">Esconde todos los productos</label>
+            </div>
+            <h1>Añadir un nuevo producto</h1>
+            <p>Utilice estos campos para añadir un nuevo producto<br></p>
+			<h4>Producto: </h4><input type="text" placeholder="Add a movie" id="add-movie-input">
+			<button>Añadir</button>
+		</form>
+	</div>
+	<script src="app.js"></script>
+</body>
+</html>
+  
+  
+  
+      <script id="rendered-js" >
+/*This is a very simple app that holds list of the movies. You can add movies and delete them from the list. It also has a functional search bar. 
+This app is very similar to the one made by youtube content creator "The Net Ninja" in his Javascript DOM tutorial series. So, I made my own version of the same app for practice purposes. This is my first time ever using Javascript for DOM manipulation and I wanted to keep desing simple. */
+
+
+
+let movieList = document.querySelector("#movie-list");
+
+//delete movies
+movieList.addEventListener('click', function(e) {
+	if (e.target.className == "delete") {
+		//movieList.removeChild(e.target.parentElement);
+		e.target.parentElement.style.display = "none";
+	}
+});
+
+
+//add movies
+let addMovie = document.forms[1];
+
+addMovie.addEventListener('submit', function(e) {
+	e.preventDefault();
+	let value = addMovie.querySelector("input[type = 'text']").value;
+
+	let li = document.createElement("li");
+	let movieTitle = document.createElement("span");
+	let delBtn = document.createElement("span");
+
+	movieTitle.textContent = value;
+	delBtn.textContent = "delete";
+
+	movieTitle.classList.add("title");
+	delBtn.classList.add("delete");
+
+	li.appendChild(movieTitle);
+	li.appendChild(delBtn);
+	movieList.appendChild(li);
+
+	addMovie.querySelector("input[type='text']").value = "";
+});
+
+//hide movies
+let hideBox = document.querySelector("#hide");
+hideBox.addEventListener('change', function(e) {
+	if (hideBox.checked) {
+		movieList.style.display = "none";
+	} else {
+		movieList.style.display = "block";
+	}
+});
+
+
+//filter movies
+let searchBar = document.forms[0];
+searchBar.addEventListener('keyup', function(e) {
+	let term = searchBar.querySelector("input").value.toLowerCase();
+	let movies = document.querySelectorAll(".title");
+	movies.forEach(movie => {
+		if (movie.textContent.toLowerCase().indexOf(term) != -1) {
+			movie.parentElement.style.display = "flex";
+		} else  {
+			movie.parentElement.style.display = "none";
+		}
+	});
+
+});
+    </script>
+
+  
+
 {% endblock %}

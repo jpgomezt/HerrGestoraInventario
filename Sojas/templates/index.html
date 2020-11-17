@@ -240,7 +240,7 @@ body {
 <div class="topnav" id="myTopnav">
   <a id="principal" href="{{ url_for('home') }}" class="active"><img style="width: 100px; height: auto; padding-top: -10px;" src="{{url_for('static', filename='img/Home_page/nav_logo.png')}}"></a>
   {% if current_user.is_authenticated %}
-    <a id="nav1" href="{{ url_for('logout') }}" class="button"><i style="color:#fff; font-size: 18px; padding-right: 5px;"class="far fa-user"></i>Salir de la plataforma</a>
+    <a id="nav1" href="{{ url_for('logout') }}" class="button"><i style="color:#fff; font-size: 24px; padding-right: 5px;"class="fas fa-running"></i>Salir de la plataforma</a>
     {% if current_user.is_admin %}
       <a href="{{url_for('consola_admin')}}">Cuenta Admin</a>
     {% else %}
@@ -253,7 +253,7 @@ body {
   <a href="#">Ropa Hombres</a>
   <a href="#">Ropa Mujeres</a>
   <a href="#">Descuentos</a>
-  <a href="#">Productos</a>
+  <a href="{{url_for('product')}}">Productos</a>
   <a  href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars" style="font-size: 40px; margin-top: -5px;"></i>
   </a>

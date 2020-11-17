@@ -22,6 +22,16 @@
         padding: 20px 0;
     }
 
+    #wrapper h5{
+        color: #272727 ;
+        transition: 0.3s all ease;   
+    }
+
+    #wrapper h5:hover{
+        color: #db8462;
+        font-size: 24px;  
+    }
+
     header {
         padding-top: 20px;
         text-align: center;
@@ -123,6 +133,11 @@
     }
 </style>
 <div id="wrapper">
+    <a href="{{url_for('cantidades')}}" style="text-decoration: none;">
+        <h5 style="float: left;  margin: 10px; padding-left:15px; font-size: 18px;">
+            <i class="fas fa-arrow-left"></i> Volver a la Modificacion de Productos
+        </h5>
+    </a>
     <header>
         <h1>Actualización del producto</h1>
         <p>Se esta actualizando el producto {{productos.nombre}} identificado con el id: {{productos.id}}

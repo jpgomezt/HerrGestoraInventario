@@ -122,22 +122,48 @@ header #search-movie {
 	<div id="wrapper">
 		<header>
 			<h1>Productos que se encuentran en la página</h1>
-			<p>Utilice la barra de navegación para buscar los elementos que necesita</p>
+			<p>Utilice la barra de navegación para buscar los elementos que necesita
+                <br>
+                Si necesita añadir productos, dirigase a la parte inferior de la página
+                <br>
+                O presione el botón de Esconder los productos para que aparezca el formulario
+            </p>
 			<form>
-				<input type="text" id="search-movie" placeholder="Busque algun producto...">
-			</form>
-		</header>
-		<ul id="movie-list">
-			<li>
-                <span class="title">asdasdasdasdadasd</span>
-				<span class="delete">delete</span>
-			</li>
-        </ul>
-        <form action="" method="POST" id="add-movie" >
-			<div class="checkbox-div">
+				<input type="text" id="search-movie" style="width: 700px;" placeholder="Busque algun elemento del producto...">
+            </form>
+            <div class="checkbox-div">
 				<input type="checkbox" id ="hide">
 				<label for="hide">Esconde todos los productos</label>
             </div>
+		</header>
+		<ul id="movie-list">
+            {% if productos|length < 1 %}
+                <span class="title">No tienes productos! Crea ulgunos abajo!</span>
+            {% else %}
+                {% for producto in productos %}
+			    <li>
+                    <span class="title">
+                        Producto: {{producto.nombre}}
+                        <br>
+                        URL imágen: {{producto.url_img}}
+                        <br>
+                        Precio: {{producto.precio}}
+                        <br>
+                        Descripción: {{producto.descrip}}
+                        <br>
+                        Stock: {{producto.stock}}
+                        <br>
+                        Descuento: {{producto.descuento}}
+                        <br>
+                        Inventario: {{producto.inventario}}
+                    </span>
+				    <span class="delete">delete</span>
+                </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+        <form action="" method="POST" id="add-movie" >
+			
             <h1>Añadir un nuevo producto</h1>
             <p>Utilice estos campos para añadir un nuevo producto<br></p>
             
@@ -147,7 +173,7 @@ header #search-movie {
                 <h4>URL de la imágen: </h4>
                 <input style="padding: 5px; margin-top: 4px; width: 500px;" type="text" name="url_img" id="url_img" placeholder="Url de la imagen del producto" required>
                 <br>
-                <h4>Precio</h4>
+                <h4>Precio:</h4>
                 <input style="padding: 5px; margin-top: 4px; width: 500px;" type="text" name="precio" id="precio" placeholder="Precio del producto" required>
                 <br>
                 <h4>Descripción del producto:</h4>
@@ -156,7 +182,7 @@ header #search-movie {
                 <h4>Cantidad en Stock:</h4>
                 <input style="padding: 5px; margin-top: 4px; width: 500px;" type="text" name="stock" id="stock" placeholder="Cantidad que se pondra en Stock" required>
                 <br>
-                <h4>Descuento</h4>
+                <h4>Descuento:</h4>
                 <input style="padding: 5px; margin-top: 4px; width: 500px;" type="text" name="descuento" id="descuento" placeholder="Descuento que se le va a aplicar" required>
                 <br>
                 <h4>Cantidad en Inventario:</h4>
@@ -181,12 +207,7 @@ This app is very similar to the one made by youtube content creator "The Net Nin
 let movieList = document.querySelector("#movie-list");
 
 //delete movies
-movieList.addEventListener('click', function(e) {
-	if (e.target.className == "delete") {
-		//movieList.removeChild(e.target.parentElement);
-		e.target.parentElement.style.display = "none";
-	}
-});
+
 
 
 //add movies

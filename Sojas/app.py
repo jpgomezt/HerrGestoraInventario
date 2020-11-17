@@ -140,6 +140,7 @@ def consola_admin():
 @login_required
 def cantidades():
     if current_user.is_admin:
+        productos = Producto.query.order_by(Producto.id).all()
         if request.method == 'POST':
             
             name = request.form['nombre']
@@ -153,11 +154,11 @@ def cantidades():
             try:
                 db.session.add(prod)
                 db.session.commit()
-                return render_template("/utilidades_admin/cantidades.html", mensaje ="Añadido correctamente")
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="Añadido correctamente", productos = productos)
             except:
-                return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto")
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto", productos = productos)
         else:
-            return render_template("/utilidades_admin/cantidades.html", mensaje ="")
+            return render_template("/utilidades_admin/cantidades.html", mensaje ="", productos = productos)
     else:
         return redirect(url_for('home'))
 

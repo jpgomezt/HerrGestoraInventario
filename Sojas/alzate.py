@@ -34,6 +34,16 @@ class Producto(db.Model):
     descuento = db.Column(db.String(30))
     inventario = db.Column(db.String(30))
 
+class ColoresDeProductos:
+    id = db.Column(db.Integer, primary_key=True)
+    id_producto = db.Column(db.String(60), db.ForeignKey('producto.id'), nullable = False)
+    id_color = db.Column(db.String(60), db.ForeignKey('color.id'), nullable = False)
+
+class Colors(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(60), unique=True)
+    hex = db.Column(db.String(60), unique=True)
+
 
 
 
@@ -209,7 +219,28 @@ def product():
     productos = Producto.query.order_by(Producto.id).all()
     return render_template('products.html', productos=productos)
 
+
+def createColors():
+    colors = {
+            'rojo': '#CF2F27',
+            'azul':'#277ECF',
+            'verde': '#62CF27', 
+            'amarillo': '#C5CF27'
+            }
+    for color in colors:
+        new_color = Colors(nombre=color, hex=colors[color])
+        comp_nombre = Colors.query.filter_by(nombre=color).first()
+        comp_hex = Colors.query.filter_by(hex=colors[color]).first()
+        if comp_nombre is not None or comp_hex is not None:
+            pass
+        else:
+            db.session.add(new_color)
+            db.session.commit()
+
+
 if __name__ == '__main__':
+    createColors()
+
     #Creacion de la cuenta del Admin
     hashed_password = generate_password_hash("12345678", method='sha256')
     new_user = User(username="admin", email="admin@admin.com",is_admin=True ,password=hashed_password)

@@ -29,11 +29,22 @@ class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(60))
     url_img = db.Column(db.String(255))
-    precio = db.Column(db.String(30))
+    precio = db.Column(db.Float)
     descrip = db.Column(db.String(255))
-    stock = db.Column(db.String(30))
-    descuento = db.Column(db.String(30))
-    inventario = db.Column(db.String(30))
+    stock = db.Column(db.Integer)
+    descuento = db.Column(db.Float)
+    inventario = db.Column(db.Integer)
+    tipo = db.Column(db.String(30))
+    genero = db.Column(db.String(10))
+    colores = db.Column(db.String(255)) #ej: rojo,azul,verde
+    tallas = db.Column(db.String(255)) #ej: S,XL,M
+
+class Pedidos(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    total_ropa_hombre = db.Column(db.Integer)
+    total_ropa_mujer = db.Column(db.Integer)
+    total_ropa_descuento = db.Column(db.Integer)
 
 
 

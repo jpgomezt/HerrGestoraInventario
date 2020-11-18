@@ -227,9 +227,9 @@ def product():
 if __name__ == '__main__':
     #Creacion de la cuenta del Admin
     hashed_password = generate_password_hash("12345678", method='sha256')
-    new_user = User(username="admin", email="admin@admin.com",is_admin=True ,password=hashed_password)
+    new_user = User(username="admin", email="admon.sojas@gmail.com",is_admin=True ,password=hashed_password)
     comp_user = User.query.filter_by(username="admin").first()
-    comp_email = User.query.filter_by(email="admin@admin.com").first()
+    comp_email = User.query.filter_by(email="admon.sojas@gmail.com").first()
     if comp_user is not None or comp_email is not None:
         pass
     else:

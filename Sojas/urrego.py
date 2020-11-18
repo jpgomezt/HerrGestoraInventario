@@ -25,23 +25,6 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean(), default = False, nullable = False )
     password = db.Column(db.String(80))
 
-class Colores(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
-    rojo = db.Column(db.Boolean(), default = False, nullable = False )
-    azul = db.Column(db.Boolean(), default = False, nullable = False )
-    verde = db.Column(db.Boolean(), default = False, nullable = False )
-    blanco = db.Column(db.Boolean(), default = False, nullable = False )
-    negro = db.Column(db.Boolean(), default = True, nullable = False )
-
-class Tallas(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
-    Talla_S = db.Column(db.Boolean(), default = False, nullable = False )
-    Talla_M = db.Column(db.Boolean(), default = True, nullable = False )
-    Talla_L = db.Column(db.Boolean(), default = False, nullable = False )
-    Talla_XL = db.Column(db.Boolean(), default = False, nullable = False )
-
 
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,6 +37,15 @@ class Producto(db.Model):
     inventario = db.Column(db.Integer)
     tipo = db.Column(db.String(30))
     genero = db.Column(db.String(10))
+    rojo = db.Column(db.Boolean(), default = False, nullable = False )
+    azul = db.Column(db.Boolean(), default = False, nullable = False )
+    verde = db.Column(db.Boolean(), default = False, nullable = False )
+    blanco = db.Column(db.Boolean(), default = False, nullable = False )
+    negro = db.Column(db.Boolean(), default = True, nullable = False )
+    Talla_S = db.Column(db.Boolean(), default = False, nullable = False )
+    Talla_M = db.Column(db.Boolean(), default = True, nullable = False )
+    Talla_L = db.Column(db.Boolean(), default = False, nullable = False )
+    Talla_XL = db.Column(db.Boolean(), default = False, nullable = False )
     #colores = db.Column(db.Integer, db.ForeignKey('colores.id')) #ej: rojo,azul,verde
     #tallas = db.Column(db.Integer, db.ForeignKey('tallas.id')) #ej: S,XL,M
 
@@ -188,8 +180,6 @@ def informe():
 def cantidades():
     if current_user.is_admin:
         productos = Producto.query.order_by(Producto.id).all()
-        colores = Colores.query.order_by(Colores.id).all()
-        tallas = Tallas.query.order_by(Tallas.id).all()
         if request.method == 'POST':
             
             name = request.form['nombre']
@@ -262,21 +252,15 @@ def cantidades():
 
             gender = request.form['genero']
 
-            prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario, tipo = gender)
+            prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario, tipo = gender, rojo = color_rojo , azul = color_azul, verde = color_verde , negro = color_negro, blanco = color_blanco, Talla_S = Talla_S, Talla_M = Talla_M, Talla_L = Talla_L, Talla_XL = Talla_XL)
             try:
                 db.session.add(prod)
                 db.session.commit()
-                col = Colores(id_producto = prod.id ,rojo = color_rojo , azul = color_azul, verde = color_verde , negro = color_negro, blanco = color_blanco)
-                db.session.add(col)
-                db.session.commit()
-                talla = Tallas(id_producto = prod.id,Talla_S = Talla_S, Talla_M = Talla_M, Talla_L = Talla_L, Talla_XL = Talla_XL)
-                db.session.add(talla)
-                db.session.commit()
                 return redirect(url_for('cantidades'))
             except:
-                return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto", productos = productos, color = colores, talla = tallas)
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="Hubo un problema, agregando el producto", productos = productos)
         else:
-            return render_template("/utilidades_admin/cantidades.html", mensaje ="", productos = productos, color = colores, talla = tallas)
+            return render_template("/utilidades_admin/cantidades.html", mensaje ="", productos = productos)
     else:
         return redirect(url_for('home'))
 
@@ -285,12 +269,8 @@ def cantidades():
 def delete_producto(id):
     if current_user.is_admin:
         product_to_delete = Producto.query.get_or_404(id)
-        colors_to_delete = Colores.query.get_or_404(id)
-        tallas_to_delete = Tallas.query.get_or_404(id)
         try:
             db.session.delete(product_to_delete)
-            db.session.delete(colors_to_delete)
-            db.session.delete(tallas_to_delete)
             db.session.commit()
             return redirect(url_for('cantidades'))
         except:
@@ -304,8 +284,6 @@ def delete_producto(id):
 def update_producto(id):
     if current_user.is_admin:
         productos = Producto.query.get_or_404(id)
-        colores = Colores.query.get_or_404(id)
-        tallas = Tallas.query.get_or_404(id)
         if request.method == 'POST':
                 productos.nombre = request.form['nombre']
                 productos.url_img = request.form['url_img']
@@ -352,11 +330,11 @@ def update_producto(id):
                 except:
                     color_blanco = False
 
-                colores.rojo = color_rojo
-                colores.azul = color_azul
-                colores.verde = color_verde
-                colores.negro = color_negro
-                colores.blanco = color_blanco
+                productos.rojo = color_rojo
+                productos.azul = color_azul
+                productos.verde = color_verde
+                productos.negro = color_negro
+                productos.blanco = color_blanco
 
                 #Para los tamaños de la ropa
                 try:
@@ -380,10 +358,10 @@ def update_producto(id):
                 except:
                     Talla_XL = False
                 
-                tallas.Talla_S = Talla_S
-                tallas.Talla_M = Talla_M
-                tallas.Talla_L = Talla_L
-                tallas.Talla_XL = Talla_XL
+                productos.Talla_S = Talla_S
+                productos.Talla_M = Talla_M
+                productos.Talla_L = Talla_L
+                productos.Talla_XL = Talla_XL
 
                 try:
                     db.session.commit()
@@ -392,7 +370,7 @@ def update_producto(id):
                     return 'Hubo problemas actualizando el producto'
 
         else:
-            return render_template('/utilidades_admin/actualizar_producto.html', productos=productos, colores = colores, tallas = tallas)
+            return render_template('/utilidades_admin/actualizar_producto.html', productos=productos)
     else:
         return redirect(url_for('home'))
 

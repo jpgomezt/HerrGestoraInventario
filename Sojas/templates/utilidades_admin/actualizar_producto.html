@@ -175,7 +175,7 @@
 
         <h4>Seleccione los colores del producto:</h4>
         <fieldset>
-            {% if colores.rojo %}
+            {% if productos.rojo %}
             <input name="rojo" id="rojo" type="checkbox" value="First Choice" tabindex="8" checked>
             <label class="choice" for="Field6">Rojo</label>
             {% else %}
@@ -184,7 +184,7 @@
             {% endif %}
 
             
-            {% if colores.azul %}
+            {% if productos.azul %}
             <input name="azul" id="azul" type="checkbox" value="Second Choice" tabindex="9" checked>
             <label class="choice" for="Field7">Azul</label>
             {% else %}
@@ -192,7 +192,7 @@
             <label class="choice" for="Field7">Azul</label>
             {% endif %}
     
-            {% if colores.verde %}
+            {% if productos.verde %}
             <input name="verde" id="verde" type="checkbox" value="Third Choice" tabindex="10" checked>
             <label class="choice" for="Field8">Verde</label>
             {% else %}
@@ -200,7 +200,7 @@
             <label class="choice" for="Field8">Verde</label>
             {% endif %}
             
-            {% if colores.negro %}
+            {% if productos.negro %}
             <input name="negro" id="negro" type="checkbox" value="Third Choice" tabindex="10" checked>
             <label class="choice" for="Field8">Negro</label>
             {% else %}
@@ -208,7 +208,7 @@
             <label class="choice" for="Field8">Negro</label>
             {% endif %}
             
-            {% if colores.negro %}
+            {% if productos.negro %}
             <input name="blanco" id="blanco" type="checkbox" value="Third Choice" tabindex="10" checked>
             <label class="choice" for="Field8">Blanco</label>
             {% else %}
@@ -220,7 +220,7 @@
         <h4>Seleccione las tallas del producto:</h4>
         <fieldset>
 
-            {% if tallas.Talla_S %}
+            {% if productos.Talla_S %}
             <input name="S" id="S" type="checkbox" tabindex="8" checked>
             <label class="choice" for="Field6">S</label>
             {% else %}
@@ -228,7 +228,7 @@
             <label class="choice" for="Field6">S</label>
             {% endif %}
 
-            {% if tallas.Talla_M %}
+            {% if productos.Talla_M %}
             <input name="M" id="M" type="checkbox" tabindex="9" checked>
             <label class="choice" for="Field7">M</label>
             {% else %}
@@ -236,7 +236,7 @@
             <label class="choice" for="Field7">M</label>
             {% endif %}
 
-            {% if tallas.Talla_L %}
+            {% if productos.Talla_L %}
             <input name="L" id="L" type="checkbox" value="Third Choice" tabindex="10" checked>
             <label class="choice" for="Field8">L</label>
             {% else %}
@@ -245,7 +245,7 @@
             {% endif %}
 
 
-            {% if tallas.Talla_XL %}
+            {% if productos.Talla_XL %}
             <input name="XL" id="XL" type="checkbox" value="Third Choice" tabindex="11" checked>
             <label class="choice" for="Field8">XL</label>
             {% else %}

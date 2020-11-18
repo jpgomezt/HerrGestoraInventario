@@ -217,21 +217,20 @@
 				Género: {{producto.tipo}}
 				<br>
 				Colores: 
-				{% for color in colores %}
-					{% if color.id_producto == producto.id %}
-						Rojo: {{color.rojo}} |
-						Azul: {{color.azul}} |
-						Verde: {{color.verde }} |
-						Blanco: {{color.blanco }} |
-						Negro: {{color.negro }} |
-					{% endif %}
-				{% endfor %}
+
+					
+				Rojo: {{producto.rojo}} |
+				Azul: {{producto.azul}} |
+				Verde: {{producto.verde }} |
+				Blanco: {{producto.blanco }} |
+				Negro: {{producto.negro }} |
+
 				<br>
 				Tallas: 
-				Talla_S: {{talla[producto.id - 1].Talla_S }} |
-				Talla_M: {{talla[producto.id - 1].Talla_M }} |
-				Talla_L: {{talla[producto.id - 1].Talla_L }} |
-				Talla_XL: {{talla[producto.id - 1].Talla_XL }} |
+				Talla_S: {{producto.Talla_S }} |
+				Talla_M: {{producto.Talla_M }} |
+				Talla_L: {{producto.Talla_L }} |
+				Talla_XL: {{producto.Talla_XL }} |
 			</span>
 			<a style="text-decoration: none;" href="/consola_admin/cantidades/update/{{producto.id}}"><span
 					class="delete">Actualizar</span></a>

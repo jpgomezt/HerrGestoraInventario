@@ -251,8 +251,11 @@ def cantidades():
 
 
             gender = request.form['genero']
-
-            prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario, tipo = gender, rojo = color_rojo , azul = color_azul, verde = color_verde , negro = color_negro, blanco = color_blanco, Talla_S = Talla_S, Talla_M = Talla_M, Talla_L = Talla_L, Talla_XL = Talla_XL)
+            
+            if (Talla_S or Talla_M or Talla_L or Talla_XL) and ( color_azul or color_rojo or color_blanco or color_negro or color_verde):
+                prod = Producto(nombre = name, url_img = url_img, precio = precio, descrip = descrip, stock = stock, descuento = descuento, inventario = inventario, tipo = gender, rojo = color_rojo , azul = color_azul, verde = color_verde , negro = color_negro, blanco = color_blanco, Talla_S = Talla_S, Talla_M = Talla_M, Talla_L = Talla_L, Talla_XL = Talla_XL)
+            else:
+                return render_template("/utilidades_admin/cantidades.html", mensaje ="No puedes dejar los campos de talla o colores vacios", productos = productos)
             try:
                 db.session.add(prod)
                 db.session.commit()

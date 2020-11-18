@@ -190,6 +190,10 @@
 			<input type="checkbox" id="hide">
 			<label for="hide">Esconde todos los productos</label>
 		</div>
+		{% if mensaje != ""%}
+		<h3 style="color: darkseagreen;">{{mensaje}}!!!</h3>
+		{% endif %}
+
 	</header>
 	<ul id="movie-list">
 		{% if productos|length < 1 %}
@@ -200,6 +204,8 @@
 		{% for producto in productos %}
 		<li>
 			<span class="title">
+				ID Producto: {{producto.id}}
+				<br>
 				Producto: {{producto.nombre}}
 				<br>
 				URL imágen: {{producto.url_img[0:60]}} ...

@@ -6,6 +6,7 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import smtplib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -135,7 +136,21 @@ def consola_admin():
     else:
         return redirect(url_for('home'))
 
-
+@app.route('/consola_admin/informe')
+@login_required
+def informe():
+    if current_user.is_admin:
+        subject = "Informe"
+        text = "Hello World!"
+        message = 'Subject: {}\n\n{}'.format(subject, text)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login("notificaciones.sojas@gmail.com", "Cl4v3d3s0j4s")
+        server.sendmail("notificaciones.sojas@gmail.com", "jpgomezt@eafit.edu.co", message)
+        server.quit()
+        return render_template("correo.html")
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])

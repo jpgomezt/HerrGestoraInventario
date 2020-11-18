@@ -20,6 +20,12 @@
         display: block;
     }
 
+    h1 {
+        text-align: center; 
+        font-weight: 500;
+        line-height: 1.7em;
+    }
+
     h5 {
         font-weight: 500;
         line-height: 1.7em;
@@ -54,15 +60,55 @@
         margin-top: auto;
         padding-top: 20px;
         text-align: center;
+
+	// Searching bar
+
+    #myInput {
+      background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+      background-position: 10px 12px; /* Position the search icon */
+      background-repeat: no-repeat; /* Do not repeat the icon image */
+      width: 100%; /* Full-width */
+      font-size: 16px; /* Increase font-size */
+      padding: 12px 20px 12px 40px; /* Add some padding */
+      border: 1px solid #ddd; /* Add a grey border */
+      margin-bottom: 12px; /* Add some space below the input */
     }
+
+    #myUL {
+      /* Remove default list styling */
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #myUL li a {
+      border: 1px solid #ddd; /* Add a border to all links */
+      margin-top: -1px; /* Prevent double borders */
+      background-color: #f6f6f6; /* Grey background color */
+      padding: 12px; /* Add some padding */
+      text-decoration: none; /* Remove default text underline */
+      font-size: 18px; /* Increase the font-size */
+      color: black; /* Add a black text color */
+      display: block; /* Make it into a block element to fill the whole list */
+    }
+
+    #myUL li a:hover:not(.header) {
+      background-color: #eee; /* Add a hover effect to all links, except for headers */
+    }
+	}
 </style>
 <h1>Productos</h1>
+<div style="text-align: center;">
+<input type="text" id="searchInput" onkeyup="searchingFunc()" placeholder="Search for names..">
+</div>
 
-<section class="products">
+<section id="searchSection" class="products">
     {% for producto in productos%}
     <div class="product-card">
         <div class="product-image">
+            <a href="#">
             <img src="{{producto.url_img}}" alt="Product Image">
+            </a>
         </div>
         <div>
             <div class="product-info">
@@ -74,4 +120,26 @@
 
 {% endfor%}
 </section>
+<script>
+function searchingFunc() {
+  // Declare variables
+  var input, filter, i, section, div, h5, textValue;
+  input = document.getElementById('searchInput');
+  filter = input.value.toUpperCase();
+
+  section = document.getElementById("searchSection");
+  div = section.getElementsByClassName("product-card");
+
+	// My version
+  for (i = 0; i < div.length; i++) {
+    h5 = div[i].getElementsByTagName("h5")[0];
+    textValue = h5.textContent || h5.innerText;
+    if (textValue.toUpperCase().indexOf(filter) > -1) {
+      div[i].style.display = "";
+    } else {
+      div[i].style.display = "none";
+    }
+  }
+}
+</script>
 {% endblock %}

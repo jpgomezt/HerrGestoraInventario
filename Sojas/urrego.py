@@ -209,6 +209,12 @@ def product():
     productos = Producto.query.order_by(Producto.id).all()
     return render_template('products.html', productos=productos)
 
+
+
+@app.route('/productos/producto', methods=['GET', 'POST'])
+def vista_producto():
+    return render_template('productos/vista_productos.html')
+
 if __name__ == '__main__':
     #Creacion de la cuenta del Admin
     hashed_password = generate_password_hash("12345678", method='sha256')

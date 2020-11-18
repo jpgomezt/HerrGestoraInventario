@@ -162,19 +162,19 @@ header #search-movie {
                 {% for producto in productos %}
 			    <li>
                     <span class="title">
-                        Producto: {{producto.nombre}}
+                        	Producto: {{producto.nombre}}
                         <br>
-                        URL imágen: {{producto.url_img}}
+                        	URL imágen: {{producto.url_img[0:60]}} ...
                         <br>
-                        Precio: {{producto.precio}}
+                        	Precio: {{producto.precio}}
                         <br>
-                        Descripción: {{producto.descrip}}
+                        	Descripción: {{producto.descrip}}
                         <br>
-                        Stock: {{producto.stock}}
+                        	Stock: {{producto.stock}}
                         <br>
-                        Descuento: {{producto.descuento}}
+                        	Descuento: {{producto.descuento}}
                         <br>
-                        Inventario: {{producto.inventario}}
+                        	Inventario: {{producto.inventario}}
                     </span>
                     <a style="text-decoration: none;" href="/consola_admin/cantidades/update/{{producto.id}}"><span class="delete">Actualizar</span></a>
                     <a style="text-decoration: none;" href="/consola_admin/cantidades/delete/{{producto.id}}"><span class="delete" style="margin-left: 5px; ">Borrar</span></a>

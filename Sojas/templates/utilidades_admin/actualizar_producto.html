@@ -22,14 +22,14 @@
         padding: 20px 0;
     }
 
-    #wrapper h5{
-        color: #272727 ;
-        transition: 0.3s all ease;   
+    #wrapper h5 {
+        color: #272727;
+        transition: 0.3s all ease;
     }
 
-    #wrapper h5:hover{
+    #wrapper h5:hover {
         color: #db8462;
-        font-size: 24px;  
+        font-size: 24px;
     }
 
     header {
@@ -172,6 +172,98 @@
         <h4>Cantidad en Inventario: <br> {{productos.inventario}}</h4>
         <input style="padding: 5px; margin-top: 4px; width: 500px;" type="text" name="inventario" id="inventario"
             placeholder="Cantidad que se pondra en Inventario" value="{{productos.inventario}}" required>
+
+        <h4>Seleccione los colores del producto:</h4>
+        <fieldset>
+            {% if colores.rojo %}
+            <input name="rojo" id="rojo" type="checkbox" value="First Choice" tabindex="8" checked>
+            <label class="choice" for="Field6">Rojo</label>
+            {% else %}
+            <input name="rojo" id="rojo" type="checkbox" value="First Choice" tabindex="8">
+            <label class="choice" for="Field6">Rojo</label>
+            {% endif %}
+
+            
+            {% if colores.azul %}
+            <input name="azul" id="azul" type="checkbox" value="Second Choice" tabindex="9" checked>
+            <label class="choice" for="Field7">Azul</label>
+            {% else %}
+            <input name="azul" id="azul" type="checkbox" value="Second Choice" tabindex="9">
+            <label class="choice" for="Field7">Azul</label>
+            {% endif %}
+    
+            {% if colores.verde %}
+            <input name="verde" id="verde" type="checkbox" value="Third Choice" tabindex="10" checked>
+            <label class="choice" for="Field8">Verde</label>
+            {% else %}
+            <input name="verde" id="verde" type="checkbox" value="Third Choice" tabindex="10">
+            <label class="choice" for="Field8">Verde</label>
+            {% endif %}
+            
+            {% if colores.negro %}
+            <input name="negro" id="negro" type="checkbox" value="Third Choice" tabindex="10" checked>
+            <label class="choice" for="Field8">Negro</label>
+            {% else %}
+            <input name="negro" id="negro" type="checkbox" value="Third Choice" tabindex="10">
+            <label class="choice" for="Field8">Negro</label>
+            {% endif %}
+            
+            {% if colores.negro %}
+            <input name="blanco" id="blanco" type="checkbox" value="Third Choice" tabindex="10" checked>
+            <label class="choice" for="Field8">Blanco</label>
+            {% else %}
+            <input name="blanco" id="blanco" type="checkbox" value="Third Choice" tabindex="10">
+            <label class="choice" for="Field8">Blanco</label>
+            {% endif %}
+        </fieldset>
+
+        <h4>Seleccione las tallas del producto:</h4>
+        <fieldset>
+
+            {% if tallas.Talla_S %}
+            <input name="S" id="S" type="checkbox" tabindex="8" checked>
+            <label class="choice" for="Field6">S</label>
+            {% else %}
+            <input name="S" id="S" type="checkbox" tabindex="8">
+            <label class="choice" for="Field6">S</label>
+            {% endif %}
+
+            {% if tallas.Talla_M %}
+            <input name="M" id="M" type="checkbox" tabindex="9" checked>
+            <label class="choice" for="Field7">M</label>
+            {% else %}
+            <input name="M" id="M" type="checkbox" tabindex="9">
+            <label class="choice" for="Field7">M</label>
+            {% endif %}
+
+            {% if tallas.Talla_L %}
+            <input name="L" id="L" type="checkbox" value="Third Choice" tabindex="10" checked>
+            <label class="choice" for="Field8">L</label>
+            {% else %}
+            <input name="L" id="L" type="checkbox" value="Third Choice" tabindex="10">
+            <label class="choice" for="Field8">L</label>
+            {% endif %}
+
+
+            {% if tallas.Talla_XL %}
+            <input name="XL" id="XL" type="checkbox" value="Third Choice" tabindex="11" checked>
+            <label class="choice" for="Field8">XL</label>
+            {% else %}
+            <input name="XL" id="XL" type="checkbox" value="Third Choice" tabindex="11">
+            <label class="choice" for="Field8">XL</label>
+            {% endif %}
+        </fieldset>
+
+
+        <h4>El genero del producto es: <br> {{productos.tipo}} </h4>
+        <select id="genero" name="genero" class="field select medium">
+            <option value="{{productos.tipo}}"></option>
+            <option value="U">Unisex</option>
+            <option value="H">Hombre</option>
+            <option value="M">Mujer</option>
+        </select>
+        <br><br><br>
+
         <input type="submit" value="Actualizar producto" style="padding: 5px; margin-top: 4px;">
     </form>
 

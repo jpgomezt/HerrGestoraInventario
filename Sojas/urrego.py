@@ -211,8 +211,8 @@ def product():
 
 
 
-@app.route('/productos/producto', methods=['GET', 'POST'])
-def vista_producto():
+@app.route('/productos/producto/<int:id>', methods=['GET', 'POST'])
+def vista_producto(id):
     return render_template('productos/vista_productos.html')
 
 if __name__ == '__main__':

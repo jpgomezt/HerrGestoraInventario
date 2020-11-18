@@ -281,6 +281,7 @@ def cantidades():
         return redirect(url_for('home'))
 
 @app.route('/consola_admin/cantidades/delete/<int:id>')
+@login_required
 def delete_producto(id):
     if current_user.is_admin:
         product_to_delete = Producto.query.get_or_404(id)
@@ -299,6 +300,7 @@ def delete_producto(id):
 
 
 @app.route('/consola_admin/cantidades/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update_producto(id):
     if current_user.is_admin:
         productos = Producto.query.get_or_404(id)
@@ -400,6 +402,12 @@ def update_producto(id):
 def product():
     productos = Producto.query.order_by(Producto.id).all()
     return render_template('products.html', productos=productos)
+
+@app.route('/products/producto/<int:id>', methods=['GET', 'POST'])
+def vista_producto(id):
+    return render_template('productos/vista_productos.html')
+
+
 
 if __name__ == '__main__':
     #Creacion de la cuenta del Admin

@@ -1,1814 +1,317 @@
 {% extends "//index.html" %}
 
 {% block info %}
-<style>
 
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <style>
+    /* Basic Styling */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+}
 
+/* Columns */
+.left-column {
+  width: 65%;
+  position: relative;
+}
 
-.row > div[class*='col-'] {
-    display: flex;
-    flex: 1 0 auto;
-  }
-  
-  .review > div[class*='col-'] {
-    display: block;
-  }
-  
-  .gutters-small {
-    margin: 0px -5px !important;
-  }
-  
-  .gutters-small-item {
-    padding: 0px 5px !important;
-  }
-  
-  .gutter-20.row {
-    margin-right: -10px;
-    margin-left: -10px;
-  }
-  
-  .gutter-20 > [class^="col-"],
-  .gutter-20 > [class^=" col-"] {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-  
-  .mb-20px > [class^="col-"],
-  .mb-20px > [class^=" col-"] {
-    margin-bottom: 20px;
-  }
-  
-  .mr-list-20px > [class^="nav-item"],
-  .mr-list-20px > [class^="nav-item "] {
-    margin-right: 20px !important;
-  }
-  
-  #mega-menu ul li a {
-    color: #efefef;
-  }
-  
-  .hover-item-invisible {
-    padding: 3%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-  }
-  
-  .card:hover .hover-item-invisible {
-    opacity: 1;
-  }
-  
-  .font-size-05 {
-    font-size: 0.5em;
-  }
-  
-  .font-size-06 {
-    font-size: 0.6em;
-  }
-  
-  .font-size-08 {
-    font-size: 0.8em;
-  }
-  
-  .font-size-09 {
-    font-size: 0.9em;
-  }
-  
-  .font-size-07 {
-    font-size: 0.7em;
-  }
-  
-  .font-size-075 {
-    font-size: 0.75em;
-  }
-  
-  .font-size-1 {
-    font-size: 1em;
-  }
-  
-  .font-size-15 {
-    font-size: 1.5em;
-  }
-  
-  .font-size-2 {
-    font-size: 2em;
-  }
-  
-  .font-size-25 {
-    font-size: 2.5em;
-  }
-  
-  .font-size-3 {
-    font-size: 3em;
-  }
-  
-  .h-30 {
-    height: 30%;
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  .relative {
-    position: relative;
-  }
-  
-  .absolute {
-    position: absolute;
-  }
-  
-  .bg-caption {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  .caption-r,
-  .caption-l {
-    color: white;
-    top: 25%;
-    height: 60%;
-  }
-  
-  .caption-r {
-    right: 0;
-  }
-  
-  .caption-l {
-    left: 0;
-  }
-  
-  .border-top-footer {
-    border-top: 1px solid #efefef;
-  }
-  
-  .h-copyright {
-    height: 70px;
-  }
-  
-  .height-100px {
-    height: 100px;
-  }
-  
-  .height-150px {
-    height: 150px;
-  }
-  
-  .height-190px {
-    height: 200px;
-  }
-  
-  .height-200px {
-    height: 180px;
-  }
-  
-  .height-300px {
-    height: 280px;
-  }
-  
-  .height-400px {
-    height: 380px;
-  }
-  
-  .height-500px {
-    height: 480px;
-  }
-  
-  .height-600px {
-    height: 580px;
-  }
-  
-  .height-700px {
-    height: 700px;
-  }
-  
-  .height-800px {
-    height: 800px;
-  }
-  
-  .search-group {
-    width: 100%;
-    margin: 1em 0;
-  }
-  
-  .btn-search {
-    width: 100%;
-    font-size: 1.4em;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .search-input {
-    font-size: 1.4em;
-    padding: 6px 10px;
-    border: none;
-    border-bottom: 2px solid #36393b;
-  }
-  
-  .text-color-a0 {
-    color: #efefef;
-  }
-  
-  .text-color-a1 {
-    color: #36393b;
-  }
-  
-  .bg-color-a0 {
-    background-color: #efefef;
-  }
-  
-  .bg-color-a1 {
-    background-color: #36393b;
-  }
-  
-  .bg-color-a2 {
-    background-color: #a3d5ff;
-  }
-  
-  .bg-color-a3 {
-    background-color: #bfb6bb;
-  }
-  
-  .text-color-a3 {
-    color: #bfb6bb;
-  }
-  
-  .bg-color-a4 {
-    background-color: #c49799;
-  }
-  
-  .bg-color-a5 {
-    background-color: #000000;
-  }
-  
-  .border-color-inverse {
-    border-color: #292b2c !important;
-  }
-  
-  .border-color-a0 {
-    border-color: #efefef !important;
-  }
-  
-  #mega-menu {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: auto;
-    left: 0;
-  }
-  
-  .indent-50px {
-    text-indent: 50px;
-  }
-  
-  .indent-100px {
-    text-indent: 75px;
-  }
-  
-  .indent-10 {
-    text-indent: 10%;
-  }
-  
-  .indent-20 {
-    text-indent: 20%;
-  }
-  
-  .div-p-indent-10 {
-    text-indent: 10%;
-  }
-  
-  .border-rad-0 {
-    border-radius: 0;
-  }
-  
-  .border-full-1px-solid {
-    border: 1px solid;
-  }
-  
-  .border-full-2px-solid {
-    border: 2px solid;
-  }
-  
-  .border-full-3px-solid {
-    border: 3px solid;
-  }
-  
-  .border-full-4px-solid {
-    border: 4px solid;
-  }
-  
-  .border-full-5px-solid {
-    border: 5px solid;
-  }
-  
-  .nav-tabs .nav-item.show .nav-link,
-  .nav-tabs .nav-link.active {
-    background-color: #292b2c !important;
-    border-color: #292b2c !important;
-    color: #fafafa !important;
-  }
-  
-  @media only screen and (min-width: 576px) {
-    .font-size-sm-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-sm-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-sm-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-sm-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-sm-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-sm-3 {
-      font-size: 3em;
-    }
-  
-    .height-sm-100px {
-      height: 100px;
-    }
-  
-    .height-sm-150px {
-      height: 150px;
-    }
-  
-    .height-sm-190px {
-      height: 200px;
-    }
-  
-    .height-sm-200px {
-      height: 180px;
-    }
-  
-    .height-sm-300px {
-      height: 280px;
-    }
-  
-    .height-sm-400px {
-      height: 380px;
-    }
-  
-    .height-sm-500px {
-      height: 480px;
-    }
-  
-    .height-sm-600px {
-      height: 580px;
-    }
-  
-    .height-sm-700px {
-      height: 700px;
-    }
-  
-    .height-sm-800px {
-      height: 800px;
-    }
-  
-    .h-sm-25 {
-      height: 25% !important;
-    }
-  
-    .h-sm-50 {
-      height: 50% !important;
-    }
-  
-    .h-sm-75 {
-      height: 75% !important;
-    }
-  
-    .h-sm-100 {
-      height: 100% !important;
-    }
-  }
-  @media only screen and (max-width: 576px) {
-    .container {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  
-    .btn-search {
-      float: none;
-      clear: both;
-      width: 30%;
-    }
-  
-    .hover-item-invisible {
-      opacity: 1;
-    }
-  }
-  @media only screen and (min-width: 768px) {
-    .btn-search {
-      width: auto;
-    }
-  
-    .search-input {
-      width: 90%;
-    }
-  
-    .font-size-md-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-md-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-md-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-md-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-md-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-md-3 {
-      font-size: 3em;
-    }
-  
-    .height-md-100px {
-      height: 100px;
-    }
-  
-    .height-md-150px {
-      height: 150px;
-    }
-  
-    .height-md-190px {
-      height: 200px;
-    }
-  
-    .height-md-200px {
-      height: 180px;
-    }
-  
-    .height-md-300px {
-      height: 280px;
-    }
-  
-    .height-md-400px {
-      height: 380px;
-    }
-  
-    .height-md-500px {
-      height: 480px;
-    }
-  
-    .height-md-600px {
-      height: 580px;
-    }
-  
-    .height-md-700px {
-      height: 700px;
-    }
-  
-    .height-md-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (max-width: 992px) {
-    .caption-l {
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      background: none;
-      color: #36393b;
-    }
-  
-    .height-lg-down-100px {
-      height: 100px;
-    }
-  
-    .height-lg-down-150px {
-      height: 150px;
-    }
-  
-    .height-lg-down-190px {
-      height: 200px;
-    }
-  
-    .height-lg-down-200px {
-      height: 180px;
-    }
-  
-    .height-lg-down-300px {
-      height: 280px;
-    }
-  
-    .height-lg-down-400px {
-      height: 380px;
-    }
-  
-    .height-lg-down-500px {
-      height: 480px;
-    }
-  
-    .height-lg-down-600px {
-      height: 580px;
-    }
-  
-    .height-lg-down-700px {
-      height: 700px;
-    }
-  
-    .height-lg-down-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (min-width: 992px) {
-    .font-size-lg-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-lg-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-lg-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-lg-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-lg-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-lg-3 {
-      font-size: 3em;
-    }
-  
-    .font-size-lg-35 {
-      font-size: 3.5em;
-    }
-  
-    .font-size-lg-4 {
-      font-size: 4em;
-    }
-  
-    .font-size-lg-45 {
-      font-size: 4.5em;
-    }
-  
-    .font-size-lg-5 {
-      font-size: 5em;
-    }
-  
-    .height-lg-100px {
-      height: 100px;
-    }
-  
-    .height-lg-150px {
-      height: 150px;
-    }
-  
-    .height-lg-190px {
-      height: 200px;
-    }
-  
-    .height-lg-200px {
-      height: 180px;
-    }
-  
-    .height-lg-300px {
-      height: 280px;
-    }
-  
-    .height-lg-400px {
-      height: 380px;
-    }
-  
-    .height-lg-500px {
-      height: 480px;
-    }
-  
-    .height-lg-600px {
-      height: 580px;
-    }
-  
-    .height-lg-700px {
-      height: 700px;
-    }
-  
-    .height-lg-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (min-width: 1200px) {
-    .font-size-xl-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-xl-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-xl-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-xl-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-xl-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-xl-3 {
-      font-size: 3em;
-    }
-  
-    .font-size-xl-35 {
-      font-size: 3.5em;
-    }
-  
-    .font-size-xl-4 {
-      font-size: 4em;
-    }
-  
-    .font-size-xl-45 {
-      font-size: 4.5em;
-    }
-  
-    .font-size-xl-5 {
-      font-size: 5em;
-    }
-  }
-  #mega-menu ul li a {
-    color: #efefef;
-  }
-  
-  .swiper-container {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .swiper-container-horizontal > .swiper-pagination-bullets,
-  .swiper-pagination-custom,
-  .swiper-pagination-fraction {
-    padding-right: 10px;
-  }
-  
-  .swiper-pagination-bullet {
-    margin: auto 4px !important;
-    border-radius: 0px !important;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    line-height: 20px;
-    font-size: 12px;
-    color: #000;
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  
-  .swiper-pagination-bullet-active {
-    color: #fff;
-    background: #007aff;
-  }
-  
-  .hover-item-invisible {
-    padding: 3%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-  }
-  
-  .card:hover .hover-item-invisible {
-    opacity: 1;
-  }
-  
-  .font-size-05 {
-    font-size: 0.5em;
-  }
-  
-  .font-size-06 {
-    font-size: 0.6em;
-  }
-  
-  .font-size-08 {
-    font-size: 0.8em;
-  }
-  
-  .font-size-09 {
-    font-size: 0.9em;
-  }
-  
-  .font-size-07 {
-    font-size: 0.7em;
-  }
-  
-  .font-size-075 {
-    font-size: 0.75em;
-  }
-  
-  .font-size-1 {
-    font-size: 1em;
-  }
-  
-  .font-size-15 {
-    font-size: 1.5em;
-  }
-  
-  .font-size-2 {
-    font-size: 2em;
-  }
-  
-  .font-size-25 {
-    font-size: 2.5em;
-  }
-  
-  .font-size-3 {
-    font-size: 3em;
-  }
-  
-  .h-30 {
-    height: 30%;
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  .relative {
-    position: relative;
-  }
-  
-  .absolute {
-    position: absolute;
-  }
-  
-  .bg-caption {
-    background-color: rgba(0, 0, 0, 0.8);
-    transform: rotate();
-  }
-  
-  .caption-r,
-  .caption-l {
-    color: white;
-    top: 25%;
-    height: 60%;
-  }
-  
-  .caption-r {
-    right: 0;
-  }
-  
-  .caption-l {
-    left: 0;
-  }
-  
-  .border-top-footer {
-    border-top: 1px solid #efefef;
-  }
-  
-  .h-copyright {
-    height: 70px;
-  }
-  
-  .height-100px {
-    height: 100px;
-  }
-  
-  .height-150px {
-    height: 150px;
-  }
-  
-  .height-190px {
-    height: 200px;
-  }
-  
-  .height-200px {
-    height: 180px;
-  }
-  
-  .height-300px {
-    height: 280px;
-  }
-  
-  .height-400px {
-    height: 380px;
-  }
-  
-  .height-500px {
-    height: 480px;
-  }
-  
-  .height-600px {
-    height: 580px;
-  }
-  
-  .height-700px {
-    height: 700px;
-  }
-  
-  .height-800px {
-    height: 800px;
-  }
-  
-  .search-group {
-    width: 100%;
-    margin: 1em 0;
-  }
-  
-  .btn-search {
-    width: 100%;
-    font-size: 1.4em;
-    padding: 5px 15px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .search-input {
-    font-size: 1.4em;
-    padding: 6px 10px;
-    border: none;
-    border-bottom: 2px solid #36393b;
-  }
-  
-  .text-color-a0 {
-    color: #efefef;
-  }
-  
-  .text-color-a1 {
-    color: #36393b;
-  }
-  
-  .bg-color-a0 {
-    background-color: #efefef;
-  }
-  
-  .bg-color-a1 {
-    background-color: #36393b;
-  }
-  
-  .bg-color-a2 {
-    background-color: #a3d5ff;
-  }
-  
-  .bg-color-a3 {
-    background-color: #bfb6bb;
-  }
-  
-  .text-color-a3 {
-    color: #bfb6bb;
-  }
-  
-  .bg-color-a4 {
-    background-color: #c49799;
-  }
-  
-  .bg-color-a5 {
-    background-color: #000000;
-  }
-  
-  .border-color-inverse {
-    border-color: #292b2c !important;
-  }
-  
-  .border-color-a0 {
-    border-color: #efefef !important;
-  }
-  
-  #mega-menu {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: auto;
-    left: 0;
-  }
-  
-  #mega-menu li {
-    margin: 5px 0;
-  }
-  
-  .indent-50px {
-    text-indent: 50px;
-  }
-  
-  .indent-100px {
-    text-indent: 75px;
-  }
-  
-  .indent-10 {
-    text-indent: 10%;
-  }
-  
-  .indent-20 {
-    text-indent: 20%;
-  }
-  
-  .div-p-indent-10 {
-    text-indent: 10%;
-  }
-  
-  .border-rad-0 {
-    border-radius: 0;
-  }
-  
-  .border-full-1px-solid {
-    border: 1px solid;
-  }
-  
-  .border-full-2px-solid {
-    border: 2px solid;
-  }
-  
-  .border-full-3px-solid {
-    border: 3px solid;
-  }
-  
-  .border-full-4px-solid {
-    border: 4px solid;
-  }
-  
-  .border-full-5px-solid {
-    border: 5px solid;
-  }
-  
-  .nav-tabs .nav-item.show .nav-link,
-  .nav-tabs .nav-link.active {
-    background-color: #292b2c !important;
-    border-color: #292b2c !important;
-    color: #fafafa !important;
-  }
-  
-  .side-picture {
-    transition: border-color 0.5s;
-  }
-  
-  .side-picture:hover {
-    border-color: #36393b !important;
-  }
-  
-  .side-picture.active {
-    transition: background-color 0.5s;
-    background-color: #efefef;
-  }
-  
-  @media only screen and (min-width: 576px) {
-    .font-size-sm-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-sm-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-sm-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-sm-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-sm-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-sm-3 {
-      font-size: 3em;
-    }
-  
-    .height-sm-100px {
-      height: 100px;
-    }
-  
-    .height-sm-150px {
-      height: 150px;
-    }
-  
-    .height-sm-190px {
-      height: 200px;
-    }
-  
-    .height-sm-200px {
-      height: 180px;
-    }
-  
-    .height-sm-300px {
-      height: 280px;
-    }
-  
-    .height-sm-400px {
-      height: 380px;
-    }
-  
-    .height-sm-500px {
-      height: 480px;
-    }
-  
-    .height-sm-600px {
-      height: 580px;
-    }
-  
-    .height-sm-700px {
-      height: 700px;
-    }
-  
-    .height-sm-800px {
-      height: 800px;
-    }
-  
-    .h-sm-25 {
-      height: 25% !important;
-    }
-  
-    .h-sm-50 {
-      height: 50% !important;
-    }
-  
-    .h-sm-75 {
-      height: 75% !important;
-    }
-  
-    .h-sm-100 {
-      height: 100% !important;
-    }
-  }
-  @media only screen and (max-width: 576px) {
-    .container {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  
-    .btn-search {
-      float: none;
-      clear: both;
-      width: 30%;
-    }
-  
-    .hover-item-invisible {
-      opacity: 1;
-    }
-  }
-  @media only screen and (min-width: 768px) {
-    .btn-search {
-      width: auto;
-    }
-  
-    .search-input {
-      width: 90%;
-    }
-  
-    .font-size-md-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-md-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-md-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-md-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-md-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-md-3 {
-      font-size: 3em;
-    }
-  
-    .height-md-100px {
-      height: 100px;
-    }
-  
-    .height-md-150px {
-      height: 150px;
-    }
-  
-    .height-md-190px {
-      height: 200px;
-    }
-  
-    .height-md-200px {
-      height: 180px;
-    }
-  
-    .height-md-300px {
-      height: 280px;
-    }
-  
-    .height-md-400px {
-      height: 380px;
-    }
-  
-    .height-md-500px {
-      height: 480px;
-    }
-  
-    .height-md-600px {
-      height: 580px;
-    }
-  
-    .height-md-700px {
-      height: 700px;
-    }
-  
-    .height-md-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (max-width: 992px) {
-    .caption-l {
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      background: none;
-      color: #36393b;
-    }
-  
-    .height-lg-down-100px {
-      height: 100px;
-    }
-  
-    .height-lg-down-150px {
-      height: 150px;
-    }
-  
-    .height-lg-down-190px {
-      height: 200px;
-    }
-  
-    .height-lg-down-200px {
-      height: 180px;
-    }
-  
-    .height-lg-down-300px {
-      height: 280px;
-    }
-  
-    .height-lg-down-400px {
-      height: 380px;
-    }
-  
-    .height-lg-down-500px {
-      height: 480px;
-    }
-  
-    .height-lg-down-600px {
-      height: 580px;
-    }
-  
-    .height-lg-down-700px {
-      height: 700px;
-    }
-  
-    .height-lg-down-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (min-width: 992px) {
-    .font-size-lg-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-lg-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-lg-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-lg-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-lg-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-lg-3 {
-      font-size: 3em;
-    }
-  
-    .font-size-lg-35 {
-      font-size: 3.5em;
-    }
-  
-    .font-size-lg-4 {
-      font-size: 4em;
-    }
-  
-    .font-size-lg-45 {
-      font-size: 4.5em;
-    }
-  
-    .font-size-lg-5 {
-      font-size: 5em;
-    }
-  
-    .height-lg-100px {
-      height: 100px;
-    }
-  
-    .height-lg-150px {
-      height: 150px;
-    }
-  
-    .height-lg-190px {
-      height: 200px;
-    }
-  
-    .height-lg-200px {
-      height: 180px;
-    }
-  
-    .height-lg-300px {
-      height: 280px;
-    }
-  
-    .height-lg-400px {
-      height: 380px;
-    }
-  
-    .height-lg-500px {
-      height: 480px;
-    }
-  
-    .height-lg-600px {
-      height: 580px;
-    }
-  
-    .height-lg-700px {
-      height: 700px;
-    }
-  
-    .height-lg-800px {
-      height: 800px;
-    }
-  }
-  @media only screen and (min-width: 1200px) {
-    .font-size-xl-05 {
-      font-size: 0.5em;
-    }
-  
-    .font-size-xl-1 {
-      font-size: 1em;
-    }
-  
-    .font-size-xl-15 {
-      font-size: 1.5em;
-    }
-  
-    .font-size-xl-2 {
-      font-size: 2em;
-    }
-  
-    .font-size-xl-25 {
-      font-size: 2.5em;
-    }
-  
-    .font-size-xl-3 {
-      font-size: 3em;
-    }
-  
-    .font-size-xl-35 {
-      font-size: 3.5em;
-    }
-  
-    .font-size-xl-4 {
-      font-size: 4em;
-    }
-  
-    .font-size-xl-45 {
-      font-size: 4.5em;
-    }
-  
-    .font-size-xl-5 {
-      font-size: 5em;
-    }
-  }
-
-.mb-4 .col-6 .col-md-3 img{
-    width: 30%;
+.right-column {
+  width: 35%;
+  margin-top: 60px;
 }
 
 
-.topnav a{
-    text-decoration: none;
+/* Left Column */
+.left-column img {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
 }
 
-@media screen and (min-width: 330px) {
-    .topnav a:not(:first-child) {display: none;}
-    .topnav a.icon {
-      float: right;
-      display: block;
-      
-    }
+.left-column img.active {
+  opacity: 1;
+}
+
+
+/* Right Column */
+
+/* Product Description */
+.product-description {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+}
+.product-description span {
+  font-size: 12px;
+  color: #358ED7;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.product-description h1 {
+  font-weight: 300;
+  font-size: 52px;
+  color: #43484D;
+  letter-spacing: -2px;
+}
+.product-description p {
+  font-size: 16px;
+  font-weight: 300;
+  color: #86939E;
+  line-height: 24px;
+}
+
+/* Product Configuration */
+.product-color span,
+.cable-config span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #86939E;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* Product Color */
+.product-color {
+  margin-bottom: 30px;
+}
+
+.color-choose div {
+  display: inline-block;
+}
+
+.color-choose input[type="radio"] {
+  display: none;
+}
+
+.color-choose input[type="radio"] + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.color-choose input[type="radio"] + label span {
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.33);
+}
+
+.color-choose input[type="radio"]#red + label span {
+  background-color: #C91524;
+}
+.color-choose input[type="radio"]#blue + label span {
+  background-color: #314780;
+}
+.color-choose input[type="radio"]#black + label span {
+  background-color: #323232;
+}
+
+.color-choose input[type="radio"]:checked + label span {
+  background-image: url({{url_for('static', filename='img/Home_page/check-icn.svg')}});
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Cable Configuration */
+.cable-choose {
+  margin-bottom: 20px;
+}
+
+.cable-choose button {
+  border: 2px solid #E1E8EE;
+  border-radius: 6px;
+  padding: 13px 20px;
+  font-size: 14px;
+  color: #5E6977;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.cable-choose button:hover,
+.cable-choose button:active,
+.cable-choose button:focus {
+  border: 2px solid #86939E;
+  outline: none;
+}
+
+.cable-config {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+}
+
+.cable-config a {
+  color: #358ED7;
+  text-decoration: none;
+  font-size: 12px;
+  position: relative;
+  margin: 10px 0;
+  display: inline-block;
+}
+.cable-config a:before {
+  content: "?";
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(53, 142, 215, 0.5);
+  display: inline-block;
+  text-align: center;
+  line-height: 16px;
+  opacity: 0.5;
+  margin-right: 5px;
+}
+
+/* Product Price */
+.product-price {
+  display: flex;
+  align-items: center;
+}
+
+.product-price span {
+  font-size: 26px;
+  font-weight: 300;
+  color: #43474D;
+  margin-right: 20px;
+}
+
+.cart-btn {
+  display: inline-block;
+  background-color: #7DC855;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 30px;
+  transition: all .5s;
+}
+.cart-btn:hover {
+  background-color: #64af3d;
+}
+
+/* Responsive */
+@media (max-width: 940px) {
+  .container {
+    flex-direction: column;
+    margin-top: 60px;
   }
-  
-  @media screen and (min-width: 330px) {
-    .topnav.responsive {position: relative;}
-    .topnav.responsive .icon {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-    .topnav.responsive a {
-      float: none;
-      display: block;
-      text-align: left;
 
-    }
-    .topnav.responsive a:last-child {
-      padding-top: 40px;
-    }
+  .left-column,
+  .right-column {
+    width: 100%;
   }
 
+  .left-column img {
+    width: 300px;
+    right: 0;
+    top: -65px;
+    left: initial;
+  }
+}
 
-</style>
-<link rel='stylesheet'
-        href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+@media (max-width: 535px) {
+  .left-column img {
+    width: 220px;
+    top: -85px;
+  }
+}
 
+  </style>
+    <main class="container">
 
-
-        <!--    breadcrumb -->
-        <header style="background-color:#fafafa" class="">
-            <div class="container p-0">
-                <ol class="breadcrumb" style="background-color:#fafafa">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Camisas</a></li>
-                    <li class="breadcrumb-item"><a href="#">Hombre</a></li>
-                    <li class="breadcrumb-item active">Camisa impermeable negro - version Pampa</li>
-                </ol>
-            </div>
-        </header>
-        <!--   Main Content====================================================-->
-        <main>
-            <div class="container mb-4">
-                <!--       Detail Product-->
-                <div class="row no-gutters mt-4">
-                    <!--               picture product-->
-                    <div class="col-12 col-md-7">
-                        <div class="row no-gutters w-100">
-                            <!--                       Main picture-->
-                            <div class="col-12 col-lg-10 flex-lg-last border-full-1px-solid border-color-a0">
-                                <div class="d-flex justify-content-center align-items-center w-100 px-5">
-                                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-                                        class="img-fluid" id="main-image" style="max-height:600px;">
-                                </div>
-                            </div>
-                            <!--                           side picture-->
-                            <div class=" col-12 col-lg-2 flex-lg-first mb-md-0 mb-4" style="display:block">
-                                <div class="row no-gutters ">
-
-                                    <div class="col-4 col-sm-3 col-lg-12 border-full-1px-solid border-color-a0 justify-content-center side-picture active"
-                                        role="button" data-target="side-1">
-                                        <div class="p-2 w-75">
-                                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-                                                class="img-fluid ">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-4 col-sm-3 col-lg-12 border-full-1px-solid border-color-a0 justify-content-center side-picture"
-                                        role="button" data-target="side-2">
-                                        <div class="p-2 w-75">
-                                            <img src="https://images.unsplash.com/photo-1581338834647-b0fb40704e21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                                                class="img-fluid ">
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-sm-3 col-lg-12 border-full-1px-solid border-color-a0 justify-content-center side-picture"
-                                        role="button" data-target="side-3">
-                                        <div class="p-2 w-75">
-                                            <img src="https://images.unsplash.com/photo-1481578279695-5864d6d6ff2a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                                                class="img-fluid ">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--                Options Product-->
-                    <div class="col-12 col-md-5">
-                        <div class="pt-0 pr-2 pb-2 pl-1 pl-md-5">
-                            <!--                       Judul-->
-                            <div
-                                class="mb-4 border-full-2px-solid border-top-0 border-left-0 border-right-0 border-color-inverse">
-                                <h1>Camisa impermeable amarillo - version Pampa</h1>
-                            </div>
-                            <!--                        Select color-->
-                            <div class="mb-4 ">
-                                <h6 class="text-uppercase ">Select Color :</h6>
-                                <div class="mb-5 ">
-                                    <select class="custom-select ml-0 mb-1 font-weight-bold "
-                                        style="border-radius:0; width:100px; border:1px solid #bfb6bb ">
-                                        <option selected>COLOR</option>
-                                        <option value="1 " style="background-color:red;"></option>
-                                        <option value="2 " style="background-color:yellow;">S</option>
-                                        <option value="3 " style="background-color:blue;">M</option>
-                                        <option value="4 " style="background-color:green;">L</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!--                   Price-->
-                            <div class="mb-5 ">
-                                <h6 class="text-muted font-size-08 text-uppercase ">PRICE:</h6>
-                                <h4>$ 194.000 COP</h4>
-                            </div>
-                            <!--                   Size-->
-                            <div class="mb-5 ">
-                                <select class="custom-select ml-0 mb-1 font-weight-bold "
-                                    style="border-radius:0; width:100px; border:1px solid #bfb6bb ">
-                                    <option selected>SIZE</option>
-                                    <option value="1 ">XS</option>
-                                    <option value="2 ">S</option>
-                                    <option value="3 ">M</option>
-                                    <option value="4 ">L</option>
-                                    <option value="5 ">XL</option>
-                                </select>
-                            </div>
-                            <!--Button-->
-                            <div class=" ">
-                                <button role="button" class="btn btn-outline-secondary"
-                                    style="color:#36393b;width:200px;height:60px; font-size: 22px;"><i
-                                        class="fas fa-shopping-cart"></i> Add to cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--    Description / Details / shipping -->
-            <div class="container">
-                <div class="my-5">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link text-color-a1  active" data-toggle="tab" href="#deskripsi"
-                                role="tab">Description</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-color-a1" data-toggle="tab" href="#detail" role="tab">Details</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link text-color-a1" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-color-a1" data-toggle="tab" href="#other" role="tab">Other</a>
-                        </li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content font-size-09" style="background-color:#fafafa">
-                        <div class="tab-pane fade show active px-3 py-4 text-color-a2" id="deskripsi" role="tabpanel">
-                            Integer porttitor pulvinar leo id varius. Pellentesque finibus viverra arcu, at tincidunt
-                            arcu commodo sagittis. Maecenas vitae arcu sit amet ex suscipit ullamcorper id a nulla.
-                            Fusce pretium consequat porta. Nam at pulvinar orci, a elementum turpis. Quisque sed lorem
-                            volutpat leo faucibus egestas id ut nibh. Nam dapibus id tellus ac fringilla. Nulla
-                            consectetur, urna in vehicula ultrices, diam massa consectetur mauris, a congue libero nibh
-                            id massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                            himenaeos. Aliquam condimentum nisi in lobortis imperdiet. Nulla sed orci ipsum. Praesent
-                            nec ipsum nunc.
-                        </div>
-                        <div class="tab-pane fade px-3 py-4 text-color-a2" id="detail" role="tabpanel">Detail</div>
-                        <div class="tab-pane fade px-3 py-4 text-color-a2" id="shipping" role="tabpanel">Lorem ipsum
-                            dolor sit amet, consectetur adipiscing elit. Suspendisse sollicitudin eleifend ultricies.
-                            Integer erat nibh, luctus non pharetra eget, consectetur a purus. Duis nibh tortor, sagittis
-                            in mi id, sodales elementum nunc. Ut bibendum mi hendrerit, sollicitudin velit a, venenatis
-                            enim. In consectetur massa laoreet, aliquet dui nec, ultrices dui. In vestibulum et tellus a
-                            tincidunt. Donec leo sem, suscipit nec tellus non, fermentum luctus velit. Mauris facilisis
-                            nec eros vitae accumsan. Integer bibendum lobortis enim, vitae porttitor elit mattis et. Nam
-                            quis ultrices elit. Nullam eget vehicula metus. Proin rhoncus nulla eget ligula accumsan, et
-                            molestie orci aliquet. Praesent pulvinar, dolor ut pharetra fringilla, diam felis congue
-                            nunc, et porta felis sem vitae sem. Etiam condimentum faucibus dolor, sit amet blandit justo
-                            faucibus sit amet. Sed in varius diam. Proin venenatis diam risus, accumsan viverra nunc
-                            pretium at. Nam egestas nulla orci, sit amet molestie magna pretium et. Mauris est libero,
-                            ultricies eget neque sit amet, dictum semper augue. Sed vitae mi a risus vestibulum
-                            consectetur vitae in quam. Pellentesque habitant morbi tristique senectus et netus et
-                            malesuada fames ac turpis egestas.</div>
-                        <div class="tab-pane fade px-3 py-4 text-color-a2" id="other" role="tabpanel">...</div>
-                    </div>
-                </div>
-            </div>
-            <!--        Review ========================================================================================-->
-            <section class="mb-5">
-                <h4 class="text-center">REVIEW</h4>
-                <div class=" mt-5 container">
-                    <div class="row no-gutters gutter-20 mb-5">
-                        <div class="col-12 col-sm-4  mb-4 mb-sm-0 justify-content-center">
-                            <div class="row ">
-                                <div class="col-12 mb-4 justify-content-center">
-                                    <h5 class="">Rating</h5>
-                                </div>
-                                <div class="col-12  justify-content-center">
-                                    <div class="w-75">
-                                        <!--Aqui se coloca el rating del producto, osea se colocaca el promedio de los rating-->
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star-half"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4  mb-4 mb-sm-0 justify-content-center">
-                            <div class="row ">
-                                <div class="col-12 mb-4 justify-content-center">
-                                    <h5 class="">Reviewers</h5>
-                                </div>
-                                <div class="col-12  justify-content-center">
-                                    <h1 class="font-szie-4">3</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4  mb-4 mb-sm-0 justify-content-center">
-                            <div class="row ">
-                                <div class="col-12 mb-4 justify-content-center">
-                                    <h5 class="">Give Review</h5>
-                                </div>
-                                <div class="col-12  justify-content-center">
-                                    <a href="https://github.com/urregozw"> <button role="button"
-                                            class="btn btn-outline-secondary" style="color:#36393b;width:140px">Log
-                                            in</button></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="" style="background-color:#fafafa">
-                    <div class="container review py-3">
-                        <div class="row review ">
-                            <div class="col-12 col-lg-6 py-3">
-                                <div
-                                    class="row pb-3 border-full-1px-solid border-color-inverse border-top-0 border-right-0 border-left-0">
-                                    <div class="col-12 col-sm-8">
-                                        <div class="row">
-                                            <h3 class="col-12">Name Reviewer</h3>
-                                            <h6 class="col-12 font-size-08">On <span>17 October, 1999</span></h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4 justify-content-start justify-content-sm-end">
-                                        <div>
-                                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                                class="fas fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mt-3 mb-2">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h6>Comment:</h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="font-size-09">"<span>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Suspendisse sollicitudin eleifend ultricies. Integer erat nibh,
-                                                        luctus non pharetra eget, consectetur a purus. Duis nibh tortor,
-                                                        sagittis in mi id, sodales elementum nunc. Ut bibendum mi
-                                                        hendrerit, sollicitudin velit a, venenatis enim. In consectetur
-                                                        massa laoreet, aliquet dui nec, ultrices dui. In vestibulum et
-                                                        tellus a tincidunt. Donec leo sem, suscipit nec tellus non,
-                                                        fermentum luctus velit. Mauris facilisis nec eros vitae
-                                                        accumsan. Integer bibendum lobortis enim, vitae porttitor elit
-                                                        mattis et. Nam quis ultrices elit.
-                                                    </span>"</p>
-                                            </div>
-                                        </div>
-                                    </div>
+      <!-- Left Column / Headphones Image -->
+      <div class="left-column">
+        <!--<img data-image="black" src="{{url_for('static', filename='img/Home_page/slider-1.jpg')}}" alt="">-->
+        <!--<img data-image="blue" src="{{url_for('static', filename='img/Home_page/slider.jpg')}}" alt="">-->
+        <img data-image="red" class="active" src="{{url_for('static', filename='img/Home_page/slider-1.jpg')}}" alt="">
+      </div>
 
 
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 py-3">
-                                <div
-                                    class="row pb-3 border-full-1px-solid border-color-inverse border-top-0 border-right-0 border-left-0">
-                                    <div class="col-12 col-sm-8">
-                                        <div class="row">
-                                            <h3 class="col-12">Name Reviewer</h3>
-                                            <h6 class="col-12 font-size-08">On <span>17 October, 1999</span></h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4 justify-content-start justify-content-sm-end">
-                                        <div>
-                                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                                class="fas fa-star"></i><i class="fas fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mt-3 mb-2">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h6>Comment:</h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="font-size-09">"<span>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Suspendisse sollicitudin eleifend ultricies. Integer erat nibh,
-                                                        luctus non pharetra eget, consectetur a purus. Duis nibh tortor,
-                                                        sagittis in mi id, sodales elementum nunc.
-                                                    </span>"</p>
-                                            </div>
-                                        </div>
-                                    </div>
+      <!-- Right Column -->
+      <div class="right-column">
 
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 py-3">
-                                <div
-                                    class="row pb-3 border-full-1px-solid border-color-inverse border-top-0 border-right-0 border-left-0">
-                                    <div class="col-12 col-sm-8">
-                                        <div class="row">
-                                            <h3 class="col-12">Name Reviewer</h3>
-                                            <h6 class="col-12 font-size-08">On <span>17 October, 1999</span></h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4 justify-content-start justify-content-sm-end">
-                                        <div>
-                                            <i class="fas fa-star"></i><i class="fas fa-star-half"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mt-3 mb-2">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h6>Comment:</h6>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="font-size-09">"<span>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Suspendisse sollicitudin eleifend ultricies. Integer erat nibh,
-                                                        luctus non pharetra eget, consectetur a purus. Duis nibh tortor,
-                                                        sagittis in mi id, sodales elementum nunc.
-                                                    </span>"</p>
-                                            </div>
-                                        </div>
-                                    </div>
+        <!-- Product Description -->
+        <div class="product-description">
+          <span>Headphones</span>
+          <h1>Beats EP</h1>
+          <p>The preferred choice of a vast range of acclaimed DJs. Punchy, bass-focused sound and high isolation. Sturdy headband and on-ear cushions suitable for live performance</p>
+        </div>
 
+        <!-- Product Configuration -->
+        <div class="product-configuration">
 
-                                </div>
-                            </div>
-                        </div>
+          <!-- Product Color -->
+          <div class="product-color">
+            <span>Color</span>
 
-                    </div>
-                </div>
-            </section>
-            <!--        You may also like-->
-            <div class="container mb-4 ">
-                <h4 class="text-center text-uppercase ">You May Also Like</h4>
-                <div class="row no-gutters gutter-20 mt-5 mb-20px">
-                    <div class="col-6 col-md-3 ">
-                        <div style="border:2px solid #fafafa" class="w-100">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <style>
-                                    a:hover {
-                                        width: 80%;
-                                        transition: 0.3s all ease;
-                                    }
-                                </style>
-                                <a href="#"><img class="img-fluid"
-                                        src="https://images.unsplash.com/photo-1503104834685-7205e8607eb9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                                        alt=" " /></a>
-                            </div>
-                            <div class="text-center py-4 ">
-                                <h6>Crocodile Leather Jacket</h6>
-                                <h6 class="text-muted font-weight-normal ">$ 299.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 ">
-                        <div style="border:2px solid #fafafa" class="w-100">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <a href="#"><img class="img-fluid"
-                                        src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                                        alt=" " /></a>
-                            </div>
-                            <div class="text-center py-4 ">
-                                <h6>Crocodile Leather Jacket</h6>
-                                <h6 class="text-muted font-weight-normal ">$ 299.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 ">
-                        <div style="border:2px solid #fafafa" class="w-100">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <a href="#"><img class="img-fluid"
-                                        src="https://images.unsplash.com/photo-1530651079803-50c9ac969e90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                                        alt=" " /></a>
-                            </div>
-                            <div class="text-center py-4 ">
-                                <h6>Crocodile Leather Jacket</h6>
-                                <h6 class="text-muted font-weight-normal ">$ 299.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 ">
-                        <div style="border:2px solid #fafafa" class="w-100">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <a href="#"><img class="img-fluid"
-                                        src="https://images.unsplash.com/photo-1510823194469-e31870b9b967?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=333&q=80"
-                                        alt=" " /></a>
-                            </div>
-                            <div class="text-center py-4 ">
-                                <h6>Crocodile Leather Jacket</h6>
-                                <h6 class="text-muted font-weight-normal ">$ 299.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="color-choose">
+              <div>
+                <input data-image="red" type="radio" id="red" name="color" value="red" checked>
+                <label for="red"><span></span></label>
+              </div>
+              <div>
+                <input data-image="blue" type="radio" id="blue" name="color" value="blue">
+                <label for="blue"><span></span></label>
+              </div>
+              <div>
+                <input data-image="black" type="radio" id="black" name="color" value="black">
+                <label for="black"><span></span></label>
+              </div>
             </div>
 
+          </div>
+
+          <!-- Cable Configuration -->
+          <div class="cable-config">
+            <span>Cable configuration</span>
+
+            <div class="cable-choose">
+              <button>Straight</button>
+              <button>Coiled</button>
+              <button>Long-coiled</button>
+            </div>
+
+            <a href="#">How to configurate your headphones</a>
+          </div>
+        </div>
+
+        <!-- Product Pricing -->
+        <div class="product-price">
+          <span>148$</span>
+          <a href="#" class="cart-btn">Add to cart</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+<script>
+  $(document).ready(function() {
+
+$('.color-choose input').on('click', function() {
+    var headphonesColor = $(this).attr('data-image');
+
+    $('.active').removeClass('active');
+    $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+    $(this).addClass('active');
+});
+
+});
 
 
-        </main>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js'></script>
-
-    <script id="rendered-js">
-        $(document).ready(function () {
-
-
-            $('#burger').click(function () {
-                $('#nava').slideToggle();
-                $('#searchform').slideUp();
-                $('#mega-menu').slideUp();
-            });
-
-            $('#search-click').click(function () {
-
-                $('#mega-menu').slideUp();
-                $('#nava').slideUp();
-                $('#searchform').slideToggle();
-            });
-
-            $('#search-click-list').click(function () {
-                $('#mega-menu').slideUp();
-                $('#searchform').slideToggle();
-            });
-
-            $('#mega-menu-btn').click(function () {
-                $('#searchform').slideUp();
-                $('#mega-menu').slideToggle();
-            });
-
-            $('#myTab a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-
-            $("#main-image").elevateZoom({
-                scrollZoom: true
-            });
-
-            $('.side-picture').click(function () {
-                var showing = $(this).find("img").attr("src");
-                $('.side-picture').removeClass('active');
-                $(this).addClass('active');
-                $('#main-image').fadeOut(function () {
-                    $(this).attr('src', showing);
-                    $(this).fadeIn();
-                    $(this).elevateZoom({
-                        scrollZoom: true
-                    });
-                });
-                //    $('#main-image').attr('src', showing);
-
-            });
-
-
-            //    var mySwiper = new Swiper('.swiper-container', {
-            //        // Optional parameters
-            //        direction: 'vertical',
-            //        loop: true,
-            //
-            //        // If we need pagination
-            //        pagination: '.swiper-pagination',
-            //
-            //        // Navigation arrows
-            //        nextButton: '.swiper-button-next',
-            //        prevButton: '.swiper-button-prev',
-            //
-            //        // And if we need scrollbar
-            //        scrollbar: '.swiper-scrollbar'
-            //    });
-
-        });
-    </script>
-
-
-
-
-
+</script>
 {% endblock %}

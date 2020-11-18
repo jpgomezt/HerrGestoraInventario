@@ -284,8 +284,12 @@ def cantidades():
 def delete_producto(id):
     if current_user.is_admin:
         product_to_delete = Producto.query.get_or_404(id)
+        colors_to_delete = Colores.query.get_or_404(id)
+        tallas_to_delete = Tallas.query.get_or_404(id)
         try:
             db.session.delete(product_to_delete)
+            db.session.delete(colors_to_delete)
+            db.session.delete(tallas_to_delete)
             db.session.commit()
             return redirect(url_for('cantidades'))
         except:

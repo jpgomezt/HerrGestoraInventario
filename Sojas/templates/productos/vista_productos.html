@@ -241,10 +241,10 @@ html, body {
     <main class="container">
 
       <!-- Left Column / Headphones Image -->
-      <div class="left-column">
+      <div class="left-column" style=" overflow: hidden">
         <!--<img data-image="black" src="{{url_for('static', filename='img/Home_page/slider-1.jpg')}}" alt="">-->
         <!--<img data-image="blue" src="{{url_for('static', filename='img/Home_page/slider.jpg')}}" alt="">-->
-        <img data-image="red" class="active" src="{{producto.url_img}}" alt="" style="max-width: 700px; padding-top: 100px;">
+        <img data-image="red" class="active crop" src="{{producto.url_img}}" alt="" style="max-width: 700px; padding-top: 100px;">
       </div>
 
 
@@ -441,7 +441,7 @@ body{
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <body>
-<div id="wrap" style="position: relative; padding-top: 100px;">
+<div id="wrap" style="position: relative; ">
   <div id="product_layout_3">
       <div class="tabular">
         <ul class="tabs group" style="margin-bottom: -1px;">

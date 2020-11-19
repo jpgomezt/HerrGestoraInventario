@@ -255,18 +255,18 @@ Paleta de colores:
   <a id="nav1" href="{{ url_for('logout') }}" class="button"><i style="color:#fff; font-size: 24px; padding-right: 5px;"
       class="fas fa-running"></i>Salir de la plataforma</a>
   {% if current_user.is_admin %}
-  <a href="{{url_for('consola_admin')}}">Cuenta Admin</a>
+  <a href="{{url_for('consola_admin')}}"> <i class="fas fa-user-tie"></i> Cuenta Admin</a>
   {% else %}
   <a href="#"><i class="fas fa-shopping-cart"></i> Carrito</a>
-  <a href="#">Cuenta</a>
+  <a href="#"><i class="far fa-smile"></i> Cuenta</a>
   {% endif %}
   {% else %}
   <a id="nav1" href="{{ url_for('login') }}" class="button"><i style="color:#fff; font-size: 22px; padding-right: 5px;"
-      class="far fa-user"></i>Ingreso a la plataforma</a>
-  <a href="{{ url_for('signup') }}">Registrate</a>
+      class="far fa-user"></i> Ingreso a la plataforma</a>
+  <a href="{{ url_for('signup') }}"><i class="fas fa-journal-whills"></i>  Registrate</a>
   {% endif %}
-  <a href="{{url_for('quienes_somos')}}">Quienes somos</a>
-  <a href="{{url_for('product')}}">Productos</a>
+  <a href="{{url_for('quienes_somos')}}"> <i class="fas fa-users"></i> Quienes somos</a>
+  <a href="{{url_for('product')}}"><i class="fas fa-tshirt"></i> Productos</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars" style="font-size: 40px; margin-top: -5px;"></i>
   </a>

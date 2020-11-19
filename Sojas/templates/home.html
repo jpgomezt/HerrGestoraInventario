@@ -440,22 +440,44 @@
     </section>
     
   <div class="container" style="width: auto;">
-  {% set test = 5 %}
-  {% for producto in productos%}
-    {% if producto.id == 3 %}
-      {{break}}
-    {% endif %}
+  {% if productos|length >= 5 %}
+  <div class="row">
+  {% for producto in productos[0:5]%}
       <div class="col">
-        <div class="photo-container" style="background-image:url({{producto.url_img}});"></div>
-        <h2>{{producto.nombre}}</h2>
+        <a href="/products/producto/{{producto.id}}" style="text-decoration: none;"><div class="photo-container" style="background-image:url({{producto.url_img}});"></div>
+        <h2 style="text-decoration: none; color: #fff;">{{producto.nombre}}</h2>
         <div class="slide">
-          <p>{{producto.descrip}}</p>
-        </div>
+          <p style="text-decoration: none; color: #fff;">{{producto.descrip}}</p>
+        </div></a>
       </div>
-    
-    {% if producto.id == 5 %}    
-      </div>
-    {% endif %}
   {% endfor %}
+  </div>
+  {% endif %}
+  {% if productos|length >= 10 %}
+  <div class="row">
+    {% for producto in productos[6:10]%}
+        <div class="col">
+          <a href="/products/producto/{{producto.id}}" style="text-decoration: none;"><div class="photo-container" style="background-image:url({{producto.url_img}});"></div>
+          <h2 style="text-decoration: none; color: #fff;">{{producto.nombre}}</h2>
+          <div class="slide">
+            <p style="text-decoration: none; color: #fff;">{{producto.descrip}}</p>
+          </div></a>
+        </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+  {% if productos|length >= 15 %}
+  <div class="row">
+    {% for producto in productos[11:15]%}
+        <div class="col">
+          <a href="/products/producto/{{producto.id}}" style="text-decoration: none;"><div class="photo-container" style="background-image:url({{producto.url_img}});"></div>
+          <h2 style="text-decoration: none; color: #fff;">{{producto.nombre}}</h2>
+          <div class="slide">
+            <p style="text-decoration: none; color: #fff;">{{producto.descrip}}</p>
+          </div></a>
+        </div>
+    {% endfor %}
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

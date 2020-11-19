@@ -18,13 +18,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
     email = db.Column(db.String(50), unique=True)
     is_admin = db.Column(db.Boolean(), default = False, nullable = False )
     password = db.Column(db.String(80))
-
+    direccion = db.Column(db.String(80),default='')
+    ciudad = db.Column(db.String(80),default='')
+    tarjeta = db.Column(db.String(30),default='')
+    telefono = db.Column(db.String(15),default='')
 
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +51,7 @@ class Producto(db.Model):
     Talla_L = db.Column(db.Boolean(), default = False, nullable = False )
     Talla_XL = db.Column(db.Boolean(), default = False, nullable = False )
     #colores = db.Column(db.Integer, db.ForeignKey('colores.id')) #ej: rojo,azul,verde
-    #tallas = db.Column(db.Integer, db.ForeignKey('tallas.id')) #ej: S,XL,M
+    #tallas = db.Column(db.Integer, db.ForeignKey('tallas.id')tarjetp) #ej: S,XL,M
 
 
 class Pedidos(db.Model):
@@ -57,8 +61,20 @@ class Pedidos(db.Model):
     total_ropa_mujer = db.Column(db.Integer)
     total_ropa_descuento = db.Column(db.Integer)
 
+class Carrito(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    cantidad = db.Column(db.Integer)
+    color = db.Column(db.String(60))
+    talla = db.Column(db.String(60))
 
-
+class Comentarios(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    num_estrellas = db.Column(db.Float)
+    comentario = db.Column(db.String(300))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -73,6 +89,7 @@ class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+
 
 
 @app.route('/home')
@@ -415,7 +432,6 @@ def vista_producto(id):
             return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
         except:
             return 'Hubo problemas actualizando el producto'
-
     else:
         return render_template('productos/vista_productos.html', producto = productos)
 

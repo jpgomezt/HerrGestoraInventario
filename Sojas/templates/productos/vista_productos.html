@@ -266,52 +266,78 @@ html, body {
         </div>
 
         <!-- Product Configuration -->
+        <form action="" method="POST" id="add-movie">
         <div class="product-configuration">
-
           <!-- Product Color -->
           <div class="product-color">
             <span>Colores disponibles:</span>
-
-            <div class="color-choose">
-              <div>
-                <input data-image="red" type="radio" id="red" name="color" value="red" checked>
-                <label for="red"><span></span></label>
+            <fieldset>
+              <div class="color-choose">
+                {% if producto.rojo %}
+                <div>
+                  
+                  <input data-image="red" type="radio" id="red" name="color" value="rojo" checked>
+                  <label for="red"><span></span></label>
+                </div>
+                {% endif %}
+                {% if producto.azul %}
+                <div>
+                  <input data-image="blue" type="radio" id="blue" name="color" value="azul"checked>
+                  <label for="blue"><span></span></label>
+                </div>
+                {% endif %}
+                {% if producto.verde %}
+                <div>
+                  <input data-image="green" type="radio" id="green" name="color" value="verde" checked>
+                  <label for="green"><span></span></label>
+                </div>
+                {% endif %}
+                {% if producto.negro %}
+                <div>
+                  <input data-image="black" type="radio" id="black" name="color" value="negro" checked>
+                  <label for="black"><span></span></label>
+                </div>
+                {% endif %}
+                {% if producto.blanco %}
+                <div>
+                  <input data-image="white" type="radio" id="white" name="color" value="blanco" checked>
+                  <label for="white"><span></span></label>
+                </div>
+                {% endif %}
               </div>
-              <div>
-                <input data-image="blue" type="radio" id="blue" name="color" value="blue">
-                <label for="blue"><span></span></label>
-              </div>
-              <div>
-                <input data-image="green" type="radio" id="green" name="color" value="green">
-                <label for="green"><span></span></label>
-              </div>
-              <div>
-                <input data-image="black" type="radio" id="black" name="color" value="black">
-                <label for="black"><span></span></label>
-              </div>
-              <div>
-                <input data-image="white" type="radio" id="white" name="color" value="white">
-                <label for="white"><span></span></label>
-              </div>
-
-            </div>
-
+            </fieldset>
           </div>
 
           <!-- Cable Configuration -->
           <div class="cable-config">
             <span>Tallas disponibles</span>
+            <fieldset>
+              <div>
+                  {% if producto.Talla_S %}
+                  <input id="Field5_0" name="Field5" type="radio" value="S" tabindex="5" checked="checked">
+                  <label class="choice" for="Field5_0" style="font-size: 15px; padding-right: 10px;">S</label>
+                  {% endif %}
 
-            <div class="cable-choose">
-              <button>S</button>
-              <button>M</button>
-              <button>L</button>
-              <button>XL</button>
-            </div>
+                  {% if producto.Talla_M %}
+                  <input id="Field5_1" name="Field5" type="radio" value="M" tabindex="6">
+                  <label class="choice" for="Field5_1" style="font-size: 15px; padding-right: 10px;">M</label>
+                  {% endif %}
 
+                  {% if producto.Talla_L %}
+                  <input id="Field5_2" name="Field5" type="radio" value="L" tabindex="7">
+                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px;">L</label>
+                  {% endif %}
+
+                  {% if producto.Talla_XL %}
+                  <input id="Field5_3" name="Field5" type="radio" value="XL" tabindex="7">
+                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px;">XL</label>
+                  {% endif %}
+              </div>
+            </fieldset>
+            
             <span>¿Cuántas unidades?</span>
             <div class="cable-choose">
-            <input style="padding: 5px; margin-top: 4px; width: 200px; font-size: 15px;" type="text" name="precio" id="precio"
+            <input style="padding: 5px; margin-top: 4px; width: 200px; font-size: 15px;" type="text" name="cantidad" id="cantidad"
               placeholder="Cuantas unidades" value="1" required>
             </div>
 
@@ -323,23 +349,29 @@ html, body {
               <p style="color: #2c345c; font-size: 22px;">Hay {{producto.stock}} en Stock</p>  
             {% endif %}
             <!--<a href="#">How to configurate your headphones</a>-->
+            {% if error != "" %}
+              <br>
+                <p style="color: red; font-size: 22px;">{{error}}</p>  
+            {% endif %}
           </div>
         </div>
-
+        
         <!-- Product Pricing -->
         <div class="product-price">
           {% if producto.descuento == 0 %}
             <span>{{producto.precio}} $</span>
           {% else %}
-          <span>Antes: {{producto.precio}} $ Ahora: {{producto.descuento}} $</span>
+          <span >Antes: <span style="text-decoration: line-through;">{{producto.precio}} $</span></span> <br>
+          <span>Ahora: {{producto.precio - ((producto.descuento/100)*producto.precio) | round(2)}} $</span> <br>
           {% endif %}
           {% if producto.stock <= 0 %}
             <button class="cart-btn">Añadir al carrito</button>
           {% else %}
-            <a href="#" class="cart-btn" style="text-decoration: none;">Añadir al carrito</a>
+            <input type="submit" id="submit" class="cart-btn" value="Añadir al carrito" style="text-decoration: none;">
           {% endif %}
           
         </div>
+      </form>
       </div>
     </main>
 

@@ -430,13 +430,23 @@ def vista_producto(id):
     productos = Producto.query.get_or_404(id)
 
     if request.method == 'POST':
-        try:
-            db.session.commit()
-            return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
-        except:
-            return 'Hubo problemas actualizando el producto'
+        if current_user.is_authenticated:
+            color = request.form['color']
+            talla = request.form['Field5']
+            cantidad = request.form['cantidad']
+            pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, talla = talla)
+            
+            try:
+                db.session.add(pedido)
+                db.session.commit()
+                return redirect(url_for('home')) # Debe despues ir al carrito 
+            except:
+                return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados")
+        else:
+            return render_template('productos/vista_productos.html', producto = productos, error = "Necesitas estar loguedo para continuar")
+        
     else:
-        return render_template('productos/vista_productos.html', producto = productos)
+        return render_template('productos/vista_productos.html', producto = productos, error = "")
 
 @app.route('/quienes_somos')
 def quienes_somos():

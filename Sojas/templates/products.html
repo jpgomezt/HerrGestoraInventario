@@ -133,7 +133,6 @@
 </div>
 
 <section id="searchSection" class="products">
-    <h1>No hay productos
     {% for producto in productos%}
     <div class="product-card {{producto.tipo}}">
 	<div class="product-image">
@@ -171,8 +170,12 @@
             textValue = h5.textContent || h5.innerText;
             if (textValue.toUpperCase().indexOf(filter) > -1) {
                 div[i].style.display = "";
+                // Add class show so it can be shown
+                w3AddClass(div[i], "show");
             } else {
                 div[i].style.display = "none";
+                // Remove class shown so it can not be shown
+                w3RemoveClass(div[i], "show");
             }
         }
     }

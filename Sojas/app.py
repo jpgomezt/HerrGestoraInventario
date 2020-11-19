@@ -7,6 +7,8 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import smtplib
+import random
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -434,6 +436,7 @@ def vista_producto(id):
             return 'Hubo problemas actualizando el producto'
     else:
         return render_template('productos/vista_productos.html', producto = productos)
+
 
 
 

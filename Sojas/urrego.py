@@ -7,6 +7,7 @@ from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import smtplib
+import random
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
@@ -17,6 +18,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,7 +77,6 @@ class Comentarios(db.Model):
     num_estrellas = db.Column(db.Float)
     comentario = db.Column(db.String(300))
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -91,12 +92,14 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 
+
 @app.route('/home')
 def home():
+    productos = Producto.query.order_by(Producto.id).all()
     if current_user.is_authenticated:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
     else:
-        return render_template('home.html')   
+        return render_template('home.html', productos = productos)
 
 @app.route('/error')
 def error():
@@ -104,10 +107,11 @@ def error():
 
 @app.route('/')
 def index():
+    productos = Producto.query.order_by(Producto.id).all()
     if current_user.is_authenticated:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
     else:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
 
 #Listo
 @app.route('/login', methods=['GET', 'POST'])
@@ -178,18 +182,39 @@ def consola_admin():
 @login_required
 def informe():
     if current_user.is_admin:
+        return render_template("/utilidades_admin/correo.html", correo = current_user.email)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/consola_admin/mandar-informe', methods=['GET', 'POST'])
+@login_required
+def enviarInforme():
+    if current_user.is_admin:
         subject = "Informe"
-        text = "Hello World!"
+        text = []
+        text.append("Este es el informe generado: \n")
+        ropaHombre = request.form.get('ropaHombre')
+        ropaMujer = request.form.get('ropaMujer')
+        ropaDescuento = request.form.get('ropaDescuento')
+        totalRopa = request.form.get('totalRopa')
+        if(ropaHombre == "on"):
+            text.append("Se han vendido 32 camisas de hombre. \n")
+        if(ropaMujer == "on"):
+            text.append("Se han vendido 50 camisas de mujer. \n")
+        if(ropaDescuento == "on"):
+            text.append("Se han vendido 60 camisas en decuento. \n")
+        if(totalRopa == "on"):
+            text.append("Se han vendido 82 camisas. \n")
+        text = ''.join(text)
         message = 'Subject: {}\n\n{}'.format(subject, text)
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login("notificaciones.sojas@gmail.com", "Cl4v3d3s0j4s")
-        server.sendmail("notificaciones.sojas@gmail.com", "jpgomezt@eafit.edu.co", message)
+        server.sendmail("notificaciones.sojas@gmail.com", current_user.email, message)
         server.quit()
-        return render_template("correo.html")
+        return render_template("consola_admin.html")
     else:
         return redirect(url_for('home'))
-
 
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
@@ -410,12 +435,12 @@ def vista_producto(id):
             return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
         except:
             return 'Hubo problemas actualizando el producto'
-
     else:
         return render_template('productos/vista_productos.html', producto = productos)
-    
 
-
+@app.route('/quienes_somos')
+def quienes_somos():
+    return render_template('somos.html')
 
 if __name__ == '__main__':
     #Creacion de la cuenta del Admin

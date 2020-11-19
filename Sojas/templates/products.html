@@ -41,7 +41,8 @@
     }
 
     .product-card {
-	display: flex;
+	/*display: flex;*/
+	display: block;
 	flex-direction: column;
 
 	padding: 2%;
@@ -113,25 +114,26 @@
     }
 
 </style>
-<div style="margin-top: 25px; margin-bottom: 25px;">
-<div style="text-align: center;">
+<!-- ################################################### -->
+<div style="margin-top: 25px;">
+
+<div style="text-align: center; margin-bottom: 25px;">
     <i class="fas fa-search"></i>
     <input type="text" id="searchInput" onkeyup="searchingFunc()" placeholder="Search for names..">
 </div>
+
 <!-- Control buttons -->
-<div id="myBtnContainer" style="text-align:center;">
+<div id="myBtnContainer" style="text-align: center;">
     <button class="btn active" onclick="filterSelection('all')"> Show all</button>
-    <button class="btn" onclick="filterSelection('cars')"> Cars</button>
-    <button class="btn" onclick="filterSelection('animals')"> Animals</button>
-    <button class="btn" onclick="filterSelection('fruits')"> Fruits</button>
-    <button class="btn" onclick="filterSelection('colors')"> Colors</button>
+    <button class="btn" onclick="filterSelection('H')"> Hombre</button>
+    <button class="btn" onclick="filterSelection('M')"> Mujer</button>
 </div>
 
 <section id="searchSection" class="products">
     {% for producto in productos%}
-    <div class="product-card">
+    <div class="product-card {{producto.tipo}}">
 	<div class="product-image">
-	    <a href="#">
+            <a href="/products/producto/{{producto.id}}">
 		<img src="{{producto.url_img}}" alt="Product Image">
 	    </a>
 	</div>
@@ -142,48 +144,51 @@
 	    </div>
 	</div>
     </div>
-
     {% endfor%}
 </section>
 </div>
+
+<!-- ################################################### -->
+
 <script>
+
     function searchingFunc() {
-	    // Declare variables
-	    var input, filter, i, section, div, h5, textValue;
-	    input = document.getElementById('searchInput');
-	    filter = input.value.toUpperCase();
+        // Declare variables
+        var input, filter, i, section, div, h5, textValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        section = document.getElementById("searchSection");
+        div = document.getElementsByClassName("product-card");
 
-	    section = document.getElementById("searchSection");
-	    div = section.getElementsByClassName("product-card");
-
-	    // My version
-	    for (i = 0; i < div.length; i++) {
-		    h5 = div[i].getElementsByTagName("h5")[0];
-		    textValue = h5.textContent || h5.innerText;
-		    if (textValue.toUpperCase().indexOf(filter) > -1) {
-			    div[i].style.display = "";
-			} else {
-				div[i].style.display = "none";
-			    }
-		}
-	}
+        // My version
+        for (i = 0; i < div.length; i++) {
+            h5 = div[i].getElementsByTagName("h5")[0];
+            textValue = h5.textContent || h5.innerText;
+            if (textValue.toUpperCase().indexOf(filter) > -1) {
+                div[i].style.display = "";
+            } else {
+                div[i].style.display = "none";
+            }
+        }
+    }
 
     filterSelection("all");
     function filterSelection(c) {
 	    var x, i;
-	    x = document.getElementsByClassName("filterDiv");
+            var div;
+	    //x = document.getElementsByClassName("product-card");
+	    //x = document.getElementsByClassName("filterDiv");
 	    div = document.getElementsByClassName("product-card");
 	    if (c == "all") c = "";
-	    // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+	       //Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
 	    // for (i = 0; i < x.length; i++) {
 	    //     w3RemoveClass(x[i], "show");
-	    //     if (x[i].className.indexOf(c) > -1) w3AddClass(div[i], "show");
+	    //     if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
 	    // }
 	    for (i = 0; i < div.length; i++) {
-		    w3RemoveClass(div[i], "show");
-		    if (div[i].className.indexOf(c) > -1) w3AddClass(div[i], "show");
-		}
-
+                w3RemoveClass(div[i], "show");
+                if (div[i].className.indexOf(c) > -1) w3AddClass(div[i], "show");
+            }
 	}
 
     // Show filtered elements
@@ -214,12 +219,12 @@
     // Add active class to the current control button (highlight it)
     var btnContainer = document.getElementById("myBtnContainer");
     var btns = btnContainer.getElementsByClassName("btn");
-    for (var i = 0; i < btns.length; i++) {
-	    btns[i].addEventListener("click", function() {
-		    var current = document.getElementsByClassName("active");
-		    current[0].className = current[0].className.replace(" active", "");
-		    this.className += " active";
-		});
-	}
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
 </script>
 {% endblock %}

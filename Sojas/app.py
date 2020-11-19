@@ -175,7 +175,7 @@ def informe():
         return redirect(url_for('home'))
 
 
-app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
+@app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
 def cantidades():
     if current_user.is_admin:

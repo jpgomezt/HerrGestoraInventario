@@ -24,7 +24,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True)
     is_admin = db.Column(db.Boolean(), default = False, nullable = False )
     password = db.Column(db.String(80))
-
+    direccion = db.Column(db.String(80),default='')
+    ciudad = db.Column(db.String(80),default='')
+    tarjeta = db.Column(db.String(30),default='')
+    telefono = db.Column(db.String(15),default='')
 
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +50,7 @@ class Producto(db.Model):
     Talla_L = db.Column(db.Boolean(), default = False, nullable = False )
     Talla_XL = db.Column(db.Boolean(), default = False, nullable = False )
     #colores = db.Column(db.Integer, db.ForeignKey('colores.id')) #ej: rojo,azul,verde
-    #tallas = db.Column(db.Integer, db.ForeignKey('tallas.id')) #ej: S,XL,M
+    #tallas = db.Column(db.Integer, db.ForeignKey('tallas.id')tarjetp) #ej: S,XL,M
 
 
 class Pedidos(db.Model):
@@ -57,8 +60,20 @@ class Pedidos(db.Model):
     total_ropa_mujer = db.Column(db.Integer)
     total_ropa_descuento = db.Column(db.Integer)
 
+class Carrito(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    cantidad = db.Column(db.Integer)
+    color = db.Column(db.String(60))
+    talla = db.Column(db.String(60))
 
-
+class Comentarios(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    num_estrellas = db.Column(db.Float)
+    comentario = db.Column(db.String(300))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -162,18 +177,39 @@ def consola_admin():
 @login_required
 def informe():
     if current_user.is_admin:
+        return render_template("/utilidades_admin/correo.html", correo = current_user.email)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/consola_admin/mandar-informe', methods=['GET', 'POST'])
+@login_required
+def enviarInforme():
+    if current_user.is_admin:
         subject = "Informe"
-        text = "Hello World!"
+        text = []
+        text.append("Este es el informe generado: \n")
+        ropaHombre = request.form.get('ropaHombre')
+        ropaMujer = request.form.get('ropaMujer')
+        ropaDescuento = request.form.get('ropaDescuento')
+        totalRopa = request.form.get('totalRopa')
+        if(ropaHombre == "on"):
+            text.append("Se han vendido 32 camisas de hombre. \n")
+        if(ropaMujer == "on"):
+            text.append("Se han vendido 50 camisas de mujer. \n")
+        if(ropaDescuento == "on"):
+            text.append("Se han vendido 60 camisas en decuento. \n")
+        if(totalRopa == "on"):
+            text.append("Se han vendido 82 camisas. \n")
+        text = ''.join(text)
         message = 'Subject: {}\n\n{}'.format(subject, text)
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login("notificaciones.sojas@gmail.com", "Cl4v3d3s0j4s")
-        server.sendmail("notificaciones.sojas@gmail.com", "jpgomezt@eafit.edu.co", message)
+        server.sendmail("notificaciones.sojas@gmail.com", current_user.email, message)
         server.quit()
-        return render_template("correo.html")
+        return render_template("consola_admin.html")
     else:
         return redirect(url_for('home'))
-
 
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
@@ -386,7 +422,17 @@ def product():
 
 @app.route('/products/producto/<int:id>', methods=['GET', 'POST'])
 def vista_producto(id):
-    return render_template('productos/vista_productos.html')
+    productos = Producto.query.get_or_404(id)
+
+    if request.method == 'POST':
+        try:
+            db.session.commit()
+            return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
+        except:
+            return 'Hubo problemas actualizando el producto'
+
+    else:
+        return render_template('productos/vista_productos.html', producto = productos)
 
 
 

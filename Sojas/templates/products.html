@@ -42,7 +42,7 @@
 
     .product-card {
 	/*display: flex;*/
-	display: block;
+	display: none;
 	flex-direction: column;
 
 	padding: 2%;
@@ -116,6 +116,9 @@
 </style>
 <!-- ################################################### -->
 <div style="margin-top: 25px;">
+    {% if productos|length < 1 %}
+    <h1 style="text-align: center; margin-bottom: 100px;">No hay productos disponibles</h1>
+    {% else %}
 
 <div style="text-align: center; margin-bottom: 25px;">
     <i class="fas fa-search"></i>
@@ -130,6 +133,7 @@
 </div>
 
 <section id="searchSection" class="products">
+    <h1>No hay productos
     {% for producto in productos%}
     <div class="product-card {{producto.tipo}}">
 	<div class="product-image">
@@ -145,6 +149,7 @@
 	</div>
     </div>
     {% endfor%}
+    {%endif%}
 </section>
 </div>
 

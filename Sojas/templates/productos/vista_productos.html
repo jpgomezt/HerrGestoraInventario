@@ -121,6 +121,13 @@ html, body {
   background-color: #323232;
 }
 
+.color-choose input[type="radio"]#green + label span {
+  background-color: #2ab40e;
+}
+
+.color-choose input[type="radio"]#white + label span {
+  background-color: #dad9d3;
+}
 .color-choose input[type="radio"]:checked + label span {
   background-image: url({{url_for('static', filename='img/Home_page/check-icn.svg')}});
   background-repeat: no-repeat;
@@ -237,7 +244,7 @@ html, body {
       <div class="left-column">
         <!--<img data-image="black" src="{{url_for('static', filename='img/Home_page/slider-1.jpg')}}" alt="">-->
         <!--<img data-image="blue" src="{{url_for('static', filename='img/Home_page/slider.jpg')}}" alt="">-->
-        <img data-image="red" class="active" src="{{url_for('static', filename='img/Home_page/Logo_footer.png')}}" alt="">
+        <img data-image="red" class="active" src="{{producto.url_img}}" alt="" style="max-width: 700px; padding-top: 100px;">
       </div>
 
 
@@ -246,9 +253,16 @@ html, body {
 
         <!-- Product Description -->
         <div class="product-description">
-          <span>Headphones</span>
-          <h1>Beats EP</h1>
-          <p>The preferred choice of a vast range of acclaimed DJs. Punchy, bass-focused sound and high isolation. Sturdy headband and on-ear cushions suitable for live performance</p>
+          {% if producto.tipo == 'H' %}
+            <span>Hombres</span>
+          {% elif producto.tipo == 'M' %}
+            <span>Mujeres</span>
+          {% else %}
+            <span>Unisex</span>
+          {% endif %}
+          
+          <h1>{{producto.nombre}}</h1>
+          <p>Descripción: {{producto.descrip}}</p>
         </div>
 
         <!-- Product Configuration -->
@@ -256,7 +270,7 @@ html, body {
 
           <!-- Product Color -->
           <div class="product-color">
-            <span>Color</span>
+            <span>Colores disponibles:</span>
 
             <div class="color-choose">
               <div>
@@ -268,54 +282,70 @@ html, body {
                 <label for="blue"><span></span></label>
               </div>
               <div>
+                <input data-image="green" type="radio" id="green" name="color" value="green">
+                <label for="green"><span></span></label>
+              </div>
+              <div>
                 <input data-image="black" type="radio" id="black" name="color" value="black">
                 <label for="black"><span></span></label>
               </div>
+              <div>
+                <input data-image="white" type="radio" id="white" name="color" value="white">
+                <label for="white"><span></span></label>
+              </div>
+
             </div>
 
           </div>
 
           <!-- Cable Configuration -->
           <div class="cable-config">
-            <span>Cable configuration</span>
+            <span>Tallas disponibles</span>
 
             <div class="cable-choose">
-              <button>Straight</button>
-              <button>Coiled</button>
-              <button>Long-coiled</button>
+              <button>S</button>
+              <button>M</button>
+              <button>L</button>
+              <button>XL</button>
             </div>
 
-            <a href="#">How to configurate your headphones</a>
+            <span>¿Cuántas unidades?</span>
+            <div class="cable-choose">
+            <input style="padding: 5px; margin-top: 4px; width: 200px; font-size: 15px;" type="text" name="precio" id="precio"
+              placeholder="Cuantas unidades" value="1" required>
+            </div>
+
+            {% if producto.stock <= 0 %}
+            <br>
+              <p style="color: red; font-size: 22px;">Este producto no esta en Stock por el momento</p>  
+            {% else %}
+            <br>
+              <p style="color: #2c345c; font-size: 22px;">Hay {{producto.stock}} en Stock</p>  
+            {% endif %}
+            <!--<a href="#">How to configurate your headphones</a>-->
           </div>
         </div>
 
         <!-- Product Pricing -->
         <div class="product-price">
-          <span>148$</span>
-          <a href="#" class="cart-btn">Add to cart</a>
+          {% if producto.descuento == 0 %}
+            <span>{{producto.precio}} $</span>
+          {% else %}
+          <span>Antes: {{producto.precio}} $ Ahora: {{producto.descuento}} $</span>
+          {% endif %}
+          {% if producto.stock <= 0 %}
+            <button class="cart-btn">Añadir al carrito</button>
+          {% else %}
+            <a href="#" class="cart-btn" style="text-decoration: none;">Añadir al carrito</a>
+          {% endif %}
+          
         </div>
       </div>
     </main>
 
-    <!-- Scripts -->
-<!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
-<script>
-  $(document).ready(function() {
-
-$('.color-choose input').on('click', function() {
-    var headphonesColor = $(this).attr('data-image');
-
-    $('.active').removeClass('active');
-    $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
-    $(this).addClass('active');
-});
-
-});
 
 
 </script>
--->
   
 <style>
 body{
@@ -324,54 +354,12 @@ body{
   color:#262626;
   font-family:'Arial',sans-serif;
 }
-img{ 
-  max-width:100%;
-}
+
 #wrap{
   width:90%;
   margin:20px auto;
 }
 
-#product_layout_3 .product_desc .other_options{
-  color:#aaa;
-  display:block;
-  float:left;
-  width:100%;
-  min-height:30px;
-  margin-bottom:15px;
-}
-#product_layout_3 .product_desc .other_options span{
-  display:block;
-}
-#product_layout_3 .product_desc .description{
-  font-size:1.4em;
-  display:block;
-  width:100%;
-  clear:both;
-}
-#product_layout_3 .product_desc .social{
-  font-size:1.4em;
-  line-height:1.2;
-  margin-bottom:15px;
-  width:60%;
-  display:block;
-  margin:15px 0px;
-}
-#product_layout_3 .product_desc .social .share{
-  margin-top:-5px;
-  margin-bottom:15px;
-}
-#product_layout_3 .product_desc .buttons{
-  margin-top:20px;
-  margin-left:10px;
-  display:inline-block;
-  width:30%;
-}
-#product_layout_3 .tabular{
-  display:block;
-  margin-top:20px;
-  width:100%
-}
 #product_layout_3 .tabular ul.tabs {
 	width: 50%;
 	height: 80px;
@@ -400,36 +388,7 @@ img{
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
-#product_layout_3 .tabular .tabs li:first-child a {
-	z-index: 3;
-  border-top-left-radius: 3px;
-}
-#product_layout_3 .tabular .tabs li:nth-child(2) a {
-	z-index: 2;
-}
-#product_layout_3 .tabular .tabs li:last-child a {
-	z-index: 1;
-  border-top-right-radius: 3px;
-}
-#product_layout_3 .tabular ul.tabs li a:hover {
-	margin: 35px 0 0 0;
-	padding: 10px 0 5px 0;
-}
-#product_layout_3 .tabular ul.tabs li a.active {
-	margin: 30px 0 0 0;
-	padding: 10px 0 10px 0;
-	background: #545f60;
-	color: skyblue;
-	z-index: 4;
-	outline: none;
-  border: 1px solid #808080;
-}
-#product_layout_3 .tabular .group:before,
-#product_layout_3 .tabular .group:after {
-}
-#product_layout_3 .tabular .group:after {
-   clear: both;
-}
+
 #product_layout_3 .tabular #content {
   width: 100%;
   min-height: 200px;
@@ -452,10 +411,7 @@ img{
   font-size: 1.4em;
   margin: 10px;
 }
-#product_layout_3 .tabular #content #one .images{
-  width:45%;
-  float:left;  
-}
+
 #product_layout_3 .tabular #content #one{
   -webkit-columns: 2;
   -moz-columns: 2;
@@ -479,67 +435,6 @@ img{
   color:skyblue;
   text-align:center;
 }
-#product_layout_3 .tabular #content #two span.write_review a{
-  font-size:1.4em;
-  color:skyblue;
-  text-align:center;
-  display:block;
-  margin-top:10px;
-}
-#product_layout_3 .tabular #content #three .images{
-  width:45%;
-  float:left;
-  display:block;
-  margin-right:5%;
-  -moz-columns:2;
-  -webkit-columns:2;
-  height:auto;
-}
-#product_layout_3 .tabular #content #three .images img{
-  width:100px;
-  margin-top:20px;
-  margin-left:auto;
-  margin-right:auto;
-  display:block;
-}
-#product_layout_3 .tabular #content #three .details{
-  width:45%;
-  float:left;
-  margin-left:5%;
-  height:auto;
-}
-@media (max-width:500px){
-  #product_layout_3 .product_image{
-    width:100%;
-    margin-left:0;
-    margin-right:0;
-  }
-   #product_layout_3 .product_desc{
-     width:100%;
-     margin-left:0;
-     margin-right:0;
-   }
-  #product_layout_3 .tabular ul.tabs {
-	width: 100%;
-  }
-  #product_layout_3 .tabular #content #three{
-     height:auto;
-    display:block;
-  }
-  #product_layout_3 .tabular #content #one,
-  #product_layout_3 .tabular #content #three .images,
-  #product_layout_3 .tabular #content #three .details{
-  width:100%;
-  float:none;
-  -moz-columns:1;
-  -webkit-columns:1;
-}
-  #product_layout_3 .buying .quantity{
-    width:35%;
-  }
-  #product_layout_3 .buying .cart{
-    width:65%;
-  }
 </style>
 
 <body translate="no" >

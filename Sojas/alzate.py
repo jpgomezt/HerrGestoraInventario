@@ -18,6 +18,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15), unique=True)
@@ -88,6 +89,7 @@ class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+
 
 
 @app.route('/home')
@@ -430,7 +432,6 @@ def vista_producto(id):
             return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
         except:
             return 'Hubo problemas actualizando el producto'
-
     else:
         return render_template('productos/vista_productos.html', producto = productos)
 

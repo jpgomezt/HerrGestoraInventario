@@ -407,7 +407,17 @@ def product():
 
 @app.route('/products/producto/<int:id>', methods=['GET', 'POST'])
 def vista_producto(id):
-    return render_template('productos/vista_productos.html')
+    productos = Producto.query.get_or_404(id)
+
+    if request.method == 'POST':
+        try:
+            db.session.commit()
+            return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
+        except:
+            return 'Hubo problemas actualizando el producto'
+
+    else:
+        return render_template('productos/vista_productos.html', producto = productos)
 
 
 

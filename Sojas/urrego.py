@@ -439,9 +439,15 @@ def vista_producto(id):
     if request.method == 'POST':
         if current_user.is_authenticated:
             if productos.stock > 0:
-                color = request.form['color']
-                talla = request.form['Field5']
-                cantidad = int(request.form['cantidad'])
+                color = ""
+                talla = ""
+                cantidad = 0
+                try:
+                    color = request.form['color']
+                    talla = request.form['Field5']
+                    cantidad = int(request.form['cantidad'])
+                except:
+                    return render_template('productos/vista_productos.html', producto = productos, error = "Dejaste un campo de selección vacio")
                 if cantidad <= productos.stock:
                     pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
                     
@@ -546,12 +552,12 @@ def finalizar_orden():
             usuario = User.query.get_or_404(current_user.id)
             if request.method == 'POST':
                 usuario.tarjeta = request.form['cardNumber']
-                try:
+                if True:
                     cart_del = db.engine.execute(f'SELECT * FROM Carrito WHERE id_usuario = {current_user.id}')
                     cantidad_h = 0    
                     cantidad_m = 0    
                     cantidad_u = 0
-
+                    rows = []
                     for cart in cart_del:
                         producto = Producto.query.get_or_404(cart[2])
                         producto.stock = producto.stock - cart[3]
@@ -564,15 +570,24 @@ def finalizar_orden():
                         else:
                             cantidad_u = cantidad_u + (producto.precio * cart[3])
                         
-                        
+                        print(cart[2])
+                        print(cart[4])
+                        print(cart[5])
+                        print(producto.precio)
+                        print(datetime.datetime.today().date())
                         registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
+                        rows.append(registro)
                         db.session.add(registro)
                     pedido = Pedidos(id_usuario = current_user.id, total_ropa_hombre = cantidad_h, total_ropa_mujer = cantidad_m, total_ropa_unisex = cantidad_u)
                     db.session.add(pedido)
-                    cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')
                     db.session.commit()
+                    for element in rows:
+                        db.session.add(element)
+                        db.session.commit()
+                    #cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')
+                    
                     return redirect(url_for('consola_usuario'))
-                except:
+                else:
                     return redirect(url_for('error'))
             else:
                 return render_template('/finalizar_orden/tarjeta.html',usuario = usuario, rand = azar)
@@ -586,6 +601,9 @@ def finalizar_orden():
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
+        query = db.engine.execute(f'SELECT id FROM Registro WHERE id_usuario = {current_user.id}')
+        for row in query:
+            print(row)
         return render_template("/utilidades_usuario/consola_usuario.html")
     else:
         return redirect(url_for('home'))
@@ -594,6 +612,8 @@ def consola_usuario():
 @app.route('/quienes_somos')
 def quienes_somos():
     return render_template('somos.html')
+
+
 
 if __name__ == '__main__':
     #Creacion de la cuenta del Admin

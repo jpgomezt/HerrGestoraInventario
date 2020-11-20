@@ -1,0 +1,362 @@
+{% extends "index.html" %}
+{% block info %}
+
+{% if cantidad !=  0 %}
+
+<style>
+    .mainCarrito {
+        margin-top: 30px;
+        width: 970px;
+        min-height: 400px;
+        position: display block;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 13px;
+        line-height: 20px;
+        color: #333;
+    }
+
+    .title {
+        display: block;
+        font-size: 1.375rem;
+        font-weight: bold;
+        line-height: 1.36;
+        text-align: center;
+        color: #000;
+        text-transform: uppercase;
+        margin: 0.67em 0;
+        text-rendering: optimizeLegibility;
+        margin-block-start: 0.67em;
+        margin-block-end: 0.67em;
+    }
+
+    .cartContainer {
+        min-height: 200px;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        display: block;
+        font-size: 13px;
+        line-height: 20px;
+        color: #333;
+    }
+
+    .cartContent {
+        margin-left: 0;
+        opacity: 1;
+        position: relative;
+        margin-bottom: 15px;
+        min-height: 200px;
+        transition: all 0.7s ease-in-out;
+        width: 100%;
+        display: block;
+        float: left;
+        box-sizing: border-box;
+    }
+
+    .cartLoaded {
+        display: block;
+    }
+
+    .cart {
+        border: none;
+        margin-bottom: 15px;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .cartTable {
+        margin-bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        background-color: transparent;
+        border-collapse: collapse;
+        border-spacing: 0;
+        display: table;
+        box-sizing: border-box;
+        text-indent: 0;
+    }
+
+    .product {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.38;
+        letter-spacing: normal;
+        color: #000;
+        text-transform: uppercase;
+        border-top: 0;
+        vertical-align: bottom;
+        padding: 8px;
+        text-align: left;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .product-price {
+        min-width: 90px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.38;
+        letter-spacing: normal;
+        color: #000;
+        text-transform: uppercase;
+        border-top: 0;
+        position: relative;
+        text-align: center;
+        vertical-align: bottom;
+        padding: 8px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .quantity {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.38;
+        letter-spacing: normal;
+        color: #000;
+        text-transform: uppercase;
+        border-top: 0;
+        text-align: center;
+        vertical-align: bottom;
+        padding: 8px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .quantity-price {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.38;
+        letter-spacing: normal;
+        color: #000;
+        text-transform: uppercase;
+        border-top: 0;
+        text-align: center;
+        vertical-align: bottom;
+        padding: 8px;
+        width: 100px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .product-item {
+        padding: 10px;
+        display: table-row;
+        vertical-align: inherit;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .product-image {
+        vertical-align: middle;
+        padding: 5px;
+        border: 0;
+        line-height: 20px;
+        text-align: left;
+        width: 45px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .product-name {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1.38;
+        letter-spacing: normal;
+        text-align: left;
+        width: 350px;
+        vertical-align: middle;
+        padding: 5px;
+        border: 0;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .product-price {
+        min-width: 90px;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        padding: 5px;
+        border: 0;
+        line-height: 20px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .quantity {
+        min-width: 90px;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        padding: 5px;
+        border: 0;
+        line-height: 20px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    .quantity-price {
+        min-width: 90px;
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        padding: 5px;
+        border: 0;
+        line-height: 20px;
+        display: table-cell;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+    tbody {
+        border-radius: 3px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+        display: table-row-group;
+        vertical-align: middle;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-indent: 0;
+    }
+
+
+    .button1 {
+        float: right;
+        cursor: pointer;
+        background-color: #2B335C;
+    }
+
+    .button2 {
+        float: right;
+        cursor: pointer;
+        background-color: #E88A60;
+    }
+</style>
+<div class="mainCarrito">
+    <h1 class="title">Carrito de compras</h1>
+    <div class="cartContainer">
+        <div class="cartContent">
+            <div class="cartLoaded">
+                <div class="cart">
+
+                    <table class="cartTable">
+                        <thead>
+                            <tr>
+                                <th class="product">Producto</th>
+                                <th></th>
+                                <th class="product-price">Precio</th>
+                                <th class="quantity">Cantidad</th>
+                                <th class="quantity-price">Total</th>
+                                <th class="item-remove"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr class="product-item" rowspan="2">
+                                <td class="product-image">
+                                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                                        alt="Camiseta Mujer Mulan L" width="45" height="45">
+                                </td>
+                                <td class="product-name">
+                                    <a>Camisa impermeable amarillo - version Pampa</a>
+                                </td>
+                                <td class="product-price">
+                                    <span class="list-price">
+                                        <span class="new-product-real-price" data-bind="text: priceLabel">$ 194.000
+                                            COP</span>
+                                </td>
+                                <td class="quantity">
+                                    <span></span>
+                                </td>
+                                <td class="quantity-price">
+                                    <span>$ 194.000 COP</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="buttons">
+                <button role="button" class="button2"
+                    style="color:#fff;width:200px;height:60px; font-size: 22px;">Finalizar compra</button>
+                <button role="button" class="button1"
+                    style="color:#fff;width:200px;height:60px; font-size: 22px;">Elegir más productos</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<style>
+    * {
+        transition: all 0.6s;
+    }
+
+    html {
+        height: 100%;
+    }
+
+    body {
+        font-family: 'Lato', sans-serif;
+        color: #888;
+        margin: 0;
+    }
+
+    #main {
+        display: table;
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+    }
+
+    .fof {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .fof h1 {
+        font-size: 50px;
+        display: inline-block;
+        padding-right: 12px;
+        animation: type .5s alternate infinite;
+    }
+
+    @keyframes type {
+        from {
+            box-shadow: inset -3px 0px 0px #888;
+        }
+
+        to {
+            box-shadow: inset -3px 0px 0px transparent;
+        }
+    }
+</style>
+<div id="main">
+    <div class="fof">
+        <h1>No tienes productos! Agrega alguno!!!</h1>
+    </div>
+</div>
+
+
+{% endif %}
+{% endblock %}

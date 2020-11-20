@@ -431,23 +431,45 @@ def vista_producto(id):
 
     if request.method == 'POST':
         if current_user.is_authenticated:
-            color = request.form['color']
-            talla = request.form['Field5']
-            cantidad = request.form['cantidad']
-            pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, talla = talla)
-            
-            try:
-                db.session.add(pedido)
-                db.session.commit()
-                return redirect(url_for('home')) # Debe despues ir al carrito 
-            except:
-                return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados")
+            if productos.stock > 0:
+                color = request.form['color']
+                talla = request.form['Field5']
+                cantidad = int(request.form['cantidad'])
+                if cantidad <= productos.stock:
+                    pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
+                    
+                    try:
+                        db.session.add(pedido)
+                        db.session.commit()
+                        return redirect(url_for('carrito')) # Debe despues ir al carrito 
+                    except:
+                        return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados")
+                else:
+                    return render_template('productos/vista_productos.html', producto = productos, error = "La cantidad supera la cantidad en Stock no lo puedes agregar!")
+            else:
+                return render_template('productos/vista_productos.html', producto = productos, error = "El stock esta en cero no lo puedes agregar! ")
         else:
             return render_template('productos/vista_productos.html', producto = productos, error = "Necesitas estar loguedo para continuar")
         
     else:
         return render_template('productos/vista_productos.html', producto = productos, error = "")
 
+
+@app.route('/carrito/', methods=['GET', 'POST'])
+@login_required
+def carrito():
+    productos_cart = db.engine.execute(f'SELECT * FROM Carrito WHERE id_usuario = {current_user.id}')
+    cantidad = 0
+    
+    for producto in productos_cart :
+        print(producto)
+        for p in producto:
+            print(p)
+        cantidad = cantidad + 1
+    if not current_user.is_admin:
+        return render_template('/productos/carrito.html', productos = productos_cart, cantidad = cantidad)
+    else:
+        return redirect(url_for('home'))
 @app.route('/quienes_somos')
 def quienes_somos():
     return render_template('somos.html')

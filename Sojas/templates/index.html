@@ -157,11 +157,23 @@ Paleta de colores:
     transition: 0.3s all;
     text-decoration: none;
   }
+  button{
+    background-color: #2c345c;
+    padding: 0;
+    border: none;
+  }
+
+  button:hover{
+    background-color: #272727;
+    padding: 0;
+    border: none;
+  }
 
 
   .button:hover {
     background-color: #272727;
     color: #db8462;
+    font-size: 20px;
   }
 
   body {
@@ -177,6 +189,36 @@ Paleta de colores:
   .topnav a:first-child {
     float: left;
   }
+  .topnav form:first-child {
+    float: left;
+  }
+  .topnav form {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    padding-top: 20px;
+    text-decoration: none;
+    font-size: 18.5px;
+    transition: 0.3s ease all;
+    margin-top: 17px;
+  }
+  .topnav form:hover {
+    background-color: #272727;
+    color: #db8462;
+    font-size: 20px;
+
+  }
+  .topnav form.active {
+
+    color: white;
+    float: left;
+    height: auto;
+    margin-top: -20px;
+    margin-bottom: -15px;
+  }
+
 
   .topnav a {
     float: right;
@@ -221,6 +263,15 @@ Paleta de colores:
       display: block;
 
     }
+    .topnav form:not(:first-child) {
+      display: none;
+    }
+
+    .topnav form.icon {
+      float: right;
+      display: block;
+
+    }
   }
 
   @media screen and (max-width: 1070px) {
@@ -242,6 +293,16 @@ Paleta de colores:
     }
 
     .topnav.responsive a:last-child {
+      padding-top: 40px;
+    }
+    .topnav.responsive form {
+      float: none;
+      display: block;
+      text-align: left;
+
+    }
+
+    .topnav.responsive form:last-child {
       padding-top: 40px;
     }
   }
@@ -266,6 +327,12 @@ Paleta de colores:
   <a href="{{ url_for('signup') }}"><i class="fas fa-journal-whills"></i>  Registrate</a>
   {% endif %}
   <a href="{{url_for('quienes_somos')}}"> <i class="fas fa-users"></i> Quienes somos</a>
+  <form action={{url_for('product')}} method="POST">
+      <button type="submit" name="tipo" value="H">Hombre</button>
+  </form>
+  <form action={{url_for('product')}} method="POST">
+      <button type="submit" name="tipo" value="M">Mujer</button>
+  </form>
   <a href="{{url_for('product')}}"><i class="fas fa-tshirt"></i> Productos</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars" style="font-size: 40px; margin-top: -5px;"></i>

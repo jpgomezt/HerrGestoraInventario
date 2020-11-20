@@ -429,8 +429,11 @@ def update_producto(id):
 
 @app.route('/products', methods=['GET', 'POST'])
 def product():
+    tipo = "all"
+    if request.method == 'POST':
+        tipo = request.form.get("tipo")
     productos = Producto.query.order_by(Producto.id).all()
-    return render_template('products.html', productos=productos)
+    return render_template('products.html', productos=productos, tipo=tipo)
 
 @app.route('/products/producto/<int:id>', methods=['GET', 'POST'])
 def vista_producto(id):

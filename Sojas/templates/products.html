@@ -127,7 +127,7 @@
 
 <!-- Control buttons -->
 <div id="myBtnContainer" style="text-align: center;">
-    <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+    <button class="btn" onclick="filterSelection('all')"> Show all</button>
     <button class="btn" onclick="filterSelection('H')"> Hombre</button>
     <button class="btn" onclick="filterSelection('M')"> Mujer</button>
 </div>
@@ -180,7 +180,7 @@
         }
     }
 
-    filterSelection("H");
+    activeButton("{{tipo}}");
     function filterSelection(c) {
 	    var x, i;
             var div;
@@ -198,6 +198,17 @@
                 if (div[i].className.indexOf(c) > -1) w3AddClass(div[i], "show");
             }
 	}
+    function activeButton(filter){
+            filterSelection(filter);
+            var btnContainer = document.getElementById("myBtnContainer");
+            var btns = btnContainer.getElementsByClassName("btn");
+            if(filter == "all")
+                w3AddClass(btns[0],"active");
+            if(filter == "H")
+                w3AddClass(btns[1],"active");
+            if(filter == "M")
+                w3AddClass(btns[2],"active");
+        }
 
     // Show filtered elements
     function w3AddClass(element, name) {
@@ -230,7 +241,7 @@
     for (let i = 0; i < btns.length; i++) {
         btns[i].addEventListener("click", function() {
             var current = document.getElementsByClassName("active");
-            current[0].className = current[0].className.replace(" active", "");
+            w3RemoveClass(current[0],"active");
             this.className += " active";
         });
     }

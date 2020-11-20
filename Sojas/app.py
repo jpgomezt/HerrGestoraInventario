@@ -592,7 +592,7 @@ def finalizar_orden():
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
-        query = db.engine.execute(f'SELECT * FROM Pedidos WHERE id_usuario = {current_user.id}')
+        query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
         for row in query:
             print(row)
         return render_template("/utilidades_usuario/consola_usuario.html")
@@ -602,6 +602,9 @@ def consola_usuario():
 
 @app.route('/quienes_somos')
 def quienes_somos():
+    query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
+    for row in query:
+        print(row)
     return render_template('somos.html')
 
 

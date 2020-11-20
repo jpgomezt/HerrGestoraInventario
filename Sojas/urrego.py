@@ -592,9 +592,17 @@ def finalizar_orden():
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
-        query = db.engine.execute(f'SELECT * FROM Pedidos WHERE id_usuario = {current_user.id}')
+        query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
+        reciente = []
+        historico = []
+        anualidad = 0
+        mes = 0
+        dia = 0
         for row in query:
-            print(row)
+            anualidad = int(row[6][0:4])
+            mes = int(row[6][5:7])
+            print(row[6][8:])
+
         return render_template("/utilidades_usuario/consola_usuario.html")
     else:
         return redirect(url_for('home'))

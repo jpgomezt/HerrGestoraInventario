@@ -320,17 +320,17 @@ html, body {
 
                   {% if producto.Talla_M %}
                   <input id="Field5_1" name="Field5" type="radio" value="M" tabindex="6">
-                  <label class="choice" for="Field5_1" style="font-size: 15px; padding-right: 10px;">M</label>
+                  <label class="choice" for="Field5_1" style="font-size: 15px; padding-right: 10px; checked="checked">M</label>
                   {% endif %}
 
                   {% if producto.Talla_L %}
                   <input id="Field5_2" name="Field5" type="radio" value="L" tabindex="7">
-                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px;">L</label>
+                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px; checked="checked">L</label>
                   {% endif %}
 
                   {% if producto.Talla_XL %}
                   <input id="Field5_3" name="Field5" type="radio" value="XL" tabindex="7">
-                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px;">XL</label>
+                  <label class="choice" for="Field5_2" style="font-size: 15px; padding-right: 10px;" checked="checked">XL</label>
                   {% endif %}
               </div>
             </fieldset>
@@ -343,7 +343,7 @@ html, body {
 
             {% if producto.stock <= 0 %}
             <br>
-              <p style="color: red; font-size: 22px;">Este producto no esta en Stock por el momento</p>  
+              <p style="color: red; font-size: 22px;">Este producto no esta en Stock por el momento<br> En aproximadamente {{producto.id}} habran más unidades</p>  
             {% else %}
             <br>
               <p style="color: #2c345c; font-size: 22px;">Hay {{producto.stock}} en Stock</p>  
@@ -361,8 +361,8 @@ html, body {
           {% if producto.descuento == 0 %}
             <span>{{producto.precio}} $</span>
           {% else %}
-          <span >Antes: <span style="text-decoration: line-through;">{{producto.precio}} $</span></span> <br>
-          <span>Ahora: {{producto.precio - ((producto.descuento/100)*producto.precio) | round(2)}} $</span> <br>
+          <span style="font-size: 20px;">Antes: <span style="text-decoration: line-through; font-size: 20px;">{{producto.precio}} $</span></span> <br>
+          <span style="font-size: 20px;">Ahora: {{(producto.precio - ((producto.descuento/100)*producto.precio)) | round(2)}} $</span> <br>
           {% endif %}
           {% if producto.stock <= 0 %}
             <button class="cart-btn">Añadir al carrito</button>

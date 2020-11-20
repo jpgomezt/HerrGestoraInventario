@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+{% block info %}
+<style>
+    form{
+        width: 100%;
+        float: left;
+        padding-left: 60px;
+    }
+ 
+    form hr{
+        width: 100%;
+        padding-left: 0px;
+    }
+
+    form header {
+        margin: 0 0 20px 0;
+    }
+
+    form header div {
+        font-size: 90%;
+        color: #999;
+    }
+
+    form header h2 {
+        margin: 0 0 5px 0;
+    }
+
+    form>div {
+        clear: both;
+        overflow: hidden;
+        padding: 1px;
+        margin: 0 0 10px 0;
+    }
+
+    form>div>fieldset>div>div {
+        margin: 0 0 5px 0;
+
+
+        input[type=text],
+        input[type=email],
+        input[type=url],
+        input[type=password],
+        textarea {
+            width: 100%;
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=url],
+        input[type=password] {
+            width: 50%;
+        }
+
+        input[type=text]:focus,
+        input[type=email]:focus,
+        input[type=url]:focus,
+        input[type=password]:focus,
+        textarea:focus {
+            outline: 0;
+            border-color: #4697e4;
+        }
+
+        @media (max-width: 600px) {
+            form>div {
+                margin: 0 0 15px 0;
+            }
+
+            form>div>label,
+            legend {
+                width: 100%;
+                float: none;
+                margin: 0 0 5px 0;
+            }
+
+            form>div>div,
+            form>div>fieldset>div {
+                width: 100%;
+                float: none;
+            }
+
+            input[type=text],
+            input[type=email],
+            input[type=url],
+            input[type=password],
+            textarea,
+            select {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+
+            form>div>label,
+            legend {
+                text-align: right;
+            }
+        }
+</style>
+<a href="{{url_for('carrito')}}" style="text-decoration: none;">
+    <h5 style="float: left;  margin: 10px; padding-left:15px; font-size: 18px; ">
+        <i class="fas fa-arrow-left"></i> Volver al Carrito
+    </h5>
+</a>
+<form action="" method="POST">
+    
+    <header style="padding-top: 30px;">
+        <h2>Ahora! Vamos a completar los datos de envío</h2>
+        <div>Necesitamos esta información para poder enviarte lo que nos hayas solicitado, aunque es false entonces puedes colocar
+            lo que desees.
+            <br>
+            {% if usuario.ciudad != ""%}
+            <span style="color: gold;"> Bien tambien puedes continuar con los datos que ingresaste la ultima vez, solo estamos verificando</span>
+            {% endif %}
+        </div>
+    </header>
+<hr>
+    <div>
+        <label class="desc" id="title1" for="Field1">Por favor diganos la ciudad en la que vive:</label>
+        <div>
+            <input id="ciudad" name="ciudad" style="width: 50%;" type="text" class="field text fn" value="{{usuario.ciudad}}" size="8" tabindex="1">
+        </div>
+    </div>
+    <hr>
+    <div>
+        <label class="desc" id="title3" for="Field3">
+            Ahora necesitaremos tu dirección para dejar el paquete en tu hogar!
+        </label>
+        <div>
+            <input id="dir" name="dir" style="width: 50%; " type="text" spellcheck="false" value="{{usuario.direccion}}" maxlength="255" tabindex="3">
+        </div>
+    </div>
+    <hr>
+    <div>
+        <label class="desc" id="title3" for="Field3">
+            Por último! Por si llegamos a tener un problema y nos perdemos danos tu telefono :)
+        </label>
+        <div>
+            <input id="tel" name="tel" style="width: 50%;" type="text" spellcheck="false" value="{{usuario.telefono}}" maxlength="255" tabindex="3">
+        </div>
+    </div>
+    <hr>
+    <div style="padding-bottom: 30px;">
+        <div>
+            <input id="saveForm" name="saveForm" type="submit" value="Registrar datos">
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

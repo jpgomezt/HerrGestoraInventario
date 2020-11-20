@@ -450,7 +450,6 @@ def vista_producto(id):
                     return render_template('productos/vista_productos.html', producto = productos, error = "Dejaste un campo de selección vacio")
                 if cantidad <= productos.stock:
                     pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
-                    
                     try:
                         #print(productos.id)
                         db.session.add(pedido)
@@ -488,7 +487,7 @@ def carrito():
                 coste = coste - ((temp[6]/100) * coste)
             tpl = [producto[0],temp[1],temp[2],producto[4], producto[5], coste, producto[3]]
             display_carrito.append(tpl)
-            total = total + coste
+            total = total + (coste * producto[3])
         cantidad = cantidad + 1
     if not current_user.is_admin:
         total = total + 5

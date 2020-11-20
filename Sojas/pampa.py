@@ -450,9 +450,7 @@ def vista_producto(id):
                     return render_template('productos/vista_productos.html', producto = productos, error = "Dejaste un campo de selección vacio")
                 if cantidad <= productos.stock:
                     pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
-                    
                     try:
-                        #print(productos.id)
                         db.session.add(pedido)
                         db.session.commit()
                         return redirect(url_for('carrito')) # Debe despues ir al carrito 
@@ -488,7 +486,7 @@ def carrito():
                 coste = coste - ((temp[6]/100) * coste)
             tpl = [producto[0],temp[1],temp[2],producto[4], producto[5], coste, producto[3]]
             display_carrito.append(tpl)
-            total = total + coste
+            total = total + (coste * producto[3])
         cantidad = cantidad + 1
     if not current_user.is_admin:
         total = total + 5
@@ -563,11 +561,11 @@ def finalizar_orden():
                         
                         # 5 es coste de envio mas impuestos
                         if producto.tipo == 'H':
-                            cantidad_h = cantidad_h + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_h = cantidad_h + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
                         elif producto.tipo == 'M':
-                            cantidad_m = cantidad_m + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_m = cantidad_m + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
                         else:
-                            cantidad_u = cantidad_u + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_u = cantidad_u + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
 
                         registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
                         db.session.add(registro)
@@ -602,6 +600,9 @@ def consola_usuario():
 
 @app.route('/quienes_somos')
 def quienes_somos():
+    query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
+    for row in query:
+        print(row)
     return render_template('somos.html')
 
 

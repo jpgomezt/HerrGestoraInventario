@@ -484,7 +484,7 @@ def carrito():
         for temp in tp:
             #print(temp)
             coste = temp[3]
-            if temp[6] <= 0:
+            if temp[6] >= 0:
                 coste = coste - ((temp[6]/100) * coste)
             tpl = [producto[0],temp[1],temp[2],producto[4], producto[5], coste, producto[3]]
             display_carrito.append(tpl)
@@ -557,34 +557,24 @@ def finalizar_orden():
                     cantidad_h = 0    
                     cantidad_m = 0    
                     cantidad_u = 0
-                    rows = []
                     for cart in cart_del:
                         producto = Producto.query.get_or_404(cart[2])
                         producto.stock = producto.stock - cart[3]
                         
-
+                        # 5 es coste de envio mas impuestos
                         if producto.tipo == 'H':
-                            cantidad_h = cantidad_h + (producto.precio * cart[3])
+                            cantidad_h = cantidad_h + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
                         elif producto.tipo == 'M':
-                            cantidad_m = cantidad_m + (producto.precio * cart[3])
+                            cantidad_m = cantidad_m + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
                         else:
-                            cantidad_u = cantidad_u + (producto.precio * cart[3])
-                        
-                        print(cart[2])
-                        print(cart[4])
-                        print(cart[5])
-                        print(producto.precio)
-                        print(datetime.datetime.today().date())
+                            cantidad_u = cantidad_u + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+
                         registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
-                        rows.append(registro)
                         db.session.add(registro)
                     pedido = Pedidos(id_usuario = current_user.id, total_ropa_hombre = cantidad_h, total_ropa_mujer = cantidad_m, total_ropa_unisex = cantidad_u)
                     db.session.add(pedido)
                     db.session.commit()
-                    for element in rows:
-                        db.session.add(element)
-                        db.session.commit()
-                    #cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')
+                    cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')
                     
                     return redirect(url_for('consola_usuario'))
                 else:
@@ -597,11 +587,12 @@ def finalizar_orden():
         return redirect(url_for('home'))
     
 
+
 @app.route('/consola_usuario', methods=['GET', 'POST'])
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
-        query = db.engine.execute(f'SELECT id FROM Registro WHERE id_usuario = {current_user.id}')
+        query = db.engine.execute(f'SELECT * FROM Pedidos WHERE id_usuario = {current_user.id}')
         for row in query:
             print(row)
         return render_template("/utilidades_usuario/consola_usuario.html")

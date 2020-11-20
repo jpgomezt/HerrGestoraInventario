@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import smtplib
 import random
+import datetime
 
 
 app = Flask(__name__)
@@ -59,9 +60,9 @@ class Producto(db.Model):
 class Pedidos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
-    total_ropa_hombre = db.Column(db.Integer)
-    total_ropa_mujer = db.Column(db.Integer)
-    total_ropa_descuento = db.Column(db.Integer)
+    total_ropa_hombre = db.Column(db.Float)
+    total_ropa_mujer = db.Column(db.Float)
+    total_ropa_unisex = db.Column(db.Float)
 
 class Carrito(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,6 +71,16 @@ class Carrito(db.Model):
     cantidad = db.Column(db.Integer)
     color = db.Column(db.String(60))
     talla = db.Column(db.String(60))
+
+class Registro(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    color = db.Column(db.String(60))
+    talla = db.Column(db.String(60))
+    precio = db.Column(db.Float)
+    fecha = db.Column(db.String(60))
+
 
 class Comentarios(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -96,10 +107,11 @@ class RegisterForm(FlaskForm):
 
 @app.route('/home')
 def home():
+    productos = Producto.query.order_by(Producto.id).all()
     if current_user.is_authenticated:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
     else:
-        return render_template('home.html')   
+        return render_template('home.html', productos = productos)
 
 @app.route('/error')
 def error():
@@ -107,10 +119,11 @@ def error():
 
 @app.route('/')
 def index():
+    productos = Producto.query.order_by(Producto.id).all()
     if current_user.is_authenticated:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
     else:
-        return render_template('home.html')
+        return render_template('home.html', productos = productos)
 
 #Listo
 @app.route('/login', methods=['GET', 'POST'])
@@ -154,11 +167,6 @@ def signup():
         return render_template('signup.html', form=form , error="")
     else:
         return redirect(url_for('home')) 
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
 
 @app.route('/logout')
 @login_required
@@ -410,7 +418,7 @@ def update_producto(id):
                     db.session.commit()
                     return redirect(url_for('cantidades'))
                 except:
-                    return 'Hubo problemas actualizando el producto'
+                    return redirect(url_for('error'))
 
         else:
             return render_template('/utilidades_admin/actualizar_producto.html', productos=productos)
@@ -429,14 +437,172 @@ def vista_producto(id):
     productos = Producto.query.get_or_404(id)
 
     if request.method == 'POST':
-        try:
-            db.session.commit()
-            return redirect(url_for('vista_producto')) # Debe despues ir al carrito 
-        except:
-            return 'Hubo problemas actualizando el producto'
+        if current_user.is_authenticated:
+            if productos.stock > 0:
+                color = ""
+                talla = ""
+                cantidad = 0
+                try:
+                    color = request.form['color']
+                    talla = request.form['Field5']
+                    cantidad = int(request.form['cantidad'])
+                except:
+                    return render_template('productos/vista_productos.html', producto = productos, error = "Dejaste un campo de selección vacio")
+                if cantidad <= productos.stock:
+                    pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
+                    
+                    try:
+                        #print(productos.id)
+                        db.session.add(pedido)
+                        db.session.commit()
+                        return redirect(url_for('carrito')) # Debe despues ir al carrito 
+                    except:
+                        return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados")
+                else:
+                    return render_template('productos/vista_productos.html', producto = productos, error = "La cantidad supera la cantidad en Stock no lo puedes agregar!")
+            else:
+                return render_template('productos/vista_productos.html', producto = productos, error = "El stock esta en cero no lo puedes agregar! ")
+        else:
+            return render_template('productos/vista_productos.html', producto = productos, error = "Necesitas estar loguedo para continuar")
+        
     else:
-        return render_template('productos/vista_productos.html', producto = productos)
+        return render_template('productos/vista_productos.html', producto = productos, error = "")
 
+
+@app.route('/carrito', methods=['GET', 'POST'])
+@login_required
+def carrito():
+    productos_cart = db.engine.execute(f'SELECT * FROM Carrito WHERE id_usuario = {current_user.id}')
+    cantidad = 0
+    total = 0
+    display_carrito =[]
+    #ID Carrito, nombre producto, imagen producto, color, talla , precio del producto, cantidad 
+    #Coste total
+    for producto in productos_cart :
+        tp = db.engine.execute(f'SELECT * FROM Producto WHERE id = {producto[2]}') 
+        #print(producto)
+        for temp in tp:
+            #print(temp)
+            coste = temp[3]
+            if temp[6] >= 0:
+                coste = coste - ((temp[6]/100) * coste)
+            tpl = [producto[0],temp[1],temp[2],producto[4], producto[5], coste, producto[3]]
+            display_carrito.append(tpl)
+            total = total + coste
+        cantidad = cantidad + 1
+    if not current_user.is_admin:
+        total = total + 5
+        return render_template('/productos/carrito.html', productos = display_carrito, total = total)
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/carrito/producto/delete/<int:id>')
+@login_required
+def borrar_carrito(id):
+    if not current_user.is_admin:
+        product_to_delete = Carrito.query.get_or_404(id)
+        try:
+            db.session.delete(product_to_delete)
+            db.session.commit()
+            return redirect(url_for('carrito'))
+        except:
+            return 'Tuvimos problemas eliminando el producto, intentelo de nuevo'
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/carrito/check_out/', methods=['GET', 'POST'])
+@login_required
+def check_out():
+    if not current_user.is_admin:
+        count = db.engine.execute(f'SELECT COUNT(id) FROM Carrito WHERE id_usuario = {current_user.id}')
+        num = 0
+        for c in count:
+            num = c[0]
+        if num > 0:
+            usuario = User.query.get_or_404(current_user.id)
+            if request.method == 'POST':
+                usuario.ciudad = request.form['ciudad']
+                usuario.telefono = request.form['tel']
+                usuario.direccion = request.form['dir']
+                try:
+                    db.session.commit()
+                    return redirect(url_for('finalizar_orden'))
+                except:
+                    return redirect(url_for('error'))
+            else:
+                return render_template('/finalizar_orden/check_out.html', usuario = usuario)
+        else:
+            return redirect(url_for('carrito'))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/carrito/check_out/finalizar_orden', methods=['GET', 'POST'])
+@login_required
+def finalizar_orden():
+    if not current_user.is_admin:
+        count = db.engine.execute(f'SELECT COUNT(id) FROM Carrito WHERE id_usuario = {current_user.id}')
+        num = 0
+        for c in count:
+            num = c[0]
+        if num > 0:
+            azar = random.randint(2,15)
+            usuario = User.query.get_or_404(current_user.id)
+            if request.method == 'POST':
+                usuario.tarjeta = request.form['cardNumber']
+                if True:
+                    cart_del = db.engine.execute(f'SELECT * FROM Carrito WHERE id_usuario = {current_user.id}')
+                    cantidad_h = 0    
+                    cantidad_m = 0    
+                    cantidad_u = 0
+                    for cart in cart_del:
+                        producto = Producto.query.get_or_404(cart[2])
+                        producto.stock = producto.stock - cart[3]
+                        
+                        # 5 es coste de envio mas impuestos
+                        if producto.tipo == 'H':
+                            cantidad_h = cantidad_h + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                        elif producto.tipo == 'M':
+                            cantidad_m = cantidad_m + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                        else:
+                            cantidad_u = cantidad_u + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+
+                        registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
+                        db.session.add(registro)
+                    pedido = Pedidos(id_usuario = current_user.id, total_ropa_hombre = cantidad_h, total_ropa_mujer = cantidad_m, total_ropa_unisex = cantidad_u)
+                    db.session.add(pedido)
+                    db.session.commit()
+                    cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')
+                    
+                    return redirect(url_for('consola_usuario'))
+                else:
+                    return redirect(url_for('error'))
+            else:
+                return render_template('/finalizar_orden/tarjeta.html',usuario = usuario, rand = azar)
+        else:
+            return redirect(url_for('carrito'))
+    else:
+        return redirect(url_for('home'))
+    
+
+
+@app.route('/consola_usuario', methods=['GET', 'POST'])
+@login_required
+def consola_usuario():
+    if not current_user.is_admin:
+        query = db.engine.execute(f'SELECT * FROM Pedidos WHERE id_usuario = {current_user.id}')
+        for row in query:
+            print(row)
+        return render_template("/utilidades_usuario/consola_usuario.html")
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/quienes_somos')
+def quienes_somos():
+    return render_template('somos.html')
 
 
 

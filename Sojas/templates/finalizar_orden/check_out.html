@@ -1,38 +1,38 @@
 {% extends "index.html" %}
 {% block info %}
 <style>
-    form{
+    .form{
         width: 100%;
         float: left;
         padding-left: 60px;
     }
  
-    form hr{
+    .form hr{
         width: 100%;
         padding-left: 0px;
     }
 
-    form header {
+    .form header {
         margin: 0 0 20px 0;
     }
 
-    form header div {
+    .form header div {
         font-size: 90%;
         color: #999;
     }
 
-    form header h2 {
+    .form header h2 {
         margin: 0 0 5px 0;
     }
 
-    form>div {
+    .form>div {
         clear: both;
         overflow: hidden;
         padding: 1px;
         margin: 0 0 10px 0;
     }
 
-    form>div>fieldset>div>div {
+    .form>div>fieldset>div>div {
         margin: 0 0 5px 0;
 
 
@@ -65,19 +65,19 @@
         }
 
         @media (max-width: 600px) {
-            form>div {
+            .form>div {
                 margin: 0 0 15px 0;
             }
 
-            form>div>label,
+            .form>div>label,
             legend {
                 width: 100%;
                 float: none;
                 margin: 0 0 5px 0;
             }
 
-            form>div>div,
-            form>div>fieldset>div {
+            .form>div>div,
+            .form>div>fieldset>div {
                 width: 100%;
                 float: none;
             }
@@ -94,7 +94,7 @@
 
         @media (min-width: 1200px) {
 
-            form>div>label,
+            .form>div>label,
             legend {
                 text-align: right;
             }
@@ -105,7 +105,7 @@
         <i class="fas fa-arrow-left"></i> Volver al Carrito
     </h5>
 </a>
-<form action="" method="POST">
+<form class="form" action="" method="POST">
     
     <header style="padding-top: 30px;">
         <h2>Ahora! Vamos a completar los datos de envío</h2>

@@ -454,7 +454,6 @@ def vista_producto(id):
                 if cantidad <= productos.stock:
                     pedido = Carrito(id_usuario = current_user.id, id_producto = productos.id, cantidad = cantidad, color = color ,talla = talla)
                     try:
-                        #print(productos.id)
                         db.session.add(pedido)
                         db.session.commit()
                         return redirect(url_for('carrito')) # Debe despues ir al carrito 
@@ -565,11 +564,11 @@ def finalizar_orden():
                         
                         # 5 es coste de envio mas impuestos
                         if producto.tipo == 'H':
-                            cantidad_h = cantidad_h + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_h = cantidad_h + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
                         elif producto.tipo == 'M':
-                            cantidad_m = cantidad_m + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_m = cantidad_m + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
                         else:
-                            cantidad_u = cantidad_u + (producto.precio - ((producto.descuento/100) * producto.precio) * cart[3])
+                            cantidad_u = cantidad_u + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
 
                         registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
                         db.session.add(registro)
@@ -594,7 +593,7 @@ def finalizar_orden():
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
-        query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
+        query = db.engine.execute(f'SELECT * FROM Pedidos WHERE id_usuario = {current_user.id}')
         for row in query:
             print(row)
         return render_template("/utilidades_usuario/consola_usuario.html")

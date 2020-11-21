@@ -730,7 +730,7 @@ def review(id):
                 if len(comentario) > 299:
                     return render_template('/utilidades_usuario/review.html', productos = producto , error = "Has escrito una reseña un poco larga" )
 
-                estrellas = request.form['estrellas']
+                estrellas = int(request.form['estrellas'])
                 if estrellas <= 5 or estrellas >=1: 
                     review = Comentarios(id_usuario = current_user.id, id_producto = producto.id, num_estrellas = int(estrellas) , comentario = comentario)
                     try:

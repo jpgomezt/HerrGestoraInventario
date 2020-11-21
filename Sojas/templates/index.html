@@ -328,10 +328,10 @@ Paleta de colores:
   {% endif %}
   <a href="{{url_for('quienes_somos')}}"> <i class="fas fa-users"></i> Quienes somos</a>
   <form action={{url_for('product')}} method="POST">
-      <button type="submit" name="tipo" value="H">Hombre</button>
+      <button type="submit" name="tipo" value="H"><i class="fas fa-mars"></i> Hombre</button>
   </form>
   <form action={{url_for('product')}} method="POST">
-      <button type="submit" name="tipo" value="M">Mujer</button>
+      <button type="submit" name="tipo" value="M"><i class="fas fa-venus"></i> Mujer</button>
   </form>
   <a href="{{url_for('product')}}"><i class="fas fa-tshirt"></i> Productos</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">

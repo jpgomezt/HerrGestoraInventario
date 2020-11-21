@@ -1,0 +1,174 @@
+{% extends "//index.html" %}
+{% block info %}
+
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #2a2b3d;
+        font-family: "Fresca";
+    }
+
+    #wrapper {
+        margin: 20px auto;
+        background: #d5e1df;
+        max-width: 1260px;
+        border-radius: 6px;
+        box-shadow: 0px 1px 6px #2c345c;
+        padding: 20px 0;
+    }
+
+    #wrapper h5 {
+        color: #272727;
+        transition: 0.3s all ease;
+    }
+
+    #wrapper h5:hover {
+        color: #db8462;
+        font-size: 24px;
+    }
+
+    header {
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    header p {
+        font-size: 19px;
+        margin-top: 5px;
+    }
+
+    header #search-movie {
+        margin: 20px auto;
+        margin-top: 30px;
+        width: 300px;
+        display: block;
+        padding: 8px;
+    }
+
+    #movie-list {
+        margin-top: 60px;
+        padding: 25px 0;
+        background: #e6e2d3;
+    }
+
+    #movie-list li {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 90%;
+        padding: 10px;
+        padding-left: 20px;
+        border-left: solid 5px #db8462;
+        margin-top: 15px;
+        transition: 0.3s all ease;
+    }
+
+    #movie-list li:hover {
+        border-color: #272727;
+    }
+
+    .title {
+        display: block;
+        width: 90%;
+        font-size: 18px;
+    }
+
+    .delete {
+        display: block;
+        width: 100%;
+        padding: 6px;
+        text-decoration: none;
+        margin-right: 14px;
+        text-align: center;
+        cursor: pointer;
+        background: #db8462;
+        border-radius: 6px;
+        color: white;
+        transition: 0.3s all ease;
+    }
+
+    .delete:hover {
+        background-color: #272727;
+        color: #db8462;
+    }
+
+    #add-movie {
+        margin: 0 auto;
+        max-width: 500px;
+        text-align: center;
+    }
+
+    #add-movie .checkbox-div {
+        margin: 30px;
+    }
+
+    #add-movie #add-movie-input {
+        margin: 20px auto;
+        width: 300px;
+        padding: 8px;
+    }
+
+    #add-movie button {
+        width: 100px;
+        font-size: 16px;
+        padding: 6px;
+        text-align: center;
+        cursor: pointer;
+        background: #db8462;
+        border-radius: 6px;
+        color: white;
+        transition: 0.3s all ease;
+    }
+
+    #add-movie button:hover {
+        background-color: #272727;
+        color: #db8462;
+    }
+</style>
+<div id="wrapper">
+    <a href="{{url_for('consola_usuario')}}" style="text-decoration: none;">
+        <h5 style="float: left;  margin: 10px; padding-left:15px; font-size: 18px;">
+            <i class="fas fa-arrow-left"></i> Volver a la Consola de Usuario
+        </h5>
+    </a>
+    <header>
+        <h1>Reseña sobre el producto</h1>
+        <p>Se esta dando una reseña sobre el producto {{productos.nombre}} identificado con el id: {{productos.id}}
+        </p>
+    </header>
+    <form action="" method="POST" id="add-movie">
+        <h4>Nombre del producto:<br> {{productos.nombre}}</h4><br>
+        <h4>Imágen del producto: <br></h4>
+        <img src="{{productos.url_img}}" style="width: 200px; float: center; padding: 15px;">
+
+        {% if error | length > 1  %}
+        <h4 style="color: red;">{{error}}</h4><br><br>
+        {% endif %}
+        <h4>Descripción del producto: <br> {{productos.descrip}}</h4><br><br>
+        
+        <h1>Reseña sobre el producto: </h1>
+        <p>Es corta seguro no te tarda nada :)
+        </p>
+        <br>
+        <h4>Danos tu opinión sobre el producto, nos encantaría oirte!</h4><br>
+        <textarea id="comentario" name="comentario" rows="4" cols="50" placeholder="Coloca frases lindas!"></textarea>
+
+        <h4>De una a cinco estrellas cuanto le pondrias al producto?: </h4><br>
+        <input style="padding: 5px; margin-top: 4px; width: 500px;" type="number" value="5" max="5" min="1" name="estrellas" id="estrellas"
+            placeholder="Espero podamos ver un cielo lleno de estrellas!"  required>
+        <br><br><br>
+
+        <input type="submit" value="Añadir reseña" style="padding: 5px; margin-top: 4px;">
+    </form>
+
+</div>
+
+{% endblock %}

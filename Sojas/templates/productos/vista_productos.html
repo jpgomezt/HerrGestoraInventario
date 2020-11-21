@@ -477,20 +477,22 @@ body{
   <div id="product_layout_3">
       <div class="tabular">
         <ul class="tabs group" style="margin-bottom: -1px;">
-          <li><a href="#/two">Reviews</a></li>
+          <li><a href="#/two">Reseñas</a></li>
         </ul>
           <div id="content">
             <aside id="two">
-              <span class="author">Marty Mcfly</span><span class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half"></i></span><p>"Excuse me. I'll call you tonight. Right. Yeah, I think maybe you do. Wait a minute, wait a minute, Doc, are you telling me that you built a time machine out of a delorean.</p>
-              <p>Um, well it's a delorean, right? Yeah okay. Wow, ah Red, you look great. Everything looks great. 1:24, I still got time. Oh my god. No, no not again, c'mon, c'mon. Hey. Libyans. Yeah, well uh, lets keep this brain melting stuff to ourselves, okay? Yeah, yeah what are you wearing, Dave.</p>
-              <p>Hey c'mon, I had to change, you think I'm going back in that zoot suit? The old man really came through it worked. You'll find out in thirty years. Can't be. This is nuts. Aw, c'mon. Hey guys, you gotta get back in there and finish the dance. Right, and where am I gonna be?"</p>
+              {% for review in reviews %}
+              <span class="author">{{review[0]}}</span>
+              <span class="stars">  
+                {% for iteration in range(review[1]) %}
+                  <i class="fa fa-star"></i>
+                {% endfor %}
+            </span>
+              <p>
+                {{review[2]}}
+              </p>
               <br><br>
-
-              <span class="author">Marty Mcfly</span><span class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half"></i></span><p>"Excuse me. I'll call you tonight. Right. Yeah, I think maybe you do. Wait a minute, wait a minute, Doc, are you telling me that you built a time machine out of a delorean.</p>
-              <p>Um, well it's a delorean, right? Yeah okay. Wow, ah Red, you look great. Everything looks great. 1:24, I still got time. Oh my god. No, no not again, c'mon, c'mon. Hey. Libyans. Yeah, well uh, lets keep this brain melting stuff to ourselves, okay? Yeah, yeah what are you wearing, Dave.</p>
-              <p>Hey c'mon, I had to change, you think I'm going back in that zoot suit? The old man really came through it worked. You'll find out in thirty years. Can't be. This is nuts. Aw, c'mon. Hey guys, you gotta get back in there and finish the dance. Right, and where am I gonna be?"</p>
-              <br><br>
-
+              {% endfor %}
             </aside>
           </div>
       </div>

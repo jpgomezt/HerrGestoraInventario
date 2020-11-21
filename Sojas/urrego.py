@@ -223,6 +223,8 @@ def enviarInforme():
     else:
         return redirect(url_for('home'))
 
+
+
 @app.route('/consola_admin/cantidades', methods=['GET', 'POST'])
 @login_required
 def cantidades():
@@ -432,9 +434,20 @@ def product():
     productos = Producto.query.order_by(Producto.id).all()
     return render_template('products.html', productos=productos)
 
+
+#Toque la vista del producto
 @app.route('/products/producto/<int:id>', methods=['GET', 'POST'])
 def vista_producto(id):
     productos = Producto.query.get_or_404(id)
+    query = db.engine.execute(f'SELECT id_usuario,num_estrellas,comentario FROM Comentarios WHERE id_producto = {id} ')
+    reviews = []
+    for row in query:
+        query_user = db.engine.execute(f'SELECT username FROM User WHERE id = {row[0]} ')
+        usuario = ""
+        for row_user in query_user:
+            usuario = row_user[0]
+        # El nombre del usuario, las estrellas que le puso y el comentario que realizo
+        reviews.append((usuario,int(round(row[1])),row[2]))
 
     if request.method == 'POST':
         if current_user.is_authenticated:
@@ -457,16 +470,16 @@ def vista_producto(id):
                         db.session.commit()
                         return redirect(url_for('carrito')) # Debe despues ir al carrito 
                     except:
-                        return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados")
+                        return render_template('productos/vista_productos.html', producto = productos, error = "Hubo problemas con los datos suministrados", reviews = reviews)
                 else:
-                    return render_template('productos/vista_productos.html', producto = productos, error = "La cantidad supera la cantidad en Stock no lo puedes agregar!")
+                    return render_template('productos/vista_productos.html', producto = productos, error = "La cantidad supera la cantidad en Stock no lo puedes agregar!", reviews = reviews)
             else:
-                return render_template('productos/vista_productos.html', producto = productos, error = "El stock esta en cero no lo puedes agregar! ")
+                return render_template('productos/vista_productos.html', producto = productos, error = "El stock esta en cero no lo puedes agregar! ", reviews = reviews)
         else:
-            return render_template('productos/vista_productos.html', producto = productos, error = "Necesitas estar loguedo para continuar")
+            return render_template('productos/vista_productos.html', producto = productos, error = "Necesitas estar loguedo para continuar", reviews = reviews)
         
     else:
-        return render_template('productos/vista_productos.html', producto = productos, error = "")
+        return render_template('productos/vista_productos.html', producto = productos, error = "", reviews = reviews)
 
 
 @app.route('/carrito', methods=['GET', 'POST'])
@@ -588,22 +601,76 @@ def finalizar_orden():
     
 
 
+
+
+#Modificaciones hechas a partir de esta linea!!!!!!!!!!!!!!!!!!
+
 @app.route('/consola_usuario', methods=['GET', 'POST'])
 @login_required
 def consola_usuario():
     if not current_user.is_admin:
-        query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id}')
-        reciente = []
+        
+        query = db.engine.execute(f'SELECT * FROM Registro WHERE id_usuario = {current_user.id} ORDER BY id DESC')
         historico = []
-        anualidad = 0
-        mes = 0
-        dia = 0
+        recientemente = []
+        fecha = ""
+        primera = True
         for row in query:
-            anualidad = int(row[6][0:4])
-            mes = int(row[6][5:7])
-            print(row[6][8:])
+            url_img = ""
+            nombre = ""
+            query_pro = db.engine.execute(f'SELECT * FROM Producto WHERE id = {row[2]}')
+            for row_pro in query_pro:
+                nombre = row_pro[1]
+                url_img = row_pro[2]
+            
+            if primera:
+                fecha = row[6]
+                primera = False
+            
+            #Id del producto, Color, talla, precio, fecha , url_img, nombre producto
+            tpl = (row[2],row[3],row[4],row[5],row[6],url_img, nombre)
 
-        return render_template("/utilidades_usuario/consola_usuario.html")
+            if fecha == row[6]:
+                recientemente.append(tpl)
+
+            historico.append(tpl)
+        
+        return render_template("/utilidades_usuario/consola_usuario.html", hist = historico, recien = recientemente)
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/consola_usuario/resena/<int:id>', methods=['GET', 'POST'])
+@login_required
+def review(id):
+    if not current_user.is_admin:
+        query_compra = db.engine.execute(f'SELECT COUNT(*) FROM Registro WHERE id_usuario = {current_user.id} and id_producto = {id}')
+        for row in query_compra:
+            if row[0] == 0:
+                return "Usted no ha comprado este producto! No se puedes dar una reseña de este articulo!!!"
+
+
+        producto = Producto.query.get_or_404(id)
+
+        if request.method == 'POST':
+                comentario = request.form['comentario']
+                if len(comentario) > 299:
+                    return render_template('/utilidades_usuario/review.html', productos = producto , error = "Has escrito una reseña un poco larga" )
+
+                estrellas = request.form['estrellas']
+                if estrellas <= 5 or estrellas >=1: 
+                    review = Comentarios(id_usuario = current_user.id, id_producto = producto.id, num_estrellas = int(estrellas) , comentario = comentario)
+                    try:
+                        db.session.add(review)
+                        db.session.commit()
+                        return redirect(url_for('consola_usuario'))
+                    except:
+                        return redirect(url_for('error'))
+                else:
+                    return render_template('/utilidades_usuario/review.html', productos = producto , error = "Has colocado un numero de estrellas equivocado" )
+
+        else:
+            return render_template('/utilidades_usuario/review.html', productos = producto, error = "")
     else:
         return redirect(url_for('home'))
 

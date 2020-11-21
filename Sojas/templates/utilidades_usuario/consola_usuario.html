@@ -410,6 +410,21 @@ transform: translateX(-170px);">
                         <h2>Hola {{current_user.username}}, bienvenido a la consola del Usuario</h2>
                         <p>Desde aquí puedes:<br>1. Ver el historial de productos que has comprado.
                             <br>2. Dar reseñas sobre los productos.</p>
+                        {% if current_user.tarjeta == ""  %}
+                            <h2>En este momento no tenemos ningun dato tuyo finaliza una compra primero</h2>
+                        {% else %}
+                            <h2>Tenemos tus siguientes datos almacenados para los envios:</h2>
+                            <p>
+                                Numero de tarjeta: {{current_user.tarjeta}}
+                                <br>
+                                Ciudad de Envio: {{current_user.ciudad}}
+                                <br>
+                                Dirección de Envio: {{current_user.direccion}}
+                                <br>
+                                Télefono o celular : {{current_user.telefono}}
+                            </p>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
@@ -421,56 +436,79 @@ transform: translateX(-170px);">
                 <div class="col-md-6">
                     <div class="box">
                         <h3>Histórico de compras:</h3>
+                        {% if hist | length < 1  %}
+                        <div class="admin">
+                            <div class="img">
+                                <!--<img class="img-responsive"
+                                    src=""
+                                    alt="admin">-->
+
+                            </div>
+                            <div class="info">
+                                <h3>No has comprado ningun producto!</h3>
+                                <p>Te invitamos a que vayas a la sección de productos</p>
+                            </div>
+                        </div>
+                        {% else %}
+
+                        {% endif%}
+                        {% for pro in hist%}
                         <div class="admin">
                             <div class="img">
                                 <img class="img-responsive"
-                                    src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
+                                    src="{{pro[5]}}"
                                     alt="admin">
                             </div>
                             <div class="info">
-                                <h3>Joge Lucky</h3>
-                                <p>Lorem ipsum dolor sit amet.</p>
+                                <h3>{{pro[6]}}</h3>
+                                <p>Talla: {{pro[2]}} | Color: {{pro[1]}} | Precio: {{pro[3]}}
+                                    <br>
+                                    Fecha compra: {{pro[4]}}
+                                    <br>
+                                    <a href="/consola_usuario/resena/{{pro[0]}}" style="text-decoration: none;">Añade una reseña! </a>
+                                </p>
                             </div>
                         </div>
-
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="box">
                         <h3>Comprado hace poco:</h3>
+                        {% if recien | length < 1  %}
+                        <div class="admin">
+                            <div class="img">
+                                <!--<img class="img-responsive"
+                                    src=""
+                                    alt="admin">-->
+
+                            </div>
+                            <div class="info">
+                                <h3>No has comprado ningun producto!</h3>
+                                <p>Te invitamos a que vayas a la sección de productos</p>
+                            </div>
+                        </div>
+                        {% else %}
+
+                        {% endif%}
+                        {% for pro in recien%}
                         <div class="admin">
                             <div class="img">
                                 <img class="img-responsive"
-                                    src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
+                                    src="{{pro[5]}}"
                                     alt="admin">
                             </div>
                             <div class="info">
-                                <h3>Joge Lucky</h3>
-                                <p>Lorem ipsum dolor sit amet.</p>
+                                <h3>{{pro[6]}}</h3>
+                                <p>Talla: {{pro[2]}} | Color: {{pro[1]}} | Precio: {{pro[3]}}
+                                    <br>
+                                    Fecha compra: {{pro[4]}}
+                                    <br>
+                                    <a href="/consola_usuario/resena/{{pro[0]}}" style="text-decoration: none;">Añade una reseña! </a>
+                                </p>
                             </div>
                         </div>
-                        <div class="admin">
-                            <div class="img">
-                                <img class="img-responsive"
-                                    src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
-                                    alt="admin">
-                            </div>
-                            <div class="info">
-                                <h3>Joge Lucky</h3>
-                                <p>Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="admin">
-                            <div class="img">
-                                <img class="img-responsive"
-                                    src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-                                    alt="admin">
-                            </div>
-                            <div class="info">
-                                <h3>Joge Lucky</h3>
-                                <p>Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

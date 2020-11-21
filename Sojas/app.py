@@ -60,9 +60,14 @@ class Producto(db.Model):
 class Pedidos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'))
-    total_ropa_hombre = db.Column(db.Float)
-    total_ropa_mujer = db.Column(db.Float)
-    total_ropa_unisex = db.Column(db.Float)
+    ganancia_total = db.Column(db.Float)
+    ganancia_ropa_hombre = db.Column(db.Float)
+    ganancia_ropa_mujer = db.Column(db.Float)
+    ganancia_ropa_unisex = db.Column(db.Float)
+    cantidad_total = db.Column(db.Integer)
+    cantidad_ropa_hombre = db.Column(db.Integer)
+    cantidad_ropa_mujer = db.Column(db.Integer)
+    cantidad_ropa_unisex = db.Column(db.Integer)
 
 class Carrito(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -200,18 +205,62 @@ def enviarInforme():
         subject = "Informe"
         text = []
         text.append("Este es el informe generado: \n")
-        ropaHombre = request.form.get('ropaHombre')
-        ropaMujer = request.form.get('ropaMujer')
-        ropaDescuento = request.form.get('ropaDescuento')
-        totalRopa = request.form.get('totalRopa')
-        if(ropaHombre == "on"):
-            text.append("Se han vendido 32 camisas de hombre. \n")
-        if(ropaMujer == "on"):
-            text.append("Se han vendido 50 camisas de mujer. \n")
-        if(ropaDescuento == "on"):
-            text.append("Se han vendido 60 camisas en decuento. \n")
-        if(totalRopa == "on"):
-            text.append("Se han vendido 82 camisas. \n")
+        cantidadHombre = request.form.get('cantidadHombre')
+        cantidadMujer = request.form.get('cantidadMujer')
+        cantidadUnisex = request.form.get('cantidadUnisex')
+        cantidadTotal = request.form.get('cantidadTotal')
+        gananciasHombre = request.form.get('gananciasHombre')
+        gananciasMujer = request.form.get('gananciasMujer')
+        gananciasUnisex = request.form.get('gananciasUnisex')
+        gananciasTotal = request.form.get('gananciasTotal')
+        if(cantidadHombre == "on"):
+            cantidades_ropa_hombre = db.engine.execute(f'SELECT cantidad_ropa_hombre FROM Pedidos WHERE cantidad_ropa_hombre > 0')
+            cantidad_ropa_hombre = 0
+            for cantidad_hombre in cantidades_ropa_hombre:
+                cantidad_ropa_hombre = cantidad_hombre[0]
+            text.append("Se han vendido " + str(cantidad_ropa_hombre) + " camisas de hombre. \n")
+        if(cantidadMujer == "on"):
+            cantidades_ropa_mujer = db.engine.execute(f'SELECT cantidad_ropa_mujer FROM Pedidos WHERE cantidad_ropa_mujer > 0')
+            cantidad_ropa_mujer = 0
+            for cantidad_mujer in cantidades_ropa_mujer:
+                cantidad_ropa_mujer = cantidad_mujer[0]
+            text.append("Se han vendido " + str(cantidad_ropa_mujer) + " camisas de mujer. \n")
+        if(cantidadUnisex == "on"):
+            cantidades_ropa_unisex = db.engine.execute(f'SELECT cantidad_ropa_unisex FROM Pedidos WHERE cantidad_ropa_unisex > 0')
+            cantidad_ropa_unisex = 0
+            for cantidad_unisex in cantidades_ropa_unisex:
+                cantidad_ropa_unisex = cantidad_unisex[0]
+            text.append("Se han vendido " + str(cantidad_ropa_unisex) + " camisas unisex. \n")
+        if(cantidadTotal == "on"):
+            cantidades_total = db.engine.execute(f'SELECT cantidad_total FROM Pedidos WHERE cantidad_total > 0')
+            cantidad_total = 0
+            for total in cantidades_total:
+                ganancia_total = total[0]
+            text.append("Se han vendido " + str(ganancia_total) + " camisas en total. \n")
+        if(gananciasHombre == "on"):
+            ganancias_ropa_hombre = db.engine.execute(f'SELECT ganancia_ropa_hombre FROM Pedidos WHERE ganancia_ropa_hombre > 0')
+            ganancia_ropa_hombre = 0
+            for ganancia_hombre in ganancias_ropa_hombre:
+                ganancia_ropa_hombre = ganancia_hombre[0]
+            text.append("Se han recaudado $" + str(ganancia_ropa_hombre) + " pesos en ropa de hombre. \n")
+        if(gananciasMujer == "on"):
+            ganancias_ropa_mujer = db.engine.execute(f'SELECT ganancia_ropa_mujer FROM Pedidos WHERE ganancia_ropa_mujer > 0')
+            ganancia_ropa_mujer = 0
+            for ganancia_mujer in ganancias_ropa_mujer:
+                ganancia_ropa_mujer = ganancia_mujer[0]
+            text.append("Se han recaudado $" + str(ganancia_ropa_mujer) + " pesos en ropa de mujer. \n")
+        if(gananciasUnisex == "on"):
+            ganancias_ropa_unisex = db.engine.execute(f'SELECT ganancia_ropa_unisex FROM Pedidos WHERE ganancia_ropa_unisex > 0')
+            ganancia_ropa_unisex = 0
+            for ganancia_unisex in ganancias_ropa_unisex:
+                ganancia_ropa_unisex = ganancia_unisex[0]
+            text.append("Se han recaudado $" + str(ganancia_ropa_unisex) + " pesos en ropa unisex. \n")
+        if(gananciasTotal == "on"):
+            ganancias_total = db.engine.execute(f'SELECT ganancia_total FROM Pedidos WHERE ganancia_total > 0')
+            ganancia_total = 0
+            for ganancias in ganancias_total:
+                ganancia_total = ganancias[0]
+            text.append("Se han recaudado $" + str(ganancia_total) + " pesos en total. \n")
         text = ''.join(text)
         message = 'Subject: {}\n\n{}'.format(subject, text)
         server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -555,8 +604,11 @@ def finalizar_orden():
                 usuario.tarjeta = request.form['cardNumber']
                 if True:
                     cart_del = db.engine.execute(f'SELECT * FROM Carrito WHERE id_usuario = {current_user.id}')
-                    cantidad_h = 0    
-                    cantidad_m = 0    
+                    total_h = 0    
+                    total_m = 0    
+                    total_u = 0
+                    cantidad_h = 0
+                    cantidad_m = 0
                     cantidad_u = 0
                     for cart in cart_del:
                         producto = Producto.query.get_or_404(cart[2])
@@ -564,15 +616,18 @@ def finalizar_orden():
                         
                         # 5 es coste de envio mas impuestos
                         if producto.tipo == 'H':
-                            cantidad_h = cantidad_h + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            total_h = total_h + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            cantidad_h += (1 * cart[3])
                         elif producto.tipo == 'M':
-                            cantidad_m = cantidad_m + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            total_m = total_m + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            cantidad_m += (1 * cart[3])
                         else:
-                            cantidad_u = cantidad_u + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            total_u = total_u + ((producto.precio - ((producto.descuento/100) * producto.precio)) * cart[3])
+                            cantidad_u += (1 * cart[3])
 
                         registro = Registro(id_usuario = current_user.id, id_producto = cart[2], color = cart[4], talla = cart[5], precio = producto.precio, fecha = datetime.datetime.today().date())
                         db.session.add(registro)
-                    pedido = Pedidos(id_usuario = current_user.id, total_ropa_hombre = cantidad_h, total_ropa_mujer = cantidad_m, total_ropa_unisex = cantidad_u)
+                    pedido = Pedidos(id_usuario = current_user.id, ganancia_total = (5 + total_h + total_m + total_u), ganancia_ropa_hombre = total_h, ganancia_ropa_mujer = total_m, ganancia_ropa_unisex = total_u, cantidad_total = (cantidad_h + cantidad_m + cantidad_u), cantidad_ropa_hombre = cantidad_h, cantidad_ropa_mujer = cantidad_m, cantidad_ropa_unisex = cantidad_u)
                     db.session.add(pedido)
                     db.session.commit()
                     cart_del = db.engine.execute(f'DELETE FROM Carrito WHERE id_usuario = {current_user.id}')

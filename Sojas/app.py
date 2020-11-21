@@ -234,25 +234,25 @@ def enviarInforme():
             cantidad_ropa_hombre = 0
             for cantidad_hombre in cantidades_ropa_hombre:
                 cantidad_ropa_hombre = cantidad_hombre[0]
-            text.append("Se han vendido " + str(cantidad_ropa_hombre) + " camisas de hombre. \n")
+            text.append("Se han vendido " + str(cantidad_ropa_hombre) + " productos de hombre. \n")
         if(cantidadMujer == "on"):
             cantidades_ropa_mujer = db.engine.execute(f'SELECT cantidad_ropa_mujer FROM Pedidos WHERE cantidad_ropa_mujer > 0')
             cantidad_ropa_mujer = 0
             for cantidad_mujer in cantidades_ropa_mujer:
                 cantidad_ropa_mujer = cantidad_mujer[0]
-            text.append("Se han vendido " + str(cantidad_ropa_mujer) + " camisas de mujer. \n")
+            text.append("Se han vendido " + str(cantidad_ropa_mujer) + " productos de mujer. \n")
         if(cantidadUnisex == "on"):
             cantidades_ropa_unisex = db.engine.execute(f'SELECT cantidad_ropa_unisex FROM Pedidos WHERE cantidad_ropa_unisex > 0')
             cantidad_ropa_unisex = 0
             for cantidad_unisex in cantidades_ropa_unisex:
                 cantidad_ropa_unisex = cantidad_unisex[0]
-            text.append("Se han vendido " + str(cantidad_ropa_unisex) + " camisas unisex. \n")
+            text.append("Se han vendido " + str(cantidad_ropa_unisex) + " productos unisex. \n")
         if(cantidadTotal == "on"):
             cantidades_total = db.engine.execute(f'SELECT cantidad_total FROM Pedidos WHERE cantidad_total > 0')
             cantidad_total = 0
             for total in cantidades_total:
                 ganancia_total = total[0]
-            text.append("Se han vendido " + str(ganancia_total) + " camisas en total. \n")
+            text.append("Se han vendido " + str(ganancia_total) + " productos en total. \n")
         if(gananciasHombre == "on"):
             ganancias_ropa_hombre = db.engine.execute(f'SELECT ganancia_ropa_hombre FROM Pedidos WHERE ganancia_ropa_hombre > 0')
             ganancia_ropa_hombre = 0
@@ -755,14 +755,4 @@ def quienes_somos():
  
 
 if __name__ == '__main__':
-    #Creacion de la cuenta del Admin
-    hashed_password = generate_password_hash("12345678", method='sha256')
-    new_user = User(username="admin", email="admon.sojas@gmail.com",is_admin=True ,password=hashed_password)
-    comp_user = User.query.filter_by(username="admin").first()
-    comp_email = User.query.filter_by(email="admon.sojas@gmail.com").first()
-    if comp_user is not None or comp_email is not None:
-        pass
-    else:
-        db.session.add(new_user)
-        db.session.commit()
     app.run(debug=True)

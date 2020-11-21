@@ -40,7 +40,7 @@ while x != "":
 
     print(f'''
         prod = Producto(nombre = "{titulo}", url_img = "{link}", 
-        precio = {random.randint(1,200)}, descrip = "{descrip}", stock = {stock}, descuento = {random.randint(0, 99)}, 
+        precio = {random.randint(30000,100000)}, descrip = "{descrip}", stock = {stock}, descuento = {random.randint(0, 99)}, 
         inventario = {inventario}, tipo = '{random.choice(tipo)}', rojo = {rojo} , azul = {azul}, 
         verde = {verde} , negro = {negro}, blanco = {blanco}, 
         Talla_S = {S}, Talla_M = {M}, Talla_L = {L}, Talla_XL = {xl})

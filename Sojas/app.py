@@ -186,7 +186,23 @@ def logout():
 @login_required
 def consola_admin():
     if current_user.is_admin:
-        return render_template("consola_admin.html")
+        cantidades_ropa_hombre = db.engine.execute(f'SELECT cantidad_ropa_hombre FROM Pedidos WHERE cantidad_ropa_hombre > 0')
+        ropaHombre = 0
+        for cantidad_hombre in cantidades_ropa_hombre:
+            ropaHombre = cantidad_hombre[0]
+        cantidades_ropa_mujer = db.engine.execute(f'SELECT cantidad_ropa_mujer FROM Pedidos WHERE cantidad_ropa_mujer > 0')
+        ropaMujer = 0
+        for cantidad_mujer in cantidades_ropa_mujer:
+            ropaMujer = cantidad_mujer[0]
+        cantidades_ropa_unisex = db.engine.execute(f'SELECT cantidad_ropa_unisex FROM Pedidos WHERE cantidad_ropa_unisex > 0')
+        ropaUnisex = 0
+        for cantidad_unisex in cantidades_ropa_unisex:
+            ropaUnisex = cantidad_unisex[0]
+        ganancias_total = db.engine.execute(f'SELECT ganancia_total FROM Pedidos WHERE ganancia_total > 0')
+        ganancias = 0
+        for ganancias in ganancias_total:
+            ganancias = ganancias[0]
+        return render_template("consola_admin.html", ropaHombre = ropaHombre, ropaMujer = ropaMujer, ropaUnisex = ropaUnisex, ganancias = ganancias)
     else:
         return redirect(url_for('home'))
 
